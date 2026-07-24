@@ -111,9 +111,9 @@ export default function Account() {
   if (!user) {
     return (
       <div className="pb-24 md:pb-8 bg-white min-h-screen">
-        <div className="pb-6 md:pb-8 pt-12 md:pt-16" style={{ background: accountHeaderGradient }}>
-          <div className="px-4 md:px-6 lg:px-8">
-            <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900" aria-label="Back">
+        <div className="pb-6 md:pb-8 pt-4 md:pt-6" style={{ background: accountHeaderGradient }}>
+          <div className="max-w-4xl mx-auto px-4 md:px-0">
+            <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900 hover:opacity-80 transition-opacity" aria-label="Back">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <div className="flex flex-col items-center mb-4 md:mb-6">
@@ -180,10 +180,10 @@ export default function Account() {
   const displayDateOfBirth = profile?.dateOfBirth;
 
   return (
-    <div className="pb-24 md:pb-8 bg-white min-h-screen">
-      <div className="pb-6 md:pb-8 pt-12 md:pt-16" style={{ background: accountHeaderGradient }}>
-        <div className="px-4 md:px-6 lg:px-8">
-          <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900" aria-label="Back">
+    <div className="pb-24 md:pb-8 bg-neutral-50/30 min-h-screen">
+      <div className="pb-6 md:pb-8 pt-4 md:pt-6" style={{ background: accountHeaderGradient }}>
+        <div className="max-w-4xl mx-auto px-4 md:px-0">
+          <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900 hover:opacity-80 transition-opacity" aria-label="Back">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
           <div className="flex flex-col items-center mb-4 md:mb-6">
@@ -213,7 +213,7 @@ export default function Account() {
       </div>
 
       <div className="px-4 md:px-6 lg:px-8 -mt-4 md:-mt-6 mb-4 md:mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-2.5 md:gap-6 max-w-2xl md:mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-2.5 md:gap-6 max-w-4xl md:mx-auto">
           <button onClick={() => navigate('/orders')} className="bg-white rounded-lg border border-neutral-200 p-3 md:p-4 hover:shadow-md transition-shadow text-center outline-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mx-auto mb-1.5 md:mb-2 text-neutral-700 md:w-6 md:h-6"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /><path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             <div className="text-[10px] md:text-xs font-semibold text-neutral-900">Your orders</div>
@@ -228,7 +228,7 @@ export default function Account() {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto w-full px-4 py-2.5 md:px-0">
+      <div className="max-w-4xl mx-auto w-full px-4 py-2.5 md:px-0">
         <h2 className="text-xs font-bold text-neutral-900 mb-2 uppercase tracking-wide">Your information</h2>
         <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden divide-y divide-neutral-100">
           <button onClick={() => navigate('/address-book')} className="w-full flex items-center justify-between px-3 py-3 hover:bg-neutral-50 transition-colors">

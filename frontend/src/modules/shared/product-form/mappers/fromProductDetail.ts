@@ -75,6 +75,8 @@ export function fromProductDetail(product: any): ProductFormState {
       isShopByStoreOnly: product.isShopByStoreOnly ? "Yes" : "No",
       shopId: product.shopId?._id || product.shopId || "",
       seller: product.seller?._id || product.seller || "",
+      isEnquiryOnly: product.isEnquiryOnly ? "Yes" : "No",
+      taxPreference: product.taxPreference || "included",
     }),
     variants,
   };

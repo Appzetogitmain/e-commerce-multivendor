@@ -90,14 +90,14 @@ export default function DealOfTheDay() {
 
   if (dealProducts.length === 0) {
     return (
-      <div className="px-4 md:px-6 lg:px-8 mb-6">
+      <div className="px-2 md:px-4 lg:px-4 mb-6">
         <BannerSlider position="Deal of the Day" />
       </div>
     );
   }
 
   return (
-    <div className="px-4 md:px-6 lg:px-8 mb-6">
+    <div className="px-2 md:px-4 lg:px-4 mb-6">
       <div className="mb-4">
         <BannerSlider position="Deal of the Day" />
       </div>

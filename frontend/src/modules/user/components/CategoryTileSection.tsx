@@ -107,13 +107,13 @@ export default function CategoryTileSection({
 
   return (
     <div className="mb-6 md:mb-8 mt-0 overflow-visible relative">
-      <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-4 md:px-6 lg:px-8 tracking-tight">
+      <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight">
         {title}
       </h2>
       <div 
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="px-4 md:px-6 lg:px-8 overflow-x-auto scrollbar-hide"
+        className="px-2 md:px-4 lg:px-4 overflow-x-auto scrollbar-hide"
         style={{ scrollSnapType: 'x mandatory' }}
       >
         <div className="flex gap-3 md:gap-4 pb-3 pt-1">

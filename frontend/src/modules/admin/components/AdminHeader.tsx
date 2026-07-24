@@ -316,7 +316,10 @@ export default function AdminHeader({ onMenuClick, isSidebarOpen }: AdminHeaderP
               )}
             </button>
             {showNotificationsDropdown && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-neutral-200 py-2 z-50 max-h-96 overflow-y-auto">
+              <div 
+                className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-neutral-200 py-2 z-50 max-h-96 overflow-y-auto"
+                style={{ minWidth: '320px' }}
+              >
                 <div className="px-4 py-2 border-b border-neutral-200 flex justify-between items-center">
                   <h3 className="text-sm font-semibold text-neutral-900">Notifications</h3>
                   {unreadCount > 0 && (

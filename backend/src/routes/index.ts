@@ -32,6 +32,7 @@ import bannerRoutes from "./bannerRoutes";
 import flashDealRoutes from "./flashDealRoutes";
 import adminRoutes from "./adminRoutes";
 import searchRoutes from "./searchRoutes";
+import enquiryRoutes from "./enquiryRoutes";
 import customerTrackingRoutes from "../modules/customer/routes/trackingRoutes";
 import deliveryTrackingRoutes from "../modules/delivery/routes/trackingRoutes";
 import {
@@ -80,13 +81,14 @@ router.use(
 // to prevent Express from matching the broader route first
 router.use("/search", searchRoutes);
 router.use("/customer/products", customerProductRoutes);
+router.use("/enquiries", enquiryRoutes);
 router.use("/customer/categories", customerCategoryRoutes);
 
 // Tracking routes (must be before general /customer/orders/:id route)
 router.use("/customer", customerTrackingRoutes);
 
 // Customer orders route - direct registration to avoid module loading issue
-console.log("🔥 REGISTERING CUSTOMER ORDER ROUTES");
+console.log("🔥 REGISTERING CUSTOMER ORDER ROUTES - RELOADED");
 router.post(
   "/customer/orders",
   (_req, _res, next) => {

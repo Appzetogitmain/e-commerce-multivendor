@@ -393,7 +393,19 @@ export default function ProductCard({
 
         {categoryStyle && (
           <div className="px-2.5 pt-1.5 pb-0">
-            {inCartQty === 0 ? (
+            {product.isEnquiryOnly ? (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCardClick();
+                }}
+                className="w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md cursor-pointer border-transparent"
+              >
+                Enquiry Now
+              </Button>
+            ) : inCartQty === 0 ? (
               <div className="flex flex-col items-center w-full">
                 <div className="flex justify-center w-full">
                   <Button
@@ -512,49 +524,57 @@ export default function ProductCard({
                </p>
 
               {/* 4. Tiered Pricing Static Display (Multi-Row) */}
-              {tieredPrices.length > 0 ? (
-                 <div className="flex flex-col gap-0 mb-1 mt-auto w-full border-t border-gray-100 pt-1">
-                    {/* Line 1: Base Price */}
-                    <div className="flex justify-between items-center text-[10px] leading-none py-0.5">
-                       <span className="text-gray-500 font-medium">1 unit</span>
-                       <div className="flex items-center gap-1">
-                         <span className="font-semibold text-[var(--customer-primary-dark)]">₹{displayPrice}</span>
-                       </div>
-                    </div>
-                    {/* Additional Tiers */}
-                    {tieredPrices.slice().sort((a: any, b: any) => a.minQty - b.minQty).map((tier: any, idx: number) => (
-                        <div key={idx} className="flex justify-between items-center text-[10px] leading-none py-0.5">
-                           <span className="text-[var(--customer-primary)] font-bold">{tier.minQty}+ units</span>
+              {product.isEnquiryOnly ? (
+                <div className="mt-auto pt-0.5">
+                  <span className="text-[11px] font-semibold text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">Enquiry Only</span>
+                </div>
+              ) : (
+                <>
+                  {tieredPrices.length > 0 ? (
+                     <div className="flex flex-col gap-0 mb-1 mt-auto w-full border-t border-gray-100 pt-1">
+                        {/* Line 1: Base Price */}
+                        <div className="flex justify-between items-center text-[10px] leading-none py-0.5">
+                           <span className="text-gray-500 font-medium">1 unit</span>
                            <div className="flex items-center gap-1">
-                             <span className="font-bold text-[var(--customer-primary-dark)]">₹{tier.price}</span>
-                              <span className="text-[var(--customer-primary)] font-bold bg-[var(--customer-primary-alpha-10)] px-1 rounded-sm">
-                               {Math.round(((mrp - tier.price) / mrp) * 100)}% OFF
-                             </span>
+                             <span className="font-semibold text-[var(--customer-primary-dark)]">₹{displayPrice}</span>
                            </div>
                         </div>
-                    ))}
-                 </div>
-              ) : (
-                 discount > 0 && (
-                   <p className="text-[10px] font-semibold text-[var(--customer-primary)] mb-0.5 leading-tight">
-                    {discount}% OFF
-                  </p>
-                 )
-              )}
-
-              {/* 5. Price with discount */}
-              <div className="mt-auto pt-0.5">
-                <div className="flex items-baseline gap-1 flex-wrap">
-                  <span className="text-sm md:text-base font-bold text-[var(--customer-primary)] leading-tight">
-                    ₹{currentUnitPrice.toLocaleString('en-IN')}
-                  </span>
-                  {mrp && mrp > displayPrice && (
-                    <span className="text-[10px] text-neutral-500 line-through leading-tight">
-                      ₹{mrp.toLocaleString('en-IN')}
-                    </span>
+                        {/* Additional Tiers */}
+                        {tieredPrices.slice().sort((a: any, b: any) => a.minQty - b.minQty).map((tier: any, idx: number) => (
+                            <div key={idx} className="flex justify-between items-center text-[10px] leading-none py-0.5">
+                               <span className="text-[var(--customer-primary)] font-bold">{tier.minQty}+ units</span>
+                               <div className="flex items-center gap-1">
+                                 <span className="font-bold text-[var(--customer-primary-dark)]">₹{tier.price}</span>
+                                  <span className="text-[var(--customer-primary)] font-bold bg-[var(--customer-primary-alpha-10)] px-1 rounded-sm">
+                                   {Math.round(((mrp - tier.price) / mrp) * 100)}% OFF
+                                 </span>
+                               </div>
+                            </div>
+                        ))}
+                     </div>
+                  ) : (
+                     discount > 0 && (
+                       <p className="text-[10px] font-semibold text-[var(--customer-primary)] mb-0.5 leading-tight">
+                        {discount}% OFF
+                      </p>
+                     )
                   )}
-                </div>
-              </div>
+
+                  {/* 5. Price with discount */}
+                  <div className="mt-auto pt-0.5">
+                    <div className="flex items-baseline gap-1 flex-wrap">
+                      <span className="text-sm md:text-base font-bold text-[var(--customer-primary)] leading-tight">
+                        ₹{currentUnitPrice.toLocaleString('en-IN')}
+                      </span>
+                      {mrp && mrp > displayPrice && (
+                        <span className="text-[10px] text-neutral-500 line-through leading-tight">
+                          ₹{mrp.toLocaleString('en-IN')}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           ) : (
             // Non-category style layout (original)
@@ -580,58 +600,66 @@ export default function ProductCard({
               </div>
 
               {/* Tiered Pricing Display */}
-              {tieredPrices.length > 0 && (
-                  <div className="mb-2 space-y-1">
-                      {/* Base Price Tier */}
-                      <div className="flex justify-between items-center bg-gray-50 px-2 py-1 rounded text-[10px]">
-                          <span className="font-medium text-gray-600">Buy 1</span>
-                          <div className="flex items-center gap-1">
-                              <span className="font-bold text-[var(--customer-primary-dark)]">₹{displayPrice}</span>
-                          </div>
-                      </div>
-                      {/* Additional Tiers */}
-                      {tieredPrices.map((tier: any, idx: number) => {
-                          const tierDiscount = mrp ? Math.round(((mrp - tier.price) / mrp) * 100) : 0;
-                          return (
-                               <div key={idx} className="flex justify-between items-center bg-[var(--customer-primary-alpha-10)] px-2 py-1 rounded text-[10px] border border-[var(--customer-primary-alpha-20)]">
-                                  <span className="font-bold text-red-800">Buy {tier.minQty}+</span>
-                                  <div className="flex items-center gap-1">
-                                      <span className="font-bold text-red-700">₹{tier.price}</span>
-                                      {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFF)</span>}
-                                  </div>
+              {product.isEnquiryOnly ? (
+                <div className="mt-auto mb-2">
+                  <span className="text-xs font-semibold text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">Enquiry Only</span>
+                </div>
+              ) : (
+                <>
+                  {tieredPrices.length > 0 && (
+                      <div className="mb-2 space-y-1">
+                          {/* Base Price Tier */}
+                          <div className="flex justify-between items-center bg-gray-50 px-2 py-1 rounded text-[10px]">
+                              <span className="font-medium text-gray-600">Buy 1</span>
+                              <div className="flex items-center gap-1">
+                                  <span className="font-bold text-[var(--customer-primary-dark)]">₹{displayPrice}</span>
                               </div>
-                          );
-                      })}
-                  </div>
-              )}
-
-              {showStockInfo && (
-                <p className="text-xs text-[var(--customer-primary)] mb-2 font-medium">
-                  Fast delivery
-                </p>
-              )}
-
-              {showVegetarianIcon && (
-                <div className="flex items-center gap-1 mb-2">
-                  <div className="w-4 h-4 bg-[var(--customer-primary)] rounded-full flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                  </div>
-                  <span className="text-xs text-neutral-600">Vegetarian</span>
-                </div>
-              )}
-
-              <div className="mt-auto mb-2">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-base font-bold text-[var(--customer-primary)]">
-                    ₹{displayPrice}
-                  </span>
-                  {mrp && mrp > displayPrice && (
-                    <span className="text-xs text-neutral-500 line-through">
-                      ₹{mrp}
-                    </span>
+                          </div>
+                          {/* Additional Tiers */}
+                          {tieredPrices.map((tier: any, idx: number) => {
+                              const tierDiscount = mrp ? Math.round(((mrp - tier.price) / mrp) * 100) : 0;
+                              return (
+                                   <div key={idx} className="flex justify-between items-center bg-[var(--customer-primary-alpha-10)] px-2 py-1 rounded text-[10px] border border-[var(--customer-primary-alpha-20)]">
+                                      <span className="font-bold text-red-800">Buy {tier.minQty}+</span>
+                                      <div className="flex items-center gap-1">
+                                          <span className="font-bold text-red-700">₹{tier.price}</span>
+                                          {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFF)</span>}
+                                      </div>
+                                  </div>
+                              );
+                          })}
+                      </div>
                   )}
-                </div>
-              </div>
+
+                  {showStockInfo && (
+                    <p className="text-xs text-[var(--customer-primary)] mb-2 font-medium">
+                      Fast delivery
+                    </p>
+                  )}
+
+                  {showVegetarianIcon && (
+                    <div className="flex items-center gap-1 mb-2">
+                      <div className="w-4 h-4 bg-[var(--customer-primary)] rounded-full flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      <span className="text-xs text-neutral-600">Vegetarian</span>
+                    </div>
+                  )}
+
+                  <div className="mt-auto mb-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-base font-bold text-[var(--customer-primary)]">
+                        ₹{displayPrice}
+                      </span>
+                      {mrp && mrp > displayPrice && (
+                        <span className="text-xs text-neutral-500 line-through">
+                          ₹{mrp}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>
@@ -640,7 +668,19 @@ export default function ProductCard({
       {!categoryStyle && (
         <div className={`${compact ? 'px-3 pb-3' : 'px-4 pb-4'}`}>
           <div className="mt-auto">
-            {inCartQty === 0 ? (
+            {product.isEnquiryOnly ? (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCardClick();
+                }}
+                className="w-full border h-9 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
+              >
+                Enquiry Now
+              </Button>
+            ) : inCartQty === 0 ? (
               <div>
                 <Button
                   ref={addButtonRef}

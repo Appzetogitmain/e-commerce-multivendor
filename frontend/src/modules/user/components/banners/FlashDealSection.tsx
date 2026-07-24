@@ -130,13 +130,13 @@ export default function FlashDealSection() {
   );
 
   return (
-    <div className="px-4 md:px-6 lg:px-8 mb-2 mt-4">
+    <div className="px-2 md:px-4 lg:px-4 mb-2 mt-4">
       <div className="mb-3">
         <BannerSlider position="Flash Deals" />
       </div>
 
       {hideProductSection ? null : (
-      <div className="rounded-2xl shadow-sm border border-neutral-100 overflow-hidden flex flex-col md:flex-row md:items-stretch">
+        <div className="rounded-2xl shadow-sm border border-neutral-100 overflow-hidden flex flex-col md:flex-row md:items-stretch">
 
         {/* LEFT SIDE (Desktop Sidebar / Mobile Header) */}
         <div

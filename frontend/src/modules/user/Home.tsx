@@ -475,7 +475,7 @@ export default function Home() {
 
       {/* 2. MAIN SLIDER - White Background */}
       <div
-        className="px-4 md:px-6 lg:px-8 pt-0 pb-1 mt-2 md:mt-3"
+        className="px-2 md:px-4 lg:px-4 pt-0 pb-1 mt-2 md:mt-3"
       >
           <BannerSlider position="HOME_MAIN_SLIDER" />
       </div>
@@ -535,10 +535,10 @@ export default function Home() {
         {/* Filtered Products Section */}
         {activeTab !== "all" && (
           <div data-products-section className="mt-6 mb-6 md:mt-8 md:mb-8">
-            <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-4 md:px-6 lg:px-8 tracking-tight capitalize">
+            <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight capitalize">
               {activeTab === "grocery" ? "Grocery Items" : activeTab}
             </h2>
-            <div className="px-4 md:px-6 lg:px-8">
+            <div className="px-2 md:px-4 lg:px-4">
               {filteredProducts.length > 0 ? (
                 <LazyProductGrid
                   products={filteredProducts}
@@ -582,11 +582,11 @@ export default function Home() {
                     return (
                       <div key={section.id} className="mt-6 mb-6 md:mt-8 md:mb-8">
                         {section.title && (
-                          <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-4 md:px-6 lg:px-8 tracking-tight capitalize">
+                          <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight capitalize">
                             {section.title}
                           </h2>
                         )}
-                        <div className="px-4 md:px-6 lg:px-8">
+                        <div className="px-2 md:px-4 lg:px-4">
                           <LazyProductGrid
                             products={section.data}
                             gridClassName={`grid ${gridClass} ${gapClass}`}
@@ -614,16 +614,16 @@ export default function Home() {
 
 
             {/* Main Section Banner */}
-            <div className="px-4 md:px-6 lg:px-8 mt-6 mb-6">
+            <div className="px-2 md:px-4 lg:px-4 mt-6 mb-6">
                 <BannerSlider position="Main Section Banner" />
             </div>
 
             {/* Shop by Store Section */}
             <div className="mb-6 mt-6 md:mb-8 md:mt-8">
-              <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-4 md:px-6 lg:px-8 tracking-tight">
+              <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight">
                 Shop by Store
               </h2>
-              <div className="px-4 md:px-6 lg:px-8">
+              <div className="px-2 md:px-4 lg:px-4">
                 <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 md:gap-4">
                   {(homeData.shops || []).map((tile: any) => {
                     const hasImages =
@@ -675,7 +675,7 @@ export default function Home() {
         )}
 
         {/* Footer Banner */}
-        <div className="px-4 md:px-6 lg:px-8 mt-6 mb-8">
+        <div className="px-2 md:px-4 lg:px-4 mt-6 mb-8">
              <BannerSlider position="Footer Banner" />
         </div>
       </div>

@@ -183,11 +183,11 @@ export default function Categories() {
                 // Products display - same as home page
                 const gridClass = {
                   2: "grid-cols-2",
-                  3: "grid-cols-3",
-                  4: "grid-cols-4",
-                  6: "grid-cols-6",
-                  8: "grid-cols-8"
-                }[columnCount] || "grid-cols-4";
+                  3: "grid-cols-2 md:grid-cols-3",
+                  4: "grid-cols-2 md:grid-cols-4",
+                  6: "grid-cols-2 md:grid-cols-6",
+                  8: "grid-cols-2 md:grid-cols-8"
+                }[columnCount] || "grid-cols-2 md:grid-cols-4";
 
                 const isCompact = columnCount >= 4;
                 const gapClass = columnCount >= 4 ? "gap-2" : "gap-3 md:gap-4";

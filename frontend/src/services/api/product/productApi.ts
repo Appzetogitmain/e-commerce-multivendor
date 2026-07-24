@@ -1,4 +1,4 @@
-import { CreateProductPayload } from "../../modules/shared/product-form/types/productForm.types";
+import { CreateProductPayload } from "../../../modules/shared/product-form/types/productForm.types";
 import api from "../config";
 
 export type { CreateProductPayload };

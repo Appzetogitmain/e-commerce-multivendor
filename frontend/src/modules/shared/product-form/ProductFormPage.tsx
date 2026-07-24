@@ -186,15 +186,15 @@ export default function ProductFormPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-violet-50/30 to-amber-50/40 pb-28">
-      <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 px-4 py-8 text-white shadow-lg md:px-8">
+      <div className="border-b border-slate-200 bg-slate-50 px-4 py-8 md:px-8">
         <div className="mx-auto max-w-6xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-white/70">
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-500">
             {config.role === "admin" ? "Admin Panel" : "Seller Panel"}
           </p>
-          <h1 className="mt-1 text-3xl font-black tracking-tight md:text-4xl">
+          <h1 className="mt-1 text-3xl font-black tracking-tight text-slate-800 md:text-4xl">
             {productId ? "Edit Product" : "Add New Product"}
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-white/85 md:text-base">
+          <p className="mt-2 max-w-2xl text-sm text-slate-600 md:text-base">
             Fill in all details on this page — product info, variants, and policies together.
           </p>
         </div>

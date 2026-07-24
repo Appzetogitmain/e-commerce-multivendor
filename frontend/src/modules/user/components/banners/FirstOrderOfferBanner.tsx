@@ -79,7 +79,7 @@ export default function FirstOrderOfferBanner() {
   };
 
   return (
-    <div className="px-4 md:px-6 lg:px-8 pt-3">
+    <div className="px-2 md:px-4 lg:px-4 pt-3">
       <motion.div
         initial={{ opacity: 0, y: 14, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}

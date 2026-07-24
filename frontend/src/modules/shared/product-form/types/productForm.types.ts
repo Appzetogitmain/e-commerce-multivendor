@@ -58,6 +58,8 @@ export interface ProductMainInfoForm {
   isShopByStoreOnly: "Yes" | "No";
   shopId: string;
   seller: string;
+  isEnquiryOnly: "Yes" | "No";
+  taxPreference: "included" | "excluded" | "hidden";
 }
 
 export interface ProductFormState {
@@ -124,6 +126,8 @@ export const defaultMainInfo = (overrides?: Partial<ProductMainInfoForm>): Produ
   isShopByStoreOnly: "No",
   shopId: "",
   seller: "",
+  isEnquiryOnly: "No",
+  taxPreference: "included",
   ...overrides,
 });
 
@@ -168,6 +172,8 @@ export interface CreateProductPayload {
   isShopByStoreOnly?: boolean;
   shopId?: string;
   seller?: string;
+  isEnquiryOnly?: boolean;
+  taxPreference?: "included" | "excluded" | "hidden";
   variants: Array<{
     _id?: string;
     variationType: string;

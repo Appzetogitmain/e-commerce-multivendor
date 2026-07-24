@@ -138,15 +138,19 @@ export default function DeliveryMenu() {
               <button
                 key={item.id}
                 onClick={() => handleMenuClick(item.route)}
-                className={`w-full bg-white rounded-xl p-4 shadow-sm border border-neutral-200 flex items-center gap-3 hover:shadow-md transition-shadow ${item.id === 'menu-6' ? 'text-red-600 hover:bg-red-50' : 'hover:bg-neutral-50'
-                  }`}
+                className={`w-full p-4 rounded-xl shadow-sm border flex items-center gap-3 hover:shadow-md transition-all ${
+                  item.id === 'menu-6'
+                    ? 'bg-red-600 text-white border-red-600 hover:bg-red-700 active:scale-[0.98]'
+                    : 'bg-white text-neutral-900 border-neutral-200 hover:bg-neutral-50'
+                }`}
               >
-                <span className={`flex-shrink-0 ${item.id === 'menu-6' ? 'text-red-600' : 'text-neutral-600'}`}>
+                <span className={`flex-shrink-0 ${item.id === 'menu-6' ? 'text-white' : 'text-neutral-600'}`}>
                   {getMenuIcon(item.id)}
                 </span>
                 <span
-                  className={`text-sm font-medium flex-1 text-left ${item.id === 'menu-6' ? 'text-red-600' : 'text-neutral-900'
-                    }`}
+                  className={`text-sm font-bold flex-1 text-left ${
+                    item.id === 'menu-6' ? 'text-white' : 'text-neutral-900'
+                  }`}
                 >
                   {item.title}
                 </span>
@@ -156,7 +160,7 @@ export default function DeliveryMenu() {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className={item.id === 'menu-6' ? 'text-red-600' : 'text-neutral-400'}
+                  className={item.id === 'menu-6' ? 'text-white' : 'text-neutral-400'}
                 >
                   <path
                     d="M9 18L15 12L9 6"

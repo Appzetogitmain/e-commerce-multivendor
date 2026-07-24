@@ -129,6 +129,8 @@ function buildMongooseDoc(
   if (payload.deliveryTime) doc.deliveryTime = payload.deliveryTime;
   if (payload.commission != null) doc.commission = payload.commission;
   if (payload.shopId) doc.shopId = payload.shopId;
+  if (payload.isEnquiryOnly != null) doc.isEnquiryOnly = payload.isEnquiryOnly;
+  if (payload.taxPreference) doc.taxPreference = payload.taxPreference;
 
   return doc;
 }

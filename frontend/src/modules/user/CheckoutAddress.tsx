@@ -242,10 +242,10 @@ export default function CheckoutAddress() {
     address.pincode.trim().length >= 6;
 
   return (
-    <div className="pb-24 bg-white min-h-screen">
+    <div className="pb-24 bg-neutral-50 min-h-screen">
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-neutral-200">
-        <div className="px-4 py-2 flex items-center justify-between">
+      <div className="sticky top-0 z-50 bg-white border-b border-neutral-200 shadow-sm">
+        <div className="px-4 md:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center">
             <button
               onClick={() => navigate(-1)}
@@ -256,7 +256,7 @@ export default function CheckoutAddress() {
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            <h1 className="text-base font-bold text-neutral-900">Enter complete address</h1>
+            <h1 className="text-sm md:text-base font-bold text-neutral-900 md:hidden">Enter complete address</h1>
           </div>
           <button
             onClick={() => navigate(-1)}
@@ -270,252 +270,271 @@ export default function CheckoutAddress() {
         </div>
       </div>
 
-      {/* Who you are ordering for? */}
-      <div className="px-4 py-2.5 border-b border-neutral-200">
-        <p className="text-xs font-medium text-neutral-700 mb-2">Who you are ordering for?</p>
-        <div className="flex items-center gap-4">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="orderingFor"
-              value="myself"
-              checked={orderingFor === 'myself'}
-              onChange={(e) => setOrderingFor(e.target.value as 'myself' | 'someone-else')}
-              className="w-4 h-4 appearance-none border-2 border-neutral-300 rounded-full bg-white checked:bg-white checked:border-[var(--customer-primary-dark)] focus:ring-2 focus:ring-[var(--customer-primary)] focus:ring-offset-0"
-              style={{
-                backgroundImage: orderingFor === 'myself'
-                  ? 'radial-gradient(circle, rgb(22, 163, 74) 35%, transparent 40%)'
-                  : 'none',
-                backgroundSize: '40%',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
-            <span className="text-xs text-neutral-700">Myself</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="orderingFor"
-              value="someone-else"
-              checked={orderingFor === 'someone-else'}
-              onChange={(e) => setOrderingFor(e.target.value as 'myself' | 'someone-else')}
-              className="w-4 h-4 appearance-none border-2 border-neutral-300 rounded-full bg-white checked:bg-white checked:border-[var(--customer-primary-dark)] focus:ring-2 focus:ring-[var(--customer-primary)] focus:ring-offset-0"
-              style={{
-                backgroundImage: orderingFor === 'someone-else'
-                  ? 'radial-gradient(circle, rgb(22, 163, 74) 35%, transparent 40%)'
-                  : 'none',
-                backgroundSize: '40%',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
-            <span className="text-xs text-neutral-700">Someone else</span>
-          </label>
-        </div>
-      </div>
-
-      {/* Save address as - Only show when ordering for myself */}
-      {orderingFor === 'myself' && (
-        <div className="px-4 py-2.5 border-b border-neutral-200">
-          <label className="block text-xs font-medium text-neutral-700 mb-2">
-            Save address as <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <div className="flex items-center gap-2 flex-wrap">
-            {[
-              { id: 'home', label: 'Home', icon: '🏠' },
-              { id: 'work', label: 'Work', icon: '🏢' },
-              { id: 'hotel', label: 'Hotel', icon: '🏨' },
-              { id: 'other', label: 'Other', icon: '📍' },
-            ].map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setAddressType(type.id as typeof addressType)}
-                className={`px-3 py-1.5 rounded-lg border-2 text-xs font-medium transition-colors flex items-center gap-1.5 ${addressType === type.id
-                  ? 'border-[var(--customer-primary-dark)] bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)]'
-                  : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
-                  }`}
-              >
-                <span className="text-sm">{type.icon}</span>
-                <span>{type.label}</span>
-              </button>
-            ))}
+      <div className="max-w-2xl mx-auto px-4 pt-1 pb-6">
+        <div className="bg-white border border-neutral-200 rounded-2xl p-4 md:p-6 shadow-sm space-y-5">
+          {/* Who you are ordering for? */}
+          <div className="pb-4 border-b border-neutral-100">
+            <p className="text-xs font-semibold text-neutral-800 mb-2">Who you are ordering for?</p>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-neutral-700">
+                <input
+                  type="radio"
+                  name="orderingFor"
+                  value="myself"
+                  checked={orderingFor === 'myself'}
+                  onChange={(e) => setOrderingFor(e.target.value as 'myself' | 'someone-else')}
+                  className="w-4 h-4 appearance-none border-2 border-neutral-300 rounded-full bg-white checked:bg-white checked:border-[var(--customer-primary-dark)] focus:ring-2 focus:ring-[var(--customer-primary)] focus:ring-offset-0"
+                  style={{
+                    backgroundImage: orderingFor === 'myself'
+                      ? 'radial-gradient(circle, rgb(22, 163, 74) 35%, transparent 40%)'
+                      : 'none',
+                    backgroundSize: '40%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+                <span>Myself</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-neutral-700">
+                <input
+                  type="radio"
+                  name="orderingFor"
+                  value="someone-else"
+                  checked={orderingFor === 'someone-else'}
+                  onChange={(e) => setOrderingFor(e.target.value as 'myself' | 'someone-else')}
+                  className="w-4 h-4 appearance-none border-2 border-neutral-300 rounded-full bg-white checked:bg-white checked:border-[var(--customer-primary-dark)] focus:ring-2 focus:ring-[var(--customer-primary)] focus:ring-offset-0"
+                  style={{
+                    backgroundImage: orderingFor === 'someone-else'
+                      ? 'radial-gradient(circle, rgb(22, 163, 74) 35%, transparent 40%)'
+                      : 'none',
+                    backgroundSize: '40%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+                <span>Someone else</span>
+              </label>
+            </div>
           </div>
-        </div>
-      )}
 
-      {/* Delivery Address Form */}
-      <div className="px-4 py-3 space-y-3">
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            Name <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.name ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="Enter your name"
-          />
-          {errors.name && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.name}</p>}
-        </div>
+          {/* Save address as - Only show when ordering for myself */}
+          {orderingFor === 'myself' && (
+            <div className="pb-4 border-b border-neutral-100">
+              <label className="block text-xs font-semibold text-neutral-800 mb-2">
+                Save address as <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <div className="flex items-center gap-2 flex-wrap">
+                {[
+                  { id: 'home', label: 'Home', icon: '🏠' },
+                  { id: 'work', label: 'Work', icon: '🏢' },
+                  { id: 'hotel', label: 'Hotel', icon: '🏨' },
+                  { id: 'other', label: 'Other', icon: '📍' },
+                ].map((type) => (
+                  <button
+                    key={type.id}
+                    onClick={() => setAddressType(type.id as typeof addressType)}
+                    className={`px-3.5 py-2 rounded-xl border-2 text-xs font-semibold transition-all flex items-center gap-1.5 ${addressType === type.id
+                      ? 'border-[var(--customer-primary-dark)] bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)]'
+                      : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
+                      }`}
+                  >
+                    <span className="text-sm">{type.icon}</span>
+                    <span>{type.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            Mobile Number <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="tel"
-            value={address.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, ''))}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.phone ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="Enter mobile number"
-            maxLength={10}
-          />
-          {errors.phone && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.phone}</p>}
-        </div>
+          {/* Delivery Address Form */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                Name <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.name ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="Enter your name"
+              />
+              {errors.name && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.name}</p>}
+            </div>
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            Flat / House No. <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.flat}
-            onChange={(e) => handleInputChange('flat', e.target.value)}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.flat ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="Flat/House No."
-          />
-          {errors.flat && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.flat}</p>}
-        </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                Mobile Number <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="tel"
+                value={address.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, ''))}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.phone ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="Enter mobile number"
+                maxLength={10}
+              />
+              {errors.phone && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.phone}</p>}
+            </div>
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            Street / Area <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.street}
-            onChange={(e) => handleInputChange('street', e.target.value)}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.street ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="Street/Area"
-          />
-          {errors.street && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.street}</p>}
-        </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                Flat / House No. <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.flat}
+                onChange={(e) => handleInputChange('flat', e.target.value)}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.flat ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="Flat/House No."
+              />
+              {errors.flat && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.flat}</p>}
+            </div>
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            City <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.city}
-            onChange={(e) => handleInputChange('city', e.target.value)}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.city ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="City"
-          />
-          {errors.city && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.city}</p>}
-        </div>
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                Street / Area <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.street}
+                onChange={(e) => handleInputChange('street', e.target.value)}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.street ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="Street/Area"
+              />
+              {errors.street && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.street}</p>}
+            </div>
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            State <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.state || ''}
-            onChange={(e) => handleInputChange('state', e.target.value)}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.state ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="State"
-          />
-          {errors.state && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.state}</p>}
-        </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                City <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.city}
+                onChange={(e) => handleInputChange('city', e.target.value)}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.city ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="City"
+              />
+              {errors.city && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.city}</p>}
+            </div>
 
-        <div>
-          <label className="block text-xs font-medium text-neutral-700 mb-1">
-            Pincode <span className="text-[var(--customer-primary)]">*</span>
-          </label>
-          <input
-            type="text"
-            value={address.pincode}
-            onChange={(e) => handleInputChange('pincode', e.target.value.replace(/\D/g, ''))}
-            className={`w-full px-3 py-2 bg-white border rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.pincode ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
-              }`}
-            placeholder="Pincode"
-            maxLength={6}
-          />
-          {errors.pincode && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.pincode}</p>}
-        </div>
-      </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                State <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.state || ''}
+                onChange={(e) => handleInputChange('state', e.target.value)}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.state ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="State"
+              />
+              {errors.state && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.state}</p>}
+            </div>
 
-      {/* Order Summary */}
-      <div className="px-4 mb-4">
-        <h2 className="text-sm font-bold text-neutral-900 mb-2.5">Order Summary</h2>
-        <div className="bg-white rounded-lg border border-neutral-200 p-2.5">
-          {/* Cart Items */}
-          <div className="space-y-2 mb-3">
-            {cart.items.map((item: any) => {
-              const prod = item?.product;
-              if (!prod) return null;
-              const { displayPrice } = calculateProductPrice(prod);
-              const qty = item.quantity ?? 0;
-              const prodId = prod.id || prod._id || '';
-              const prodName = prod.name || (prod as any).productName;
-              const prodPack = prod.pack;
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                Pincode <span className="text-[var(--customer-primary)]">*</span>
+              </label>
+              <input
+                type="text"
+                value={address.pincode}
+                onChange={(e) => handleInputChange('pincode', e.target.value.replace(/\D/g, ''))}
+                className={`w-full px-3 py-2.5 bg-white border rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--customer-primary)] focus:border-[var(--customer-primary)] transition-colors ${errors.pincode ? 'border-[var(--customer-primary)]' : 'border-neutral-200'
+                  }`}
+                placeholder="Pincode"
+                maxLength={6}
+              />
+              {errors.pincode && <p className="text-[10px] text-[var(--customer-primary)] mt-0.5">{errors.pincode}</p>}
+            </div>
+          </div>
 
-              return (
-                <div key={prodId} className="flex items-center justify-between text-xs">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-neutral-900 truncate">{prodName}</div>
-                    <div className="text-[10px] text-neutral-500">
-                      {prodPack} × {qty}
+          {/* Order Summary */}
+          <div className="pt-4 border-t border-neutral-100">
+            <h2 className="text-xs font-bold text-neutral-800 mb-2">Order Summary</h2>
+            <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-3">
+              {/* Cart Items */}
+              <div className="space-y-2 mb-3">
+                {cart.items.map((item: any) => {
+                  const prod = item?.product;
+                  if (!prod) return null;
+                  const { displayPrice } = calculateProductPrice(prod);
+                  const qty = item.quantity ?? 0;
+                  const prodId = prod.id || prod._id || '';
+                  const prodName = prod.name || (prod as any).productName;
+                  const prodPack = prod.pack;
+
+                  return (
+                    <div key={prodId} className="flex items-center justify-between text-xs">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-neutral-800 truncate">{prodName}</div>
+                        <div className="text-[10px] text-neutral-500">
+                          {prodPack} × {qty}
+                        </div>
+                      </div>
+                      <div className="font-bold text-neutral-900 ml-2 flex-shrink-0">
+                        ₹{(displayPrice * qty).toFixed(2)}
+                      </div>
                     </div>
-                  </div>
-                  <div className="font-semibold text-neutral-900 ml-2 flex-shrink-0">
-                    ₹{(displayPrice * qty).toFixed(2)}
+                  );
+                }).filter(Boolean)}
+              </div>
+
+              <div className="border-t border-neutral-200 pt-2.5 space-y-1.5">
+                <div className="flex justify-between text-xs text-neutral-700">
+                  <span>Subtotal</span>
+                  <span className="font-semibold">₹{cart.total.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-xs text-neutral-700">
+                  <span>Platform Fee</span>
+                  <span className="font-semibold">₹{platformFee}</span>
+                </div>
+                <div className="flex justify-between text-xs text-neutral-700">
+                  <span>Delivery Charges</span>
+                  <span className={`font-semibold ${deliveryFee === 0 ? 'text-[var(--customer-primary-dark)]' : ''}`}>
+                    {deliveryFee === 0 ? 'Free' : `₹${deliveryFee}`}
+                  </span>
+                </div>
+                <div className="border-t border-neutral-200 pt-2 mt-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-neutral-900">Total</span>
+                    <span className="text-sm font-bold text-neutral-900">₹{totalAmount.toFixed(2)}</span>
                   </div>
                 </div>
-              );
-            }).filter(Boolean)}
-          </div>
-
-          <div className="border-t border-neutral-200 pt-2.5 space-y-1.5">
-            <div className="flex justify-between text-xs text-neutral-700">
-              <span>Subtotal</span>
-              <span className="font-medium">₹{cart.total.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-xs text-neutral-700">
-              <span>Platform Fee</span>
-              <span className="font-medium">₹{platformFee}</span>
-            </div>
-            <div className="flex justify-between text-xs text-neutral-700">
-              <span>Delivery Charges</span>
-              <span className={`font-medium ${deliveryFee === 0 ? 'text-[var(--customer-primary-dark)]' : ''}`}>
-                {deliveryFee === 0 ? 'Free' : `₹${deliveryFee}`}
-              </span>
-            </div>
-            <div className="border-t border-neutral-200 pt-2 mt-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-bold text-neutral-900">Total</span>
-                <span className="text-base font-bold text-neutral-900">₹{totalAmount.toFixed(2)}</span>
               </div>
             </div>
           </div>
+
+          {/* Desktop Save Address Button */}
+          <div className="hidden md:block pt-2">
+            <button
+              onClick={handleSaveAddress}
+              disabled={!isFormValid || isSaving}
+              className={`w-full py-3.5 px-4 font-bold text-xs uppercase tracking-wide transition-colors rounded-xl shadow-md ${isFormValid && !isSaving
+                ? 'bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-darker)]'
+                : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
+                }`}
+            >
+              {isSaving ? 'Saving...' : 'Save Address'}
+            </button>
+          </div>
+
         </div>
       </div>
 
-      {/* Save Address Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 z-[60] shadow-lg">
+      {/* Save Address Button - Mobile sticky only */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 z-[60] shadow-lg md:hidden">
         <button
           onClick={handleSaveAddress}
           disabled={!isFormValid || isSaving}
-          className={`w-full py-3 px-4 font-semibold text-sm transition-colors ${isFormValid && !isSaving
+          className={`w-full py-3.5 px-4 font-semibold text-sm transition-colors ${isFormValid && !isSaving
             ? 'bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-darker)]'
             : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
             }`}

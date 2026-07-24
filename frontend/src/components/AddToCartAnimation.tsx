@@ -282,6 +282,15 @@ export default function AddToCartAnimation({
 
   // Scroll visibility logic: Mobile always visible, Desktop only after scroll
   const [showOnScroll, setShowOnScroll] = useState(true);
+  const [showTemporarily, setShowTemporarily] = useState(false);
+
+  useEffect(() => {
+    if (cart.itemCount > 0) {
+      setShowTemporarily(true);
+      const timer = setTimeout(() => setShowTemporarily(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [cart.itemCount]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -371,7 +380,7 @@ export default function AddToCartAnimation({
       )}
 
       <AnimatePresence>
-        {!shouldHidePill && showOnScroll && (
+        {!shouldHidePill && (showOnScroll || showTemporarily) && (
           <motion.div
             initial={{ y: 60, opacity: 0, scale: 0.8 }}
             animate={{

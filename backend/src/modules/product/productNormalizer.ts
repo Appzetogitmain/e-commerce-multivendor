@@ -73,6 +73,8 @@ export interface NormalizedProductPayload {
   shopId?: string;
   seller?: string;
   variations: ProductVariant[];
+  isEnquiryOnly?: boolean;
+  taxPreference?: "included" | "excluded" | "hidden";
 }
 
 export function extractVariantsFromBody(body: Record<string, unknown>): ProductVariant[] {
@@ -188,5 +190,7 @@ export function normalizeCreatePayload(
     shopId: isShopByStoreOnly ? shopId : undefined,
     seller,
     variations,
+    isEnquiryOnly: parseBool(parsed.isEnquiryOnly, false),
+    taxPreference: parsed.taxPreference as any || "included",
   };
 }

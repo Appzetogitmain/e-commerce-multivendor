@@ -171,6 +171,9 @@ export default function ProductMainInfoSection({
           <FormField label="Deal of the Day">
             {yesNoSelect(mainInfo.dealOfDay, (v) => onChange({ dealOfDay: v }))}
           </FormField>
+          <FormField label="Enquiry Only Mode">
+            {yesNoSelect(mainInfo.isEnquiryOnly, (v) => onChange({ isEnquiryOnly: v }))}
+          </FormField>
           {showSellerPicker && (
             <FormField label="Seller ID">
               <input
@@ -249,6 +252,17 @@ export default function ProductMainInfoSection({
                     onChange={(e) => onChange({ tax: e.target.value })}
                     placeholder="e.g. Tax category or details"
                   />
+                </FormField>
+                <FormField label="Tax Visibility Label">
+                  <select
+                    className={selectClass}
+                    value={mainInfo.taxPreference}
+                    onChange={(e) => onChange({ taxPreference: e.target.value as any })}
+                  >
+                    <option value="included">Inclusive of all taxes</option>
+                    <option value="excluded">Exclusive of all taxes</option>
+                    <option value="hidden">Hide tax visibility label</option>
+                  </select>
                 </FormField>
               </>
             )}

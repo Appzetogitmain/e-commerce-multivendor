@@ -8,6 +8,7 @@ import { useThemeContext } from '../context/ThemeContext';
 import QRScannerModal from './QRScannerModal';
 import { openBarcodeScanner } from '../utils/scannerPlatform';
 import { useAppContext } from '../context/AppContext';
+import Footer from './Footer';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -298,9 +299,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const isSearchPage = location.pathname === '/search';
   const isCheckoutPage = location.pathname === '/checkout' || location.pathname.startsWith('/checkout/');
   const isCartPage = location.pathname === '/cart';
+  const isAccountPage = location.pathname === '/account';
   const showHeader = false;
   const showSearchBar = false;
-  const showFooter = !isCheckoutPage && !isProductDetailPage;
+  const showFooter = !isCheckoutPage && !isProductDetailPage && !isAccountPage;
 
   // Search Suggestions State
   const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -377,9 +379,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className="flex flex-col min-h-screen w-full md:overflow-x-visible overflow-x-hidden">
       {/* Desktop Container Wrapper */}
       <div className="md:w-full md:bg-white md:min-h-screen md:overflow-x-visible overflow-x-hidden">
-        <div className="md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden md:pt-[76px]">
+        <div className={`md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden ${(isCheckoutPage || isAccountPage) ? '' : 'md:pt-[88px]'}`}>
           {/* Top Navigation Bar - Desktop Only */}
-          {showFooter && (
+          {!isCheckoutPage && !isAccountPage && (
             <nav
               className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between gap-4 px-4 lg:px-6 py-3 shadow-md font-sans"
               style={{ backgroundColor: '#7f1d1d', borderBottom: '1px solid #991b1b' }}
@@ -491,12 +493,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
               </div>
 
               {/* Navigation Links */}
-              <div className="flex items-center gap-1 xl:gap-2 flex-shrink-0 bg-red-950/40 rounded-xl p-1 border border-red-800/40">
+              <div className="flex items-center gap-1 xl:gap-1.5 flex-shrink-0 bg-red-950/30 backdrop-blur-sm rounded-full p-1 border border-white/10 shadow-[inner_0_1px_2px_rgba(0,0,0,0.15)]">
                 {/* Home */}
                 <Link
                   to="/"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${isActive('/')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/')
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -509,8 +511,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {/* Order Again */}
                 <Link
                   to="/order-again"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${isActive('/order-again')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/order-again')
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -523,8 +525,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {/* Brand */}
                 <Link
                   to="/brands"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${isActive('/brands')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/brands')
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -537,8 +539,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {/* Video Finds */}
                 <Link
                   to="/video-finds"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${isActive('/video-finds')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/video-finds')
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -551,8 +553,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {/* Categories */}
                 <Link
                   to="/categories"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${(isActive('/categories') || location.pathname.startsWith('/category/'))
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${(isActive('/categories') || location.pathname.startsWith('/category/'))
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -565,8 +567,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {/* Profile */}
                 <Link
                   to="/account"
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded transition-all text-xs font-semibold font-sans ${isActive('/account')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/20'
+                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/account')
+                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
                     : 'text-red-100 hover:bg-white/10 hover:text-white'
                     }`}
                   style={{
@@ -758,6 +760,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 {children}
               </motion.div>
             </AnimatePresence>
+            {!isCheckoutPage && !isAccountPage && <Footer />}
           </main>
 
           {/* Floating Cart Pill */}
@@ -786,347 +789,294 @@ export default function AppLayout({ children }: AppLayoutProps) {
           {/* Fixed Bottom Navigation - Mobile Only, Hidden on checkout pages */}
            {showFooter && (
              <nav
-              className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200/10 shadow-[0_-2px_4px_rgba(0,0,0,0.05)] z-50 md:hidden"
+               className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-neutral-100/80 shadow-[0_-8px_24px_rgba(0,0,0,0.06)] z-50 md:hidden pb-safe"
              >
-                <div className="flex justify-around items-center h-16">
-                {/* Home */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/"
-                    className="flex flex-col items-center justify-center h-full relative"
+                <div className="flex justify-around items-center h-16 px-2">
+                  
+                  {/* Home */}
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.1 }}
+                    className="flex-1 h-full"
                   >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={isActive('/') ? {
-                          scale: [1, 1.1, 1],
-                          y: [0, -2, 0]
-                        } : {}}
-                        transition={{
-                          duration: 0.4,
-                          ease: "easeInOut",
-                          repeat: isActive('/') ? Infinity : 0,
-                          repeatDelay: 2
-                        }}
-                      >
-                        {isActive('/') ? (
-                          <>
-                            {/* Roof */}
-                            <path d="M2 12L12 4L22 12" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill={currentTheme.primary[0]} />
-                            {/* House body */}
-                            <rect x="4" y="12" width="16" height="8" fill={currentTheme.primary[0]} stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" />
-                            {/* Chimney */}
-                            <rect x="15" y="5" width="4" height="5" fill="#1f2937" stroke="#1f2937" strokeWidth="2" />
-                            {/* Door */}
-                            <rect x="8" y="15" width="4" height="5" fill="#1f2937" />
-                          </>
-                        ) : (
-                          <>
-                            {/* Roof */}
-                            <path d="M2 12L12 4L22 12" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            {/* House body */}
-                            <rect x="4" y="12" width="16" height="8" stroke="#6b7280" strokeWidth="2" strokeLinejoin="round" fill="none" />
-                            {/* Chimney */}
-                            <rect x="15" y="5" width="4" height="5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                            {/* Door */}
-                            <rect x="8" y="15" width="4" height="5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                          </>
-                        )}
-                      </motion.svg>
-                    </div>
-                    <span className={`text-xs mt-0.5 relative z-10 ${isActive('/') ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Home
-                    </span>
-                  </Link>
-                </motion.div>
-
-                {/* Order Again */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/order-again"
-                    className="flex flex-col items-center justify-center h-full relative"
-                  >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={isActive('/order-again') ? {
-                          scale: [1, 1.1, 1],
-                          y: [0, -2, 0]
-                        } : {}}
-                        transition={{
-                          duration: 0.4,
-                          ease: "easeInOut",
-                          repeat: isActive('/order-again') ? Infinity : 0,
-                          repeatDelay: 2
-                        }}
-                      >
-                        {isActive('/order-again') ? (
-                          <>
-                            {/* Shopping bag body */}
-                            <path d="M5 8V6C5 4.34315 6.34315 3 8 3H16C17.6569 3 19 4.34315 19 6V8H21C21.5523 8 22 8.44772 22 9V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V9C2 8.44772 2.44772 8 3 8H5Z" fill={currentTheme.primary[0]} stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" />
-                            {/* Handles */}
-                            <path d="M7 8V6C7 5.44772 7.44772 5 8 5H16C16.5523 5 17 5.44772 17 6V8" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" fill="none" />
-                          </>
-                        ) : (
-                          <>
-                            {/* Shopping bag body */}
-                            <path d="M5 8V6C5 4.34315 6.34315 3 8 3H16C17.6569 3 19 4.34315 19 6V8H21C21.5523 8 22 8.44772 22 9V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V9C2 8.44772 2.44772 8 3 8H5Z" stroke="#6b7280" strokeWidth="2" strokeLinejoin="round" fill="none" />
-                            {/* Handles */}
-                            <path d="M7 8V6C7 5.44772 7.44772 5 8 5H16C16.5523 5 17 5.44772 17 6V8" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" fill="none" />
-                          </>
-                        )}
-                        {/* Heart inside basket - grows when active, shrinks when inactive */}
-                        <AnimatePresence>
-                          {isActive('/order-again') && (
-                            <motion.path
-                              key="heart"
-                              d="M12 17C11.5 16.5 8 13.5 8 11.5C8 10 9 9 10.5 9C11.2 9 11.8 9.3 12 9.7C12.2 9.3 12.8 9 13.5 9C15 9 16 10 16 11.5C16 13.5 12.5 16.5 12 17Z"
-                              fill="#1f2937"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: "easeOut" }}
-                            />
+                    <Link
+                      to="/"
+                      className="flex flex-col items-center justify-center h-full relative py-1"
+                    >
+                      <div className="flex flex-col items-center justify-center relative z-10">
+                        <motion.svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          animate={isActive('/') ? {
+                            scale: [1, 1.1, 1],
+                            y: [0, -1, 0]
+                          } : {}}
+                          transition={{
+                            duration: 0.4,
+                            ease: "easeInOut",
+                            repeat: isActive('/') ? Infinity : 0,
+                            repeatDelay: 3
+                          }}
+                        >
+                          {isActive('/') ? (
+                            <>
+                              {/* Roof */}
+                              <path d="M2 12L12 4L22 12" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="var(--customer-primary-alpha-10)" />
+                              {/* House body */}
+                              <rect x="4" y="12" width="16" height="8" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinejoin="round" />
+                              {/* Chimney */}
+                              <rect x="15" y="5" width="4" height="5" fill="var(--customer-primary)" stroke="var(--customer-primary)" strokeWidth="2.5" />
+                              {/* Door */}
+                              <rect x="8" y="15" width="4" height="5" fill="var(--customer-primary)" />
+                            </>
+                          ) : (
+                            <>
+                              {/* Roof */}
+                              <path d="M2 12L12 4L22 12" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              {/* House body */}
+                              <rect x="4" y="12" width="16" height="8" stroke="#9ca3af" strokeWidth="2" strokeLinejoin="round" fill="none" />
+                              {/* Chimney */}
+                              <rect x="15" y="5" width="4" height="5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                              {/* Door */}
+                              <rect x="8" y="15" width="4" height="5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                            </>
                           )}
-                        </AnimatePresence>
-                      </motion.svg>
-                    </div>
-                    <span className={`text-[10px] mt-0.5 relative z-10 whitespace-nowrap ${isActive('/order-again') ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Order Again
-                    </span>
-                  </Link>
-                </motion.div>
+                        </motion.svg>
+                      </div>
+                      <span className={`text-[10px] mt-1 relative z-10 transition-colors duration-200 ${isActive('/') ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
+                        Home
+                      </span>
+                      {isActive('/') && (
+                        <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />
+                      )}
+                    </Link>
+                  </motion.div>
 
-                {/* Brands */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/brands"
-                    className="flex flex-col items-center justify-center h-full relative"
+                  {/* Order Again */}
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.1 }}
+                    className="flex-1 h-full"
                   >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={isActive('/brands') ? {
-                          scale: [1, 1.1, 1],
-                          rotate: [0, 5, -5, 0]
-                        } : {}}
-                        transition={{
-                          duration: 0.4,
-                          ease: "easeInOut",
-                          repeat: isActive('/brands') ? Infinity : 0,
-                          repeatDelay: 2
-                        }}
-                      >
-                        {isActive('/brands') ? (
-                          <>
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill={currentTheme.primary[0]} stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" />
-                            <path d="M9 12l2 2 4-4" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </>
-                        ) : (
-                          <>
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#6b7280" strokeWidth="2" strokeLinejoin="round" fill="none" />
-                            <path d="M9 12l2 2 4-4" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </>
-                        )}
-                      </motion.svg>
-                    </div>
-                    <span className={`text-xs mt-0.5 relative z-10 ${isActive('/brands') ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Brand
-                    </span>
-                  </Link>
-                </motion.div>
+                    <Link
+                      to="/order-again"
+                      className="flex flex-col items-center justify-center h-full relative py-1"
+                    >
+                      <div className="flex flex-col items-center justify-center relative z-10">
+                        <motion.svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          animate={isActive('/order-again') ? {
+                            scale: [1, 1.1, 1],
+                            y: [0, -1, 0]
+                          } : {}}
+                          transition={{
+                            duration: 0.4,
+                            ease: "easeInOut",
+                            repeat: isActive('/order-again') ? Infinity : 0,
+                            repeatDelay: 3
+                          }}
+                        >
+                          {isActive('/order-again') ? (
+                            <>
+                              {/* Shopping bag body */}
+                              <path d="M5 8V6C5 4.34315 6.34315 3 8 3H16C17.6569 3 19 4.34315 19 6V8H21C21.5523 8 22 8.44772 22 9V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V9C2 8.44772 2.44772 8 3 8H5Z" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinejoin="round" />
+                              {/* Handles */}
+                              <path d="M7 8V6C7 5.44772 7.44772 5 8 5H16C16.5523 5 17 5.44772 17 6V8" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                            </>
+                          ) : (
+                            <>
+                              {/* Shopping bag body */}
+                              <path d="M5 8V6C5 4.34315 6.34315 3 8 3H16C17.6569 3 19 4.34315 19 6V8H21C21.5523 8 22 8.44772 22 9V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V9C2 8.44772 2.44772 8 3 8H5Z" stroke="#9ca3af" strokeWidth="2" strokeLinejoin="round" fill="none" />
+                              {/* Handles */}
+                              <path d="M7 8V6C7 5.44772 7.44772 5 8 5H16C16.5523 5 17 5.44772 17 6V8" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" fill="none" />
+                            </>
+                          )}
+                          <AnimatePresence>
+                            {isActive('/order-again') && (
+                              <motion.path
+                                key="heart"
+                                d="M12 17C11.5 16.5 8 13.5 8 11.5C8 10 9 9 10.5 9C11.2 9 11.8 9.3 12 9.7C12.2 9.3 12.8 9 13.5 9C15 9 16 10 16 11.5C16 13.5 12.5 16.5 12 17Z"
+                                fill="var(--customer-primary)"
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                              />
+                            )}
+                          </AnimatePresence>
+                        </motion.svg>
+                      </div>
+                      <span className={`text-[10px] mt-1 relative z-10 whitespace-nowrap transition-colors duration-200 ${isActive('/order-again') ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
+                        Order Again
+                      </span>
+                      {isActive('/order-again') && (
+                        <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />
+                      )}
+                    </Link>
+                  </motion.div>
 
-
-
-                {/* Video Finds */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/video-finds"
-                    className="flex flex-col items-center justify-center h-full relative"
+                  {/* Brands */}
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.1 }}
+                    className="flex-1 h-full"
                   >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={isActive('/video-finds') ? {
-                          scale: [1, 1.1, 1]
-                        } : {}}
-                        transition={{
-                          duration: 0.4,
-                          ease: "easeInOut",
-                          repeat: isActive('/video-finds') ? Infinity : 0,
-                          repeatDelay: 2
-                        }}
-                      >
-                         {isActive('/video-finds') ? (
-                           <>
-                             <rect x="2" y="4" width="20" height="16" rx="2" stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" fill={currentTheme.primary[0]} />
-                             <path d="M10 9l5 3-5 3V9z" fill="#1f2937" stroke="#1f2937" strokeWidth="2" strokeLinejoin="round" />
-                           </>
-                         ) : (
-                           <>
-                             <rect x="2" y="4" width="20" height="16" rx="2" stroke="#6b7280" strokeWidth="2" fill="none" />
-                             <path d="M10 9l5 3-5 3V9z" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinejoin="round" />
-                           </>
-                         )}
-                      </motion.svg>
-                    </div>
-                    <span className={`text-xs mt-0.5 relative z-10 ${isActive('/video-finds') ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Video Finds
-                    </span>
-                  </Link>
-                </motion.div>
+                    <Link
+                      to="/brands"
+                      className="flex flex-col items-center justify-center h-full relative py-1"
+                    >
+                      <div className="flex flex-col items-center justify-center relative z-10">
+                        <motion.svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          animate={isActive('/brands') ? {
+                            scale: [1, 1.1, 1],
+                            rotate: [0, 3, -3, 0]
+                          } : {}}
+                          transition={{
+                            duration: 0.4,
+                            ease: "easeInOut",
+                            repeat: isActive('/brands') ? Infinity : 0,
+                            repeatDelay: 3
+                          }}
+                        >
+                          {isActive('/brands') ? (
+                            <>
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinejoin="round" />
+                              <path d="M9 12l2 2 4-4" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#9ca3af" strokeWidth="2" strokeLinejoin="round" fill="none" />
+                              <path d="M9 12l2 2 4-4" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </>
+                          )}
+                        </motion.svg>
+                      </div>
+                      <span className={`text-[10px] mt-1 relative z-10 transition-colors duration-200 ${isActive('/brands') ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
+                        Brand
+                      </span>
+                      {isActive('/brands') && (
+                        <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />
+                      )}
+                    </Link>
+                  </motion.div>
 
-                {/* Categories */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/categories"
-                    className="flex flex-col items-center justify-center h-full relative"
+                  {/* Categories */}
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.1 }}
+                    className="flex-1 h-full"
                   >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={{
-                          rotate: categoriesRotation
-                        }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut"
-                        }}
-                        style={{ transformOrigin: 'center' }}
-                      >
-                        {(isActive('/categories') || location.pathname.startsWith('/category/')) ? (
-                          <>
-                            {/* Top-left and bottom-right are black when active */}
-                            <circle cx="7" cy="7" r="2.5" fill="#1f2937" stroke="#1f2937" strokeWidth="2" />
-                            <circle cx="17" cy="7" r="2.5" fill={currentTheme.primary[0]} stroke="#1f2937" strokeWidth="2" />
-                            <circle cx="7" cy="17" r="2.5" fill={currentTheme.primary[0]} stroke="#1f2937" strokeWidth="2" />
-                            <circle cx="17" cy="17" r="2.5" fill="#1f2937" stroke="#1f2937" strokeWidth="2" />
-                          </>
-                        ) : (
-                          <>
-                            <circle cx="7" cy="7" r="2.5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                            <circle cx="17" cy="7" r="2.5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                            <circle cx="7" cy="17" r="2.5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                            <circle cx="17" cy="17" r="2.5" stroke="#6b7280" strokeWidth="2" fill="none" />
-                          </>
-                        )}
-                      </motion.svg>
-                    </div>
-                    <span className={`text-xs mt-0.5 relative z-10 ${(isActive('/categories') || location.pathname.startsWith('/category/')) ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Categories
-                    </span>
-                  </Link>
-                </motion.div>
+                    <Link
+                      to="/categories"
+                      className="flex flex-col items-center justify-center h-full relative py-1"
+                    >
+                      <div className="flex flex-col items-center justify-center relative z-10">
+                        <motion.svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          animate={{
+                            rotate: categoriesRotation
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            ease: "easeInOut"
+                          }}
+                          style={{ transformOrigin: 'center' }}
+                        >
+                          {(isActive('/categories') || location.pathname.startsWith('/category/')) ? (
+                            <>
+                              <circle cx="7" cy="7" r="2.5" fill="var(--customer-primary)" stroke="var(--customer-primary)" strokeWidth="2.5" />
+                              <circle cx="17" cy="7" r="2.5" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" />
+                              <circle cx="7" cy="17" r="2.5" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" />
+                              <circle cx="17" cy="17" r="2.5" fill="var(--customer-primary)" stroke="var(--customer-primary)" strokeWidth="2.5" />
+                            </>
+                          ) : (
+                            <>
+                              <circle cx="7" cy="7" r="2.5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                              <circle cx="17" cy="7" r="2.5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                              <circle cx="7" cy="17" r="2.5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                              <circle cx="17" cy="17" r="2.5" stroke="#9ca3af" strokeWidth="2" fill="none" />
+                            </>
+                          )}
+                        </motion.svg>
+                      </div>
+                      <span className={`text-[10px] mt-1 relative z-10 transition-colors duration-200 ${(isActive('/categories') || location.pathname.startsWith('/category/')) ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
+                        Categories
+                      </span>
+                      {(isActive('/categories') || location.pathname.startsWith('/category/')) && (
+                        <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />
+                      )}
+                    </Link>
+                  </motion.div>
 
-                {/* Profile */}
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.1 }}
-                  className="flex-1 h-full"
-                >
-                  <Link
-                    to="/account"
-                    className="flex flex-col items-center justify-center h-full relative"
+                  {/* Profile */}
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.1 }}
+                    className="flex-1 h-full"
                   >
-                    <div className="flex flex-col items-center justify-center relative z-10">
-                      <motion.svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        animate={isActive('/account') ? {
-                          scale: [1, 1.05, 1]
-                        } : {}}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                          repeat: isActive('/account') ? Infinity : 0,
-                          repeatDelay: 1.5
-                        }}
-                      >
-                        {isActive('/account') ? (
-                          <>
-                            {/* Profile head */}
-                            <motion.circle
-                              cx="12"
-                              cy="8"
-                              r="4"
-                              fill={currentTheme.primary[0]}
-                              stroke="#1f2937"
-                              strokeWidth="2"
-                              animate={{
-                                scale: [1, 1.1, 1]
-                              }}
-                              transition={{
-                                duration: 0.6,
-                                ease: "easeInOut",
-                                repeat: Infinity,
-                                repeatDelay: 1.2
-                              }}
-                            />
-                            {/* Profile body */}
-                            <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" fill={currentTheme.primary[0]} />
-                          </>
-                        ) : (
-                          <>
-                            {/* Profile head */}
-                            <circle cx="12" cy="8" r="4" stroke="#6b7280" strokeWidth="2" fill="none" />
-                            {/* Profile body */}
-                            <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" fill="none" />
-                          </>
-                        )}
-                      </motion.svg>
-                    </div>
-                    <span className={`text-xs mt-0.5 relative z-10 ${isActive('/account') ? 'font-medium text-neutral-700' : 'font-medium text-neutral-500'}`}>
-                      Profile
-                    </span>
-                  </Link>
-                </motion.div>
-              </div>
-            </nav>
-          )}
-        </div>
+                    <Link
+                      to="/account"
+                      className="flex flex-col items-center justify-center h-full relative py-1"
+                    >
+                      <div className="flex flex-col items-center justify-center relative z-10">
+                        <motion.svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          animate={isActive('/account') ? {
+                            scale: [1, 1.1, 1],
+                            y: [0, -1, 0]
+                          } : {}}
+                          transition={{
+                            duration: 0.4,
+                            ease: "easeInOut",
+                            repeat: isActive('/account') ? Infinity : 0,
+                            repeatDelay: 3
+                          }}
+                        >
+                          {isActive('/account') ? (
+                            <>
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="var(--customer-primary-alpha-10)" />
+                              <circle cx="12" cy="7" r="4" fill="var(--customer-primary-alpha-10)" stroke="var(--customer-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <circle cx="12" cy="7" r="4" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </>
+                          )}
+                        </motion.svg>
+                      </div>
+                      <span className={`text-[10px] mt-1 relative z-10 transition-colors duration-200 ${isActive('/account') ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
+                        Profile
+                      </span>
+                      {isActive('/account') && (
+                        <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />
+                      )}
+                    </Link>
+                  </motion.div>
+                </div>
+             </nav>
+           )}
+         </div>
       </div>
     </div>
   );

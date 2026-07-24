@@ -73,6 +73,8 @@ const productPayloadShape = {
   seller: z.string().regex(objectIdRegex).optional(),
   sellerId: z.string().regex(objectIdRegex).optional(),
   status: z.enum(["Active", "Inactive", "Pending", "Rejected"]).optional(),
+  isEnquiryOnly: z.union([z.boolean(), z.literal("true"), z.literal("false")]).optional(),
+  taxPreference: z.enum(["included", "excluded", "hidden"]).optional(),
   variants: z.array(variantSchema).min(1, "At least one variant is required").optional(),
   variations: z.array(variantSchema).min(1).optional(),
 };

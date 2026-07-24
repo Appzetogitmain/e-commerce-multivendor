@@ -73,4 +73,6 @@ export interface Product {
   isAvailable?: boolean;
   warrantyType?: 'None' | 'Warranty' | 'Guarantee';
   warrantyDuration?: string;
+  isEnquiryOnly?: boolean;
+  taxPreference?: 'included' | 'excluded' | 'hidden';
 }

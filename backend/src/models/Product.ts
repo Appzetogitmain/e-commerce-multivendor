@@ -55,11 +55,12 @@ export interface IProduct extends Document {
     attributes?: Record<string, string>;
   }>;
 
-  // Status Flags
   publish: boolean;
   popular: boolean;
   dealOfDay: boolean;
   status: "Active" | "Inactive" | "Pending" | "Rejected";
+  isEnquiryOnly?: boolean;
+  taxPreference?: "included" | "excluded" | "hidden";
 
   // Product Details
   manufacturer?: string;
@@ -264,6 +265,15 @@ export interface IProduct extends Document {
       type: String,
       enum: ["Active", "Inactive", "Pending", "Rejected"],
       default: "Active",
+    },
+    isEnquiryOnly: {
+      type: Boolean,
+      default: false,
+    },
+    taxPreference: {
+      type: String,
+      enum: ["included", "excluded", "hidden"],
+      default: "included",
     },
 
     // Product Details

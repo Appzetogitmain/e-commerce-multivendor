@@ -56,6 +56,8 @@ export function toCreatePayload(state: ProductFormState): CreateProductPayload {
     isShopByStoreOnly: mainInfo.isShopByStoreOnly === "Yes",
     shopId: mainInfo.shopId || undefined,
     seller: mainInfo.seller || undefined,
+    isEnquiryOnly: mainInfo.isEnquiryOnly === "Yes",
+    taxPreference: mainInfo.taxPreference,
     variants: variants.map((v) => {
       const formMrp = Number(v.compareAtPrice) || Number(v.price) || 0;
       const formPrice = Number(v.price) || 0;

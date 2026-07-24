@@ -1,0 +1,516 @@
+/* CSS Reset and Utility variables for Premium Dashboard Theme */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.premium-theme,
+.premium-theme *,
+.premium-theme button,
+.premium-theme input,
+.premium-theme select,
+.premium-theme textarea,
+.premium-theme table,
+.premium-theme th,
+.premium-theme td {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.premium-theme {
+  background-color: #F5F7F4 !important;
+  color: #111827 !important;
+}
+
+/* Typography weights - only apply to class titles, letting native tailwind sizes propagate on tag-level elements */
+.premium-theme .text-h1 {
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: #111827 !important;
+}
+
+.premium-theme .text-h2 {
+  font-size: 26px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: #111827 !important;
+}
+
+.premium-theme .text-h3 {
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: #111827 !important;
+}
+
+.premium-theme .card-title {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+}
+
+.premium-theme .font-bold {
+  font-weight: 600 !important;
+}
+
+.premium-theme .font-semibold {
+  font-weight: 500 !important;
+}
+
+.premium-theme h4,
+.premium-theme h5,
+.premium-theme h6 {
+  font-weight: 500 !important;
+}
+
+.premium-theme .text-small {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #6B7280 !important;
+}
+
+.premium-theme .font-numbers {
+  font-weight: 700 !important;
+}
+
+/* Hide scrollbars globally from everywhere, keeping scroll functionality active */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Card Design System */
+.premium-theme div.card,
+.premium-theme div[class*="bg-white"][class*="rounded-"]:not(main):not(main > div):not(main > div > div):not([class*="space-y-"]),
+.premium-theme div[class*="bg-white"][class*="shadow-"]:not(main):not(main > div):not(main > div > div):not([class*="space-y-"]) {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover Lift on Cards (if user intends interaction) */
+.premium-theme .card-hover:hover,
+.premium-theme .card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Table Design System */
+.premium-theme table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+}
+
+.premium-theme thead th {
+  background-color: #F9FAFB !important;
+  color: #6B7280 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+}
+
+.premium-theme tbody tr {
+  transition: background-color 150ms ease !important;
+}
+
+.premium-theme tbody tr:hover {
+  background-color: #F9FAFB !important;
+}
+
+.premium-theme td {
+  padding: 12px 16px !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  color: #111827 !important;
+}
+
+/* Input Fields & Form Controls */
+.premium-theme input[type="text"],
+.premium-theme input[type="search"],
+.premium-theme input[type="number"],
+.premium-theme input[type="password"],
+.premium-theme input[type="email"],
+.premium-theme select,
+.premium-theme textarea {
+  height: 42px !important;
+  border-radius: 12px !important;
+  border: 1px solid #E5E7EB !important;
+  padding: 8px 14px !important;
+  background-color: #FFFFFF !important;
+  font-size: 14px !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+  outline: none !important;
+}
+
+.premium-theme textarea {
+  height: auto !important;
+}
+
+.premium-theme input:focus,
+.premium-theme select:focus,
+.premium-theme textarea:focus {
+  border-color: #6DBB2D !important;
+  box-shadow: 0 0 0 2px rgba(109, 187, 45, 0.15) !important;
+}
+
+/* Buttons System */
+/* Buttons System - restrict height/padding overrides to explicit action classes */
+.premium-theme .btn,
+.premium-theme button.btn-primary,
+.premium-theme button.btn-secondary,
+.premium-theme button.btn-outline-gold {
+  height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.premium-theme button {
+  font-family: 'Poppins', sans-serif !important;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Button Variants */
+.premium-theme button.btn-primary,
+.premium-theme button[class*="bg-green-"],
+.premium-theme button[class*="bg-emerald-"] {
+  background-color: #6DBB2D !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+.premium-theme button.btn-primary:hover,
+.premium-theme button[class*="bg-green-"]:hover,
+.premium-theme button[class*="bg-emerald-"]:hover {
+  background-color: #5da026 !important;
+  transform: scale(1.02) !important;
+}
+
+.premium-theme button.btn-secondary,
+.premium-theme button.bg-white {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.premium-theme button.btn-secondary:hover,
+.premium-theme button.bg-white:hover {
+  background-color: #F9FAFB !important;
+  border-color: #D1D5DB !important;
+  transform: scale(1.02) !important;
+}
+
+.premium-theme button.btn-outline-gold,
+.premium-theme button[class*="border-yellow-"],
+.premium-theme button[class*="border-amber-"] {
+  background-color: transparent !important;
+  border: 1.5px solid #F7B733 !important;
+  color: #F7B733 !important;
+}
+
+.premium-theme button.btn-outline-gold:hover,
+.premium-theme button[class*="border-yellow-"]:hover {
+  background-color: rgba(247, 183, 51, 0.05) !important;
+  transform: scale(1.02) !important;
+}
+
+.premium-theme button.btn-danger,
+.premium-theme button[class*="bg-red-"] {
+  background-color: #DC2626 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+.premium-theme button.btn-danger:hover,
+.premium-theme button[class*="bg-red-"]:hover {
+  background-color: #b91c1c !important;
+  transform: scale(1.02) !important;
+}
+
+/* Badges System */
+.premium-theme .badge {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 8px !important;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+.premium-theme .badge-success,
+.premium-theme [class*="bg-green-100"] {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+  color: #16A34A !important;
+}
+
+.premium-theme .badge-danger,
+.premium-theme [class*="bg-red-100"] {
+  background-color: rgba(220, 38, 38, 0.1) !important;
+  color: #DC2626 !important;
+}
+
+.premium-theme .badge-warning,
+.premium-theme [class*="bg-yellow-100"],
+.premium-theme [class*="bg-amber-100"] {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  color: #F59E0B !important;
+}
+
+.premium-theme .badge-default,
+.premium-theme [class*="bg-gray-100"],
+.premium-theme [class*="bg-neutral-100"] {
+  background-color: rgba(107, 114, 128, 0.1) !important;
+  color: #6B7280 !important;
+}
+
+/* Dropdowns & Selects */
+.premium-theme select {
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 16px !important;
+  padding-right: 36px !important;
+  border-radius: 12px !important;
+}
+
+/* Modals */
+.premium-theme .modal-container,
+.premium-theme [class*="fixed"][class*="z-50"] > [class*="bg-white"] {
+  border-radius: 14px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #E5E7EB !important;
+}
+
+/* Sidebar Specific Styles */
+.premium-sidebar {
+  background-color: #223129 !important;
+  color: #FFFFFF !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  width: 280px !important;
+}
+
+.premium-sidebar .menu-section-title {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  padding: 16px 24px 8px 24px !important;
+}
+
+.premium-sidebar .menu-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 500 !important;
+  padding: 10px 20px !important;
+  margin: 2px 12px !important;
+  border-radius: 8px !important;
+  transition: all 150ms ease !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.premium-sidebar .menu-item:hover {
+  background-color: rgba(109, 187, 45, 0.12) !important;
+  color: #FFFFFF !important;
+}
+
+.premium-sidebar .menu-item.active {
+  background-color: #223129 !important;
+  color: #FFFFFF !important;
+  border-left: 3px solid #6DBB2D !important;
+  border-radius: 0 8px 8px 0 !important;
+  font-weight: 600 !important;
+}
+
+/* Header Specific Styles */
+.premium-header {
+  height: 60px !important;
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  padding: 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Expanded width for all dashboard containers */
+.premium-theme .max-w-7xl,
+.premium-theme .max-w-6xl,
+.premium-theme .max-w-5xl,
+.premium-theme .max-w-4xl,
+.premium-theme .max-w-3xl,
+.premium-theme .max-w-2xl,
+.premium-theme .mx-auto {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Setup layout side margins and paddings with clean safe side margins to keep pages breathing away from screen edges */
+.premium-theme main {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+@media (min-width: 768px) {
+  .premium-theme main {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+.premium-theme main > div,
+.premium-theme main > div > div {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Ensure inner cards and tables take full width and wrap properly */
+.premium-theme div.card,
+.premium-theme div[class*="bg-white"][class*="rounded-"],
+.premium-theme div[class*="bg-white"][class*="shadow-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Strict sidebar and main container layout alignments to remove gaps */
+@media (min-width: 1024px) {
+  .premium-theme aside.premium-sidebar,
+  .premium-theme .w-72 {
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+  }
+
+  .premium-theme .lg\:ml-72 {
+    margin-left: 260px !important;
+  }
+
+  .premium-theme .lg\:pl-72 {
+    padding-left: 260px !important;
+  }
+}
+
+/* POS Report & Billing Page Visual Enhancements */
+.premium-theme input[placeholder*="Search products"] {
+  border: 1px solid #E5E7EB !important;
+  border-radius: 6px !important;
+  height: 42px !important;
+  padding-left: 44px !important;
+}
+
+/* POS theme buttons */
+.premium-theme button.bg-\[\#0d055a\],
+.premium-theme div.bg-\[\#0d055a\],
+.premium-theme button[class*="bg-[#0d055a]"] {
+  background-color: #223129 !important;
+  border-color: #223129 !important;
+}
+
+.premium-theme button.bg-\[\#0d055a\]:hover,
+.premium-theme button[class*="bg-[#0d055a]"]:hover {
+  background-color: #1a2620 !important;
+  border-color: #1a2620 !important;
+}
+
+/* Generate Bill Button (has group text-xs) */
+.premium-theme button.bg-\[\#0d055a\][class*="group"],
+.premium-theme button[class*="bg-[#0d055a]"][class*="group"] {
+  background-color: #F7B733 !important;
+  border-color: #F7B733 !important;
+}
+
+.premium-theme button.bg-\[\#0d055a\][class*="group"]:hover,
+.premium-theme button[class*="bg-[#0d055a]"][class*="group"]:hover {
+  background-color: #e5a524 !important;
+  border-color: #e5a524 !important;
+}
+
+/* Complete Transaction Button (has shadow-lg) */
+.premium-theme button.bg-\[\#0d055a\][class*="shadow-lg"],
+.premium-theme button[class*="bg-[#0d055a]"][class*="shadow-lg"] {
+  background-color: #6DBB2D !important;
+  border-color: #6DBB2D !important;
+  box-shadow: 0 4px 12px rgba(109, 187, 45, 0.15) !important;
+}
+
+.premium-theme button.bg-\[\#0d055a\][class*="shadow-lg"]:hover,
+.premium-theme button[class*="bg-[#0d055a]"][class*="shadow-lg"]:hover {
+  background-color: #5da026 !important;
+  border-color: #5da026 !important;
+}
+
+/* Order Type Toggle buttons active state */
+.premium-theme div.bg-gray-200.p-1.rounded-xl.flex.relative.h-7 div.bg-\[\#0d055a\] {
+  background-color: #223129 !important;
+}
+
+/* Customer Selection focus state */
+.premium-theme input[placeholder="Search Customer..."]:focus,
+.premium-theme input[placeholder*="Search products"]:focus {
+  border-color: #6DBB2D !important;
+  box-shadow: 0 0 0 2px rgba(109, 187, 45, 0.15) !important;
+}
+
+/* Billing & POS table headers */
+.premium-theme thead th,
+.premium-theme .border-b.border-gray-100 span,
+.premium-theme [class*="border-b"][class*="border-gray-"] span {
+  font-weight: 600 !important;
+  color: #6B7280 !important;
+}
+
+/* POS tabs top spacing */
+.premium-theme div.flex-none.flex.items-center.gap-2.px-2.pt-2.overflow-x-auto {
+  margin-top: 16px !important;
+}
+
+/* Sidebar Search Input Specific Override to match old look */
+.premium-theme .premium-sidebar input,
+.premium-theme aside.premium-sidebar input,
+.premium-theme aside input,
+.premium-theme aside [class*="bg-white"] input,
+.premium-theme aside [class*="bg-gray-"] input {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+  height: 38px !important;
+  border-radius: 8px !important;
+  padding-left: 36px !important;
+}
+
+.premium-theme .premium-sidebar input::placeholder,
+.premium-theme aside.premium-sidebar input::placeholder,
+.premium-theme aside input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+
+
+

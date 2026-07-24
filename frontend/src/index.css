@@ -1,0 +1,305 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Prevent font flash for Rubik Doodle Shadow */
+@font-face {
+  font-family: 'Rubik Doodle Shadow';
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    @apply bg-white md:bg-white text-neutral-900;
+    font-family: 'Poppins', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    background: white;
+  }
+
+  #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: white;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Remove default video styling */
+video {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+@keyframes slide-left {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide-left {
+  animation: slide-left 0.5s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* GLOBAL SCROLLBAR HIDING OVERRIDE */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+}
+
+/* GLOBAL POPPINS ENFORCEMENT FOR PREMIUM THEME */
+.premium-theme,
+.premium-theme *,
+.premium-theme button,
+.premium-theme input,
+.premium-theme select,
+.premium-theme textarea,
+.premium-theme table,
+.premium-theme th,
+.premium-theme td {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* LAYOUT WIDTH AND PADDING OVERRIDES */
+.premium-theme main {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+.premium-theme main > div,
+.premium-theme main > div > div,
+.premium-theme .mx-auto,
+.premium-theme [class*="max-w-"] {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* SOFTENED TYPOGRAPHY WEIGHT OVERRIDES */
+.premium-theme .font-bold {
+  font-weight: 600 !important;
+}
+.premium-theme .font-semibold {
+  font-weight: 500 !important;
+}
+.premium-theme h4,
+.premium-theme h5,
+.premium-theme h6 {
+  font-weight: 500 !important;
+}
+
+/* POS tab container top space */
+.premium-theme div.overflow-x-auto.border-b.border-gray-200,
+.premium-theme div[class*="overflow-x-auto"][class*="border-b"] {
+  margin-top: 16px !important;
+}
+
+/* POS desktop table header spacing */
+.premium-theme div.hidden.md\:grid.grid-cols-12 {
+  padding-top: 16px !important;
+}
+
+/* GLOBAL NAVY-BLUE COLOR REPLACEMENTS FOR USER'S SPECIFIC PALETTE */
+[class*="bg-[#0d055a]"] {
+  background-color: #223129 !important;
+}
+
+[class*="border-[#0d055a]"] {
+  border-color: #223129 !important;
+}
+
+[class*="text-[#0d055a]"] {
+  color: #223129 !important;
+}
+
+/* Complete Transaction Button (Primary Green) */
+button[class*="shadow-[#0d055a]"] {
+  background-color: #6DBB2D !important;
+  border-color: #6DBB2D !important;
+  color: #FFFFFF !important;
+}
+
+button[class*="shadow-[#0d055a]"]:hover {
+  background-color: #5da026 !important;
+  border-color: #5da026 !important;
+}
+
+/* Generate Bill Button (Accent Gold with high-contrast dark text) */
+button[class*="border-[#0d055a]"][class*="group"] {
+  background-color: #F7B733 !important;
+  border-color: #F7B733 !important;
+  color: #223129 !important;
+}
+
+button[class*="border-[#0d055a]"][class*="group"]:hover {
+  background-color: #e5a524 !important;
+  border-color: #F7B733 !important;
+  color: #223129 !important;
+}
+
+/* RESPONSIVE LOGIN PAGE STYLING */
+@media (max-width: 767px) {
+  .login-page-wrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    overflow: hidden;
+  }
+  .login-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+  .login-video-container {
+    height: 56vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    background-color: #ffffff;
+  }
+  .login-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    vertical-align: top;
+    object-fit: cover;
+    background: transparent;
+    position: relative;
+    z-index: 0;
+  }
+  .login-section-container {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 44vh;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+  }
+  .login-card {
+    background-color: #ffffff;
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 50px -12px rgba(127, 29, 29, 0.12);
+    border: 1px solid rgba(220, 38, 38, 0.08);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 900px;
+    height: 560px;
+    overflow: hidden;
+    position: relative;
+  }
+  .login-video-container {
+    width: 55%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .login-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .login-section-container {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    background-color: #ffffff;
+    box-sizing: border-box;
+  }
+}

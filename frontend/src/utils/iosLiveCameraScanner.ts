@@ -52,7 +52,7 @@ export function patchIosVideoElement(video: HTMLVideoElement): void {
 
 export function getCameraVideoTrack(
   stream: MediaStream | null | undefined
-): MediaTrack | undefined {
+): MediaStreamTrack | undefined {
   return stream?.getVideoTracks()[0];
 }
 

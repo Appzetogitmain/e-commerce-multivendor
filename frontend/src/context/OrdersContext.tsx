@@ -123,7 +123,7 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
               id: prodId,
             },
             quantity: qty,
-            variant: item.variant, // Pass variant if available
+            variant: item.variant !== undefined ? String(item.variant) : undefined,
             isFreeGift: (item as any).isFreeGift,
             price: (item as any).price,
             freeGiftReason: (item as any).freeGiftReason

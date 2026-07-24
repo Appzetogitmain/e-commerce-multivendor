@@ -130,7 +130,7 @@ export function buildProductWithPrimaryVariant(product: Product): Product & {
 } {
   const primary = getPrimaryVariant(product);
   const variantId = getVariantId(primary);
-  const variantTitle = getVariantDisplayLabel(primary, product) || getVariantLabel(primary) || product.pack;
+  const variantTitle = getVariantDisplayLabel(primary, product as any) || getVariantLabel(primary) || product.pack;
   const imageUrl = getProductCardImage(product) || product.imageUrl;
 
   return {

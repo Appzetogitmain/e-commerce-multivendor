@@ -142,8 +142,8 @@ const SellerGSTSalesReport = () => {
     try {
       const response = await deleteGSTSalesReportEntries(ids);
 
-      if (response.failed?.length) {
-        toast.error(response.message || `Failed to delete ${response.failed.length} item(s)`);
+      if ((response as any).failed?.length) {
+        toast.error(response.message || `Failed to delete ${(response as any).failed.length} item(s)`);
       } else {
         toast.success("Selected items deleted");
       }

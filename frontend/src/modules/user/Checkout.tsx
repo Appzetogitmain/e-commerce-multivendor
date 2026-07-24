@@ -1088,7 +1088,7 @@ export default function Checkout() {
                   const prod = item.product;
                   if (!prod) return null;
                   const availableStock = getAvailableStockForCartItem(item);
-                  const isInsufficientStock = !isFreeGift && availableStock < item.quantity;
+                  const isInsufficientStock = !isFreeGift && availableStock < (item.quantity || 0);
                   return (
                     <div key={`${prod?.id || 'product'}-${item.variant || ''}-${index}`} className="flex gap-3 pb-3 border-b border-neutral-100 last:border-0 last:pb-0">
                       {/* Product Image */}

@@ -172,10 +172,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       const res = await getCustomerFreeGiftRules();
       if (res.success && Array.isArray(res.data)) {
-         const active = res.data
-           .map(normalizeCartRewardRule)
-           .filter((r) => r.status === 'Active')
-           .sort((a, b) => a.minCartValue - b.minCartValue);
+          const active = res.data
+            .map(normalizeCartRewardRule)
+            .filter((r: any) => r.status === 'Active')
+            .sort((a: any, b: any) => a.minCartValue - b.minCartValue);
          setFreeGiftRules(active);
       }
     } catch (e) {
@@ -343,14 +343,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLastAddEvent({ product: normalizedProduct, sourcePosition });
     setTimeout(() => setLastAddEvent(null), 800);
 
+    // Check for variant ID or variant title if product has variants
+    const variantId = (product as any).variantId || (product as any).selectedVariant?._id;
+    const variantTitle = (product as any).variantTitle || (product as any).pack;
+
     // Optimistically update state
     setItems((prevItems) => {
       // Filter out null products and find existing item
       const validItems = prevItems.filter(item => item?.product);
-
-      // Check for variant ID or variant title if product has variants
-      const variantId = (product as any).variantId || (product as any).selectedVariant?._id;
-      const variantTitle = (product as any).variantTitle || (product as any).pack;
 
       // Find existing item - match by product ID and variant (if variant exists)
       const existingItem = validItems.find((item) => {

@@ -8,7 +8,10 @@ import { useThemeContext } from '../context/ThemeContext';
 import QRScannerModal from './QRScannerModal';
 import { openBarcodeScanner } from '../utils/scannerPlatform';
 import { useAppContext } from '../context/AppContext';
+import { useCart } from '../context/CartContext';
 import Footer from './Footer';
+import { getCachedHeaderCategoriesPublic, getHeaderCategoriesPublic } from '../services/api/headerCategoryService';
+import { getCategories } from '../services/api/customerProductService';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -30,6 +33,56 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [showScanner, setShowScanner] = useState(false);
   const { currentTheme } = useThemeContext();
   const { config } = useAppContext();
+  const { cart } = useCart();
+
+  const [categoriesTree, setCategoriesTree] = useState<any[]>([]);
+  const [hoveredCategory, setHoveredCategory] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState({ name: 'All', slug: 'all' });
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Fetch categories tree for search dropdown
+  useEffect(() => {
+    const fetchCategoriesTree = async () => {
+      try {
+        const res = await getCategories(true);
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          setCategoriesTree(res.data);
+        } else {
+          const fallbackRes = await getCategories(false);
+          if (fallbackRes && fallbackRes.success && Array.isArray(fallbackRes.data)) {
+            setCategoriesTree(fallbackRes.data);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch categories tree for search dropdown:', e);
+        try {
+          const hc = await getHeaderCategoriesPublic(true);
+          if (hc && hc.length > 0) {
+            setCategoriesTree(hc);
+          }
+        } catch (err) {
+          console.error('All category fallbacks failed:', err);
+        }
+      }
+    };
+    fetchCategoriesTree();
+  }, []);
+
+  // Click outside category dropdown to close it
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(e.target as Node)) {
+        setShowCategoryDropdown(false);
+      }
+    };
+    if (showCategoryDropdown) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showCategoryDropdown]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -379,42 +432,185 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className="flex flex-col min-h-screen w-full md:overflow-x-visible overflow-x-hidden">
       {/* Desktop Container Wrapper */}
       <div className="md:w-full md:bg-white md:min-h-screen md:overflow-x-visible overflow-x-hidden">
-        <div className={`md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden ${(isCheckoutPage || isAccountPage) ? '' : 'md:pt-[88px]'}`}>
+        <div className={`md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden ${(isCheckoutPage || isAccountPage) ? '' : 'md:pt-[82px]'}`}>
           {/* Top Navigation Bar - Desktop Only */}
           {!isCheckoutPage && !isAccountPage && (
             <nav
-              className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between gap-4 px-4 lg:px-6 py-3 shadow-md font-sans"
-              style={{ backgroundColor: '#7f1d1d', borderBottom: '1px solid #991b1b' }}
+              className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between gap-4 px-4 lg:px-6 py-3 shadow-md h-[68px] amazon-nav-font"
+              style={{ backgroundColor: '#163F2E' }}
             >
-              {/* Delivering to Location */}
-              {userLocation && (userLocation.address || userLocation.city) && (
-                <div
-                  onClick={() => setShowLocationChangeModal(true)}
-                  className="flex items-center gap-1.5 cursor-pointer hover:bg-white/10 px-2 py-1 rounded transition-all max-w-[180px] flex-shrink-0"
-                  style={{ color: '#ffffff' }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 opacity-90 text-red-200">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-[9px] text-red-200 leading-none">Delivering to</span>
-                    <span className="text-[11px] font-bold leading-tight truncate text-white" title={userLocation?.address || ''}>
-                      {userLocation?.address
-                        ? userLocation.address.length > 20
-                          ? `${userLocation.address.substring(0, 20)}...`
-                          : userLocation.address
-                        : userLocation?.city || ''}
-                    </span>
-                  </div>
-                </div>
-              )}
+              {/* Left Side: Logo & Location */}
+              <div className="flex items-center gap-4 flex-shrink-0">
+                {/* Logo */}
+                <Link to="/" className="flex-shrink-0 flex items-center">
+                  <img
+                    src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
+                    alt={config?.appName || "Ecommerce"}
+                    className="h-9 w-auto object-contain rounded-md"
+                  />
+                </Link>
 
-              {/* Search Bar in Center */}
+                {/* Delivering to Location */}
+                {userLocation && (userLocation.address || userLocation.city) && (
+                  <div
+                    onClick={() => setShowLocationChangeModal(true)}
+                    className="flex items-center gap-1.5 cursor-pointer hover:outline hover:outline-1 hover:outline-white/40 px-2.5 py-1 rounded transition-all max-w-[190px]"
+                    style={{ color: '#ffffff' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 opacity-90 text-[#F2B134]">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-[10px] text-white leading-none font-normal">Delivering to</span>
+                      <span className="text-[12px] font-bold leading-tight truncate text-[#F2B134]" title={userLocation?.address || ''}>
+                        {userLocation?.address
+                          ? userLocation.address.length > 20
+                            ? `${userLocation.address.substring(0, 20)}...`
+                            : userLocation.address
+                          : userLocation?.city || ''}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+                       {/* Center: Search Bar */}
               <div className="flex-1 max-w-xl lg:max-w-2xl xl:max-w-3xl relative" ref={suggestionRef}>
-                <div className="flex items-center bg-white rounded-lg overflow-hidden border border-red-800/30 focus-within:ring-2 focus-within:ring-white/30 focus-within:border-transparent transition-all">
-                  {/* Search Icon prefix */}
-                  <span className="pl-3.5 text-neutral-400 text-sm">🔍</span>
+                <div className="flex items-center bg-white rounded-md focus-within:ring-2 focus-within:ring-[#F2B134] transition-all h-[38px] relative">
+                  {/* Category Dropdown (All) */}
+                  <div 
+                    onMouseEnter={() => setShowCategoryDropdown(true)}
+                    onMouseLeave={() => setShowCategoryDropdown(false)}
+                    onClick={() => setShowCategoryDropdown(true)}
+                    className="relative flex items-center gap-1 px-3 bg-neutral-100 border-r border-neutral-300 text-[11px] text-neutral-600 h-full cursor-pointer hover:bg-neutral-200 font-sans select-none rounded-l-md"
+                    ref={categoryDropdownRef}
+                  >
+                    <span className="truncate max-w-[60px]">{selectedCategory.name}</span>
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-neutral-500 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`}>
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+
+                    {/* Compact & Amazing Multi-level Mega Dropdown Menu */}
+                    <AnimatePresence>
+                      {showCategoryDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute top-full left-0 mt-1 flex bg-white rounded-md shadow-2xl border border-neutral-200 overflow-hidden z-[1000]"
+                          style={{ minWidth: '680px', height: '420px' }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {/* Left Pane: Root Categories */}
+                          <div className="w-[240px] bg-neutral-900 text-white flex flex-col overflow-y-auto border-r border-neutral-800 py-2 font-sans">
+                            <button
+                              key="all"
+                              type="button"
+                              onMouseEnter={() => setHoveredCategory(null)}
+                              onClick={() => {
+                                setSelectedCategory({ name: 'All', slug: 'all' });
+                                setShowCategoryDropdown(false);
+                              }}
+                              className={`w-full px-4 py-3.5 text-left text-[13px] font-semibold transition-all hover:bg-neutral-800 ${!hoveredCategory ? 'text-[#F2B134] bg-neutral-800 border-l-4 border-[#F2B134]' : 'text-neutral-300'}`}
+                            >
+                              All Categories
+                            </button>
+                            {categoriesTree.map((cat) => {
+                              const isHovered = hoveredCategory?._id === cat._id;
+                              return (
+                                <button
+                                  key={cat._id || cat.slug}
+                                  type="button"
+                                  onMouseEnter={() => setHoveredCategory(cat)}
+                                  onClick={() => {
+                                    setSelectedCategory({ name: cat.name, slug: cat.slug });
+                                    setShowCategoryDropdown(false);
+                                    navigate(`/category/${cat.slug}`);
+                                  }}
+                                  className={`w-full px-4 py-3.5 text-left text-[13px] font-medium transition-all hover:bg-neutral-800 ${isHovered ? 'text-[#F2B134] bg-neutral-800 border-l-4 border-[#F2B134]' : 'text-neutral-300'}`}
+                                >
+                                  {cat.name}
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {/* Right Pane: Subcategories of Hovered Category */}
+                          <div className="flex-1 bg-white p-6 overflow-y-auto text-left font-sans">
+                            {!hoveredCategory ? (
+                              <div>
+                                <h3 className="text-xs font-bold text-neutral-800 uppercase tracking-wider mb-4">All Departments</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                  {categoriesTree.map((cat) => (
+                                    <button
+                                      key={cat._id}
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedCategory({ name: cat.name, slug: cat.slug });
+                                        setShowCategoryDropdown(false);
+                                        navigate(`/category/${cat.slug}`);
+                                      }}
+                                      className="flex items-center gap-3 p-2.5 rounded hover:bg-neutral-50 border border-neutral-100 transition-colors text-left"
+                                    >
+                                      {cat.image ? (
+                                        <img src={cat.image} alt={cat.name} className="w-9 h-9 rounded object-cover" />
+                                      ) : (
+                                        <span className="w-9 h-9 bg-neutral-100 rounded flex items-center justify-center text-sm">📦</span>
+                                      )}
+                                      <span className="text-[13px] font-medium text-neutral-700">{cat.name}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : (
+                              <div>
+                                <div className="flex justify-between items-center mb-4 pb-2 border-b border-neutral-100">
+                                  <h3 className="text-sm font-bold text-neutral-800 uppercase tracking-wider">
+                                    {hoveredCategory.name}
+                                  </h3>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedCategory({ name: hoveredCategory.name, slug: hoveredCategory.slug });
+                                      setShowCategoryDropdown(false);
+                                      navigate(`/category/${hoveredCategory.slug}`);
+                                    }}
+                                    className="text-xs text-[#f08804] hover:underline font-semibold"
+                                  >
+                                    View All
+                                  </button>
+                                </div>
+                                
+                                {hoveredCategory.subcategories && hoveredCategory.subcategories.length > 0 ? (
+                                  <div className="grid grid-cols-2 gap-2.5">
+                                    {hoveredCategory.subcategories.map((sub: any) => (
+                                      <button
+                                        key={sub._id || sub.id}
+                                        type="button"
+                                        onClick={() => {
+                                          setSelectedCategory({ name: sub.name, slug: hoveredCategory.slug });
+                                          setShowCategoryDropdown(false);
+                                          navigate(`/category/${hoveredCategory.slug}?subcategory=${sub._id || sub.id}`);
+                                        }}
+                                        className="px-3 py-2 text-left text-[13px] text-neutral-600 hover:text-[#f08804] hover:bg-neutral-50 rounded transition-all"
+                                      >
+                                        • {sub.name}
+                                      </button>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <p className="text-xs text-neutral-400 italic">No subcategories found</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
                   <input
                     type="text"
                     value={searchQuery}
@@ -422,21 +618,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
                     placeholder="Search for products..."
-                    className="w-full px-3 py-2.5 text-sm bg-white text-neutral-800 focus:outline-none placeholder:text-neutral-400 font-medium font-sans"
+                    className="w-full px-3 py-2 text-sm bg-white text-neutral-800 focus:outline-none placeholder:text-neutral-400 font-sans"
                   />
-                  
-                  {/* Language Dropdown */}
-                  <div className="border-l border-neutral-200 px-3 py-2.5 flex items-center gap-1 text-[11px] font-semibold text-neutral-600 bg-neutral-50 h-full cursor-pointer hover:bg-neutral-100 font-sans">
-                    <span>EN</span>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" className="text-neutral-500">
-                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-
                   {/* Barcode scanner button */}
                   <button
                     onClick={() => openBarcodeScanner(() => setShowScanner(true))}
-                    className="px-4 py-2.5 bg-neutral-50 hover:bg-neutral-100 border-l border-neutral-200 text-neutral-600 flex items-center justify-center transition-colors"
+                    className="px-3 bg-neutral-50 hover:bg-neutral-100 border-l border-neutral-200 text-neutral-600 flex items-center justify-center transition-colors h-full"
                     title="Scan Barcode"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -445,6 +632,17 @@ export default function AppLayout({ children }: AppLayoutProps) {
                       <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
                       <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
                       <rect x="7" y="7" width="10" height="10" rx="1"></rect>
+                    </svg>
+                  </button>
+
+                  {/* Search Icon button */}
+                  <button
+                    onClick={() => handleSearchSubmit()}
+                    className="bg-[#66B82E] hover:bg-[#549b25] w-14 flex items-center justify-center text-white transition-colors h-full rounded-r-md"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
                   </button>
                 </div>
@@ -492,90 +690,75 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 </AnimatePresence>
               </div>
 
-              {/* Navigation Links */}
-              <div className="flex items-center gap-1 xl:gap-1.5 flex-shrink-0 bg-red-950/30 backdrop-blur-sm rounded-full p-1 border border-white/10 shadow-[inner_0_1px_2px_rgba(0,0,0,0.15)]">
-                {/* Home */}
-                <Link
-                  to="/"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: isActive('/') ? '#7f1d1d' : undefined
-                  }}
-                >
-                  <span>Home</span>
-                </Link>
+              {/* Right Side Actions: Navigation & Cart */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Navigation Links */}
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  {/* Home */}
+                  <Link
+                    to="/"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Home
+                  </Link>
 
-                {/* Order Again */}
-                <Link
-                  to="/order-again"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/order-again')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: isActive('/order-again') ? '#7f1d1d' : undefined
-                  }}
-                >
-                  <span>Order Again</span>
-                </Link>
+                  {/* Order Again */}
+                  <Link
+                    to="/order-again"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/order-again') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Order Again
+                  </Link>
 
-                {/* Brand */}
-                <Link
-                  to="/brands"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/brands')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: isActive('/brands') ? '#7f1d1d' : undefined
-                  }}
-                >
-                  <span>Brand</span>
-                </Link>
+                  {/* Brand */}
+                  <Link
+                    to="/brands"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/brands') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Brand
+                  </Link>
 
-                {/* Video Finds */}
-                <Link
-                  to="/video-finds"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/video-finds')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: isActive('/video-finds') ? '#7f1d1d' : undefined
-                  }}
-                >
-                  <span>Video Finds</span>
-                </Link>
+                  {/* Video Finds */}
+                  <Link
+                    to="/video-finds"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/video-finds') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Video Finds
+                  </Link>
 
-                {/* Categories */}
-                <Link
-                  to="/categories"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${(isActive('/categories') || location.pathname.startsWith('/category/'))
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: (isActive('/categories') || location.pathname.startsWith('/category/')) ? '#7f1d1d' : undefined
-                  }}
-                >
-                  <span>Categories</span>
-                </Link>
+                  {/* Categories */}
+                  <Link
+                    to="/categories"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${(isActive('/categories') || location.pathname.startsWith('/category/')) ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Categories
+                  </Link>
 
-                {/* Profile */}
+                  {/* Profile */}
+                  <Link
+                    to="/account"
+                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/account') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
+                  >
+                    Profile
+                  </Link>
+                </div>
+
+                {/* Amazon-Style Cart Button */}
                 <Link
-                  to="/account"
-                  className={`flex items-center gap-1 px-3.5 py-1.5 rounded-full transition-all duration-200 text-xs font-semibold font-sans hover:scale-[1.02] active:scale-[0.98] ${isActive('/account')
-                    ? 'bg-white shadow-sm font-bold border border-red-200/25'
-                    : 'text-red-100 hover:bg-white/10 hover:text-white'
-                    }`}
-                  style={{
-                    color: isActive('/account') ? '#7f1d1d' : undefined
-                  }}
+                  to="/checkout"
+                  className="flex items-end gap-1 px-2.5 py-1.5 rounded hover:outline hover:outline-1 hover:outline-white/30 transition-all text-white font-sans cursor-pointer group"
                 >
-                  <span>Profile</span>
+                  <div className="relative flex items-center justify-center mr-1">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:scale-105 transition-transform">
+                      <circle cx="9" cy="21" r="1"></circle>
+                      <circle cx="20" cy="21" r="1"></circle>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span className="absolute -top-2 left-3 bg-[#f08804] text-neutral-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full min-w-[16px] text-center leading-none border border-[#131921] shadow-sm">
+                      {cart?.itemCount || 0}
+                    </span>
+                  </div>
+                  <span className="text-[14px] font-bold tracking-wide">Cart</span>
                 </Link>
               </div>
             </nav>

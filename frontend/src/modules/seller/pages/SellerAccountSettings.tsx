@@ -212,7 +212,7 @@ const SellerAccountSettings = () => {
               onClick={() => setIsEditing(!isEditing)}
               className={`px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 shadow-sm flex items-center gap-2 ${isEditing
                 ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
-                : 'bg-[var(--primary-dark)] text-white hover:bg-[var(--primary-darker)] hover:shadow-md'
+                : 'bg-[var(--primary-dark,#047857)] text-white hover:bg-[var(--primary-darker,#065f46)] hover:shadow-md'
                 }`}
             >
               {isEditing ? (
@@ -261,12 +261,12 @@ const SellerAccountSettings = () => {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center text-lg font-bold">
                   {sellerData.sellerName?.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <p className="font-medium">{sellerData.sellerName}</p>
-                  <p className="text-xs text-[var(--primary-dark)] uppercase">{sellerData.status || 'Active'}</p>
+                  <p className="text-xs text-[var(--primary-dark,#047857)] uppercase">{sellerData.status || 'Active'}</p>
                 </div>
               </div>
             </div>
@@ -592,7 +592,7 @@ const SellerAccountSettings = () => {
                       <button
                         type="submit"
                         disabled={saveLoading}
-                        className={`px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-[var(--primary-dark)] to-[var(--primary-color)] hover:from-[var(--primary-darker)] hover:to-[var(--primary-dark)] shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${saveLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                        className={`px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-[var(--primary-dark,#047857)] to-[var(--primary-color,#059669)] hover:from-[var(--primary-darker,#065f46)] hover:to-[var(--primary-dark,#047857)] shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 ${saveLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
                         {saveLoading ? (
                           <span className="flex items-center gap-2">

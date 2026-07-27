@@ -401,7 +401,7 @@ export default function AddToCartAnimation({
             <Link
               ref={linkRef}
               to={cart.itemCount > 0 ? linkTo : '/cart'}
-              className={`relative overflow-hidden bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white rounded-full shadow-xl shadow-red-900/30 px-3 py-2 flex items-center gap-2 hover:from-red-800 hover:via-red-700 hover:to-red-800 transition-all duration-300 pointer-events-auto border border-red-800/30 backdrop-blur-sm ${pillClassName}`}
+              className={`relative overflow-hidden bg-gradient-to-r from-[var(--customer-primary-dark)] via-[var(--customer-primary)] to-[var(--customer-primary-dark)] text-white rounded-full shadow-xl shadow-[var(--customer-primary-dark)]/30 px-3 py-2 flex items-center gap-2 hover:from-[var(--customer-primary-darker)] hover:via-[var(--customer-primary-dark)] hover:to-[var(--customer-primary-darker)] transition-all duration-300 pointer-events-auto border border-[var(--customer-primary-alpha-30)] backdrop-blur-sm ${pillClassName}`}
             >
               {/* Shimmer Effect */}
               <div className="shimmer-overlay" />

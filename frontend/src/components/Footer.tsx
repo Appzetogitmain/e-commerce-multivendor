@@ -4,17 +4,30 @@ import { useAppContext } from '../context/AppContext';
 export default function Footer() {
   const { config } = useAppContext();
 
-  // Use dummy placeholder data instead of real credentials
-  const appLogo = '/assets/Ecommercestoreslogo.png';
-  const appName = 'Ecommerce Stores';
-  const contactPhone = '+91 98765 43210';
-  const contactEmail = 'support@example.com';
-  const address = '123, Mall Road, Sector 15, Indore, MP, India';
+  // Use dynamic configuration from AppContext
+  const appLogo = config?.appLogo || '/assets/Ecommercestoreslogo.png';
+  const appName = config?.appName || 'Ecommerce Stores';
+  const contactPhone = config?.contactPhone || '+91 98765 43210';
+  const contactEmail = config?.contactEmail || 'support@example.com';
+  const address = config?.address || '123, Mall Road, Sector 15, Indore, MP, India';
 
   return (
-    <footer className="hidden md:block w-full relative bg-[#090b09] text-neutral-300 pt-20 pb-8 font-sans overflow-hidden mt-8">
+    <footer className="hidden md:block w-full relative bg-[#090b09] text-neutral-300 pt-20 pb-8 font-sans overflow-hidden mt-12 px-10">
+      {/* Green Wave border outline */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-[1]">
+        <svg
+          viewBox="0 0 1440 60"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-9 md:h-[52px] text-[var(--customer-primary)]"
+          preserveAspectRatio="none"
+        >
+          <path d="M0 0H1440V42C1080 12 360 12 0 42V0Z" fill="currentColor" />
+        </svg>
+      </div>
+
       {/* Wave top border shape - curve smile effect mask */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-[2]">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
@@ -26,7 +39,7 @@ export default function Footer() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-neutral-800">
           
           {/* Column 1: Logo & Desc */}
@@ -49,7 +62,7 @@ export default function Footer() {
           {/* Column 2: Quick Links */}
           <div className="lg:col-span-2 flex flex-col gap-4 text-left">
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-[3px] bg-red-600 rounded-sm"></span>
+              <span className="w-3.5 h-[3px] bg-[var(--customer-accent)] rounded-sm"></span>
               <h4 className="text-sm font-bold text-white tracking-wider uppercase">Quick Links</h4>
             </div>
             <ul className="flex flex-col gap-2.5 text-sm font-medium">
@@ -74,7 +87,7 @@ export default function Footer() {
           {/* Column 3: Categories */}
           <div className="lg:col-span-3 flex flex-col gap-4 text-left">
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-[3px] bg-red-600 rounded-sm"></span>
+              <span className="w-3.5 h-[3px] bg-[var(--customer-accent)] rounded-sm"></span>
               <h4 className="text-sm font-bold text-white tracking-wider uppercase">Categories</h4>
             </div>
             <ul className="flex flex-col gap-2.5 text-sm font-medium">
@@ -99,7 +112,7 @@ export default function Footer() {
           {/* Column 4: Contact Us */}
           <div className="lg:col-span-3 flex flex-col gap-4 text-left">
             <div className="flex items-center gap-2">
-              <span className="w-3.5 h-[3px] bg-red-600 rounded-sm"></span>
+              <span className="w-3.5 h-[3px] bg-[var(--customer-accent)] rounded-sm"></span>
               <h4 className="text-sm font-bold text-white tracking-wider uppercase">Contact Us</h4>
             </div>
             <div className="flex flex-col gap-3">

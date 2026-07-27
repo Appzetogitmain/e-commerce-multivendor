@@ -714,7 +714,8 @@ export default function ProductDetail() {
                 <button
                   onClick={handleBuyNow}
                   disabled={!isAvailableAtLocation || (!isVariantAvailable && variantStock !== 0)}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 h-11 bg-orange-500 hover:bg-orange-600 text-white rounded-xl shadow-sm text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 h-11 text-neutral-900 rounded-xl shadow-sm text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
+                  style={{ backgroundColor: "var(--customer-accent)" }}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 10V4L8 9l5 5v-4h5v-2" /></svg>
                   Buy Now
@@ -937,7 +938,7 @@ export default function ProductDetail() {
                         ref={addButtonRef}
                         onClick={handleAddToCart}
                         disabled={!isAvailableAtLocation || (!isVariantAvailable && variantStock !== 0)}
-                        className="w-full h-11 bg-amber-400 hover:bg-amber-500 text-neutral-900 font-bold rounded-xl transition-all flex items-center justify-center text-sm shadow-sm"
+                        className="w-full h-11 bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white font-bold rounded-xl transition-all flex items-center justify-center text-sm shadow-sm"
                       >
                         {!isAvailableAtLocation ? "Unavailable" : !isVariantAvailable && variantStock !== 0 ? "Out of Stock" : "Add to Cart"}
                       </button>

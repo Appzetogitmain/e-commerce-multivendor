@@ -654,7 +654,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
               className="h-full rounded-md p-1 flex flex-col items-center justify-between relative overflow-hidden"
               style={{
                 backgroundColor: "#1f2937",
-                minHeight: "110px",
+                minHeight: "122px",
               }}>
               {/* CRAZY DEALS - Two lines, bigger */}
               <div className="text-center mb-1.5" style={{ marginTop: "4px" }}>
@@ -781,10 +781,10 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                 <div key={card.id} className="promo-card">
                   <Link
                     to={card.slug || card.categoryId ? `/category/${card.slug || card.categoryId}` : "#"}
-                    className="group rounded-md transition-all duration-300 hover:shadow-md active:scale-[0.98] h-full flex flex-col overflow-hidden relative border border-red-200/80"
+                    className="group rounded-md transition-all duration-300 hover:shadow-md active:scale-[0.98] h-full flex flex-col overflow-hidden relative border border-[var(--customer-primary-alpha-30)]"
                     style={{
-                      minHeight: "90px",
-                      background: "#ffebeb", // Light reddish color
+                      minHeight: "122px",
+                      background: "var(--customer-primary-alpha-10)",
                     }}>
                     {/* Green Discount Banner - Only around text, centered at top */}
                     <div
@@ -796,13 +796,13 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                     </div>
 
                     <div
-                      className="px-1 pb-1 flex flex-col flex-1 justify-between"
+                      className="px-1.5 pb-1.5 flex flex-col flex-1 justify-between"
                       style={{ paddingTop: "2px" }}>
                       {/* Category Title */}
                       <div
-                        className="text-neutral-800 font-sans font-medium text-center uppercase tracking-wide"
+                        className="text-neutral-900 font-sans font-bold text-center uppercase tracking-wide"
                         style={{
-                          fontSize: "12px",
+                          fontSize: "11px",
                           lineHeight: "1.2",
                           marginBottom: "6px",
                         }}>
@@ -819,7 +819,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                                 <div
                                   key={idx}
                                   className="flex-shrink-0 bg-white rounded-sm flex items-center justify-center overflow-hidden border border-neutral-200"
-                                  style={{ width: "42px", height: "42px" }}>
+                                  style={{ width: "48px", height: "48px" }}>
                                   <img
                                     src={imageUrl}
                                     alt={`Subcategory ${idx + 1}`}
@@ -835,7 +835,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                                       if (parent) {
                                         parent.innerHTML =
                                           categoryIcons[idx] || "📦";
-                                        parent.style.fontSize = "24px";
+                                        parent.style.fontSize = "28px";
                                         parent.style.display = "flex";
                                         parent.style.alignItems = "center";
                                         parent.style.justifyContent = "center";
@@ -850,9 +850,9 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                                 key={idx}
                                 className="flex-shrink-0 bg-transparent rounded-sm flex items-center justify-center overflow-hidden"
                                 style={{
-                                  width: "42px",
-                                  height: "42px",
-                                  fontSize: "24px",
+                                  width: "48px",
+                                  height: "48px",
+                                  fontSize: "28px",
                                 }}>
                                 {icon}
                               </div>

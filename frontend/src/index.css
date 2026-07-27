@@ -317,3 +317,26 @@ button[class*="border-[#0d055a]"][class*="group"]:hover {
     box-sizing: border-box;
   }
 }
+
+/* Custom Amazon style font for navbar */
+.amazon-nav-font,
+.amazon-nav-font *,
+.amazon-nav-font button,
+.amazon-nav-font input,
+.amazon-nav-font span,
+.amazon-nav-font div,
+.amazon-nav-font a {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Flipkart Style Category Dual-Tone Icons */
+.category-tab-icon svg {
+  color: #26332D !important; /* Charcoal outline */
+  width: 28px !important;
+  height: 28px !important;
+  display: block;
+  margin: auto;
+}
+.category-tab-icon svg * {
+  stroke-width: 2.2px !important;
+}

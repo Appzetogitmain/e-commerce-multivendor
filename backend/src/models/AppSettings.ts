@@ -662,10 +662,63 @@ AppSettingsSchema.statics.getSettings = async function () {
   if (!settings) {
     settings = await this.create({
       appName: "Geeta Stores",
-      contactEmail: "contact@Geeta Stores.com",
+      contactEmail: "contact@geetastores.com",
       contactPhone: "1234567890",
     });
   }
+
+  // Verify and backfill Deal of the Day, Featured Deal, and Flash Deal settings with actual database product IDs
+  try {
+    const Product = mongoose.model("Product");
+    const activeProducts = await Product.find({ isAvailable: true }).limit(10).select('_id');
+    if (activeProducts && activeProducts.length > 0) {
+      const dbIds = activeProducts.map(p => p._id.toString());
+      let needsSave = false;
+
+      // Validate/Backfill Deal of the Day
+      const currentDotD = settings.dealOfTheDay?.productIds || [];
+      const validDotD = await Product.find({ _id: { $in: currentDotD } }).select('_id');
+      if (validDotD.length === 0) {
+        settings.dealOfTheDay = {
+          productIds: dbIds.slice(0, 4),
+          active: true
+        };
+        needsSave = true;
+      }
+
+      // Validate/Backfill Featured Deal
+      const currentFeatured = settings.featuredDeal?.productIds || [];
+      const validFeatured = await Product.find({ _id: { $in: currentFeatured } }).select('_id');
+      if (validFeatured.length === 0) {
+        settings.featuredDeal = {
+          productIds: dbIds.slice(4, 8),
+          active: true
+        };
+        needsSave = true;
+      }
+
+      // Validate/Backfill Flash Deal
+      const currentFlash = settings.flashDeal?.productIds || [];
+      const validFlash = await Product.find({ _id: { $in: currentFlash } }).select('_id');
+      if (validFlash.length === 0) {
+        settings.flashDeal = {
+          targetDate: new Date(Date.now() + 86400000),
+          image: settings.flashDeal?.image || '',
+          active: true,
+          productIds: dbIds.slice(8, 10)
+        };
+        needsSave = true;
+      }
+
+      if (needsSave) {
+        await settings.save();
+        console.log("✓ Dynamic AppSettings deals backfilled with active product IDs from DB.");
+      }
+    }
+  } catch (err) {
+    console.error("Error backfilling AppSettings product IDs:", err);
+  }
+
   return settings;
 };
 

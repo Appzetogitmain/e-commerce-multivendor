@@ -3873,7 +3873,7 @@ const AdminPOSOrders = () => {
                       : 'bg-gray-100 border-gray-200 text-gray-500 hover:bg-gray-200/50'}
                   `}
                 >
-                  <span className="truncate max-w-[80px]">{bill.name}</span>
+                  <span className={`truncate max-w-[80px] ${activeBillId === bill.id ? 'text-white font-bold' : 'text-gray-600'}`}>{bill.name}</span>
                   <button
                     onClick={(e) => closeBill(bill.id, e)}
                     className={`rounded-full p-0.5 transition-colors ${
@@ -3890,7 +3890,7 @@ const AdminPOSOrders = () => {
 
               <button
                 onClick={() => createNewBill()}
-                className="flex items-center justify-center w-6 h-6 rounded-full bg-[#0d055a]/10 text-[#0d055a] hover:bg-[#0d055a]/20 transition-colors ml-1 flex-shrink-0"
+                className="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors ml-1 flex-shrink-0 shadow-sm"
                 title="New Bill"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
@@ -4436,44 +4436,44 @@ const AdminPOSOrders = () => {
                       </div>
 
                       {/* --- ORDER TYPE --- */}
-                         <div className="mb-2">
-                            <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Order Type</label>
-                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-7">
-                                <div
-                                    className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#0d055a] rounded-lg transition-all duration-300 ease-in-out shadow-sm ${orderType === 'Wholesale' ? 'left-[calc(50%+2px)]' : 'left-1'}`}
-                                ></div>
-                               <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-[11px] font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'}`}>Retail</button>
-                               <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-[11px] font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'}`}>Wholesale</button>
-                           </div>
-                       </div>
+                         <div className="mb-2.5">
+                            <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Order Type</label>
+                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-9 items-center">
+                                 <div
+                                     className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#0d055a] rounded-lg transition-all duration-300 ease-in-out shadow-sm ${orderType === 'Wholesale' ? 'left-[calc(50%+2px)]' : 'left-1'}`}
+                                 ></div>
+                                <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'}`}>Retail</button>
+                                <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'}`}>Wholesale</button>
+                            </div>
+                        </div>
 
                       {/* --- PAYMENT METHOD --- */}
-                         <div className="mb-2">
-                             <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Payment Method</label>
-                             <div className="relative">
-                                 <button
-                                     onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
-                                     className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-xl px-2.5 py-1 text-[11px] font-bold text-gray-700 hover:border-[var(--primary-color)] transition-all shadow-sm"
-                               >
-                                   <span>{paymentMethod || 'Cash'}</span>
-                                   <svg className={`w-3 h-3 text-gray-400 transition-transform ${showPaymentDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                               </button>
-                              {showPaymentDropdown && (
-                                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden p-1">
-                                      {['Cash', 'PhonePe', 'Credit'].map((method) => (
-                                          <div
-                                              key={method}
-                                              onClick={() => { setPaymentMethod(method); setShowPaymentDropdown(false); }}
-                                              className="flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer rounded-lg text-[11px] font-medium text-gray-700"
-                                          >
-                                              <span>{method === 'Credit' ? 'Credit (Udhaar)' : method}</span>
-                                              <span className="text-gray-300 text-[10px]">→</span>
-                                          </div>
-                                      ))}
-                                  </div>
-                              )}
-                          </div>
-                      </div>
+                         <div className="mb-2.5">
+                              <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Payment Method</label>
+                              <div className="relative">
+                                  <button
+                                      onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
+                                      className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs font-bold text-gray-700 hover:border-[var(--primary-color)] transition-all shadow-sm h-9"
+                                >
+                                    <span>{paymentMethod || 'Cash'}</span>
+                                    <svg className={`w-3 h-3 text-gray-400 transition-transform ${showPaymentDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                               {showPaymentDropdown && (
+                                   <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden p-1">
+                                       {['Cash', 'PhonePe', 'Credit'].map((method) => (
+                                           <div
+                                               key={method}
+                                               onClick={() => { setPaymentMethod(method); setShowPaymentDropdown(false); }}
+                                               className="flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer rounded-lg text-xs font-medium text-gray-700"
+                                           >
+                                               <span>{method === 'Credit' ? 'Credit (Udhaar)' : method}</span>
+                                               <span className="text-gray-300 text-xs">→</span>
+                                           </div>
+                                       ))}
+                                   </div>
+                               )}
+                           </div>
+                       </div>
 
                         </div>
 
@@ -4501,7 +4501,7 @@ const AdminPOSOrders = () => {
                                   <button
                                      onClick={handleGenerateBill}
                                      disabled={loading || cart.length === 0}
-                                     className="w-full bg-[#0d055a] border-2 border-[#0d055a] text-white hover:bg-[#0d055a] hover:text-white font-black py-2 md:py-0 md:min-h-[88px] px-4 rounded-xl transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group text-xs"
+                                     className="w-full bg-[#0d055a] border-2 border-[#0d055a] text-white hover:bg-[#0d055a] hover:text-white font-black py-0 md:min-h-[64px] px-4 rounded-xl transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group text-xs"
                                    >
                                     <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                     <span>GENERATE BILL</span>
@@ -4511,7 +4511,7 @@ const AdminPOSOrders = () => {
                                <button
                                   onClick={activeBillId.startsWith('edit_') ? handleUpdateOrder : handleAccessPayment}
                                   disabled={loading || cart.length === 0}
-                                     className={`w-full ${activeBillId.startsWith('edit_') ? 'bg-[#0d055a] hover:bg-[#0d055a]' : 'bg-[#0d055a] hover:bg-[#0d055a]'} text-white font-black py-2.5 px-4 rounded-xl shadow-lg shadow-[#0d055a]/30 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-xs`}
+                                     className={`w-full ${activeBillId.startsWith('edit_') ? 'bg-[#0d055a] hover:bg-[#0d055a]' : 'bg-[#0d055a] hover:bg-[#0d055a]'} text-white font-black py-3.5 px-4 rounded-xl shadow-lg shadow-[#0d055a]/30 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-xs`}
                                 >
                                   {loading ? (
                                      <>

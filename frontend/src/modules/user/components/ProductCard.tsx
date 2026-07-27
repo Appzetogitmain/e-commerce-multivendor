@@ -320,10 +320,10 @@ export default function ProductCard({
 
           {categoryStyle && showBadge && discount > 0 && (
             <div
-                className="absolute top-0 left-0 z-10 text-white text-[10px] font-bold px-2 py-1 rounded-br-lg flex items-center gap-1 shadow-sm transition-transform hover:scale-105"
+                className="absolute top-0 left-0 z-10 text-white text-xs font-bold px-3 py-1.5 rounded-br-xl flex items-center gap-1 shadow-sm transition-transform hover:scale-105"
                 style={{ background: 'linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-primary-dark) 100%)' }}
             >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
@@ -333,10 +333,10 @@ export default function ProductCard({
 
           {!categoryStyle && showBadge && (badgeText || discount > 0) && (
             <div
-              className="absolute top-0 left-0 z-10 text-white text-[10px] px-2.5 py-1 font-bold rounded-br-xl shadow-md flex items-center gap-1"
+              className="absolute top-0 left-0 z-10 text-white text-xs px-3 py-1.5 font-bold rounded-br-xl shadow-md flex items-center gap-1"
               style={{ background: 'linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-primary-dark) 100%)' }}
             >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
@@ -391,102 +391,7 @@ export default function ProductCard({
           )}
         </div>
 
-        {categoryStyle && (
-          <div className="px-2.5 pt-1.5 pb-0">
-            {product.isEnquiryOnly ? (
-              <Button
-                variant="default"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCardClick();
-                }}
-                className="w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md cursor-pointer border-transparent"
-              >
-                Enquiry Now
-              </Button>
-            ) : inCartQty === 0 ? (
-              <div className="flex flex-col items-center w-full">
-                <div className="flex justify-center w-full">
-                  <Button
-                    ref={addButtonRef}
-                    variant="default"
-                    size="sm"
-                    disabled={product.isAvailable === false}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAdd(e);
-                    }}
-                    className={`w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
-                      product.isAvailable === false
-                      ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
-                      : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
-                    }`}
-                    style={product.isAvailable !== false ? {
-                        backgroundColor: 'var(--customer-primary-alpha-10)',
-                        borderColor: 'var(--customer-primary)',
-                        color: 'var(--customer-primary)'
-                    } : {}}
-                  >
-                    {product.isAvailable === false ? (
-                       'Out of Range'
-                    ) : (
-                      <>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="12" y1="5" x2="12" y2="19"></line>
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        <span>ADD</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div
-                className="flex items-center justify-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-full px-1 py-0.5 h-8 w-full border border-[var(--customer-primary-alpha-30)] shadow-sm"
-              >
-                <Button
-                  variant="default"
-                  size="icon"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDecrease(e);
-                  }}
-                  className="w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
-                  aria-label="Decrease quantity"
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </Button>
-                <span className="text-xs font-black min-w-[1.25rem] text-center text-[var(--customer-primary-dark)]">
-                  {inCartQty}
-                </span>
-                <Button
-                  variant="default"
-                  size="icon"
-                  disabled={product.isAvailable === false}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleIncrease(e);
-                  }}
-                  className={`w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
-                    product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  aria-label="Increase quantity"
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div className={`${compact ? 'p-3 md:p-4' : categoryStyle ? 'px-2.5 md:px-3 pt-1.5 md:pt-2 pb-2 md:pb-3' : 'p-4 md:p-5'} flex-1 flex flex-col`}>
+        <div className={`${compact ? 'p-3 md:p-4' : categoryStyle ? 'px-2.5 md:px-3 pt-1.5 md:pt-2 pb-2.5 md:pb-3.5' : 'p-4 md:p-5'} flex-1 flex flex-col`}>
           {categoryStyle ? (
             // Category Style Layout: Quantity, Name, Time, % off, Price
             <>
@@ -556,7 +461,7 @@ export default function ProductCard({
                      discount > 0 && (
                        <p className="text-[10px] font-semibold text-[var(--customer-primary)] mb-0.5 leading-tight">
                         {discount}% OFF
-                      </p>
+                       </p>
                      )
                   )}
 
@@ -572,6 +477,100 @@ export default function ProductCard({
                         </span>
                       )}
                     </div>
+                  </div>
+
+                  {/* 6. Action Button / Quantity Selector fixed at bottom */}
+                  <div className="pt-2 w-full">
+                    {product.isEnquiryOnly ? (
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCardClick();
+                        }}
+                        className="w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md cursor-pointer border-transparent"
+                      >
+                        Enquiry Now
+                      </Button>
+                    ) : inCartQty === 0 ? (
+                      <div className="flex flex-col items-center w-full">
+                        <div className="flex justify-center w-full">
+                          <Button
+                            ref={addButtonRef}
+                            variant="default"
+                            size="sm"
+                            disabled={product.isAvailable === false}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAdd(e);
+                            }}
+                            className={`w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
+                              product.isAvailable === false
+                              ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
+                              : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
+                            }`}
+                            style={product.isAvailable !== false ? {
+                                backgroundColor: 'var(--customer-primary-alpha-10)',
+                                borderColor: 'var(--customer-primary)',
+                                color: 'var(--customer-primary)'
+                            } : {}}
+                          >
+                            {product.isAvailable === false ? (
+                               'Out of Stock'
+                            ) : (
+                              <>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>ADD</span>
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className="flex items-center justify-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-full px-1 py-0.5 h-8 w-full border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                      >
+                        <Button
+                          variant="default"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDecrease(e);
+                          }}
+                          className="w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
+                          aria-label="Decrease quantity"
+                        >
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </Button>
+                        <span className="text-xs font-black min-w-[1.25rem] text-center text-[var(--customer-primary-dark)]">
+                          {inCartQty}
+                        </span>
+                        <Button
+                          variant="default"
+                          size="icon"
+                          disabled={product.isAvailable === false}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleIncrease(e);
+                          }}
+                          className={`w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
+                            product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
+                          aria-label="Increase quantity"
+                        >
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </>
               )}

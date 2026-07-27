@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   deletePOSOrder,
   getAllOrders,
@@ -22,11 +22,23 @@ type SortDirection = "asc" | "desc";
 export default function AdminAllOrders() {
   const { isAuthenticated, token } = useAuth();
   const { showToast } = useToast();
+  const [searchParams] = useSearchParams();
+  const initialStatus = searchParams.get("status") || "All Status";
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState("");
   const [seller, setSeller] = useState("All Sellers");
-  const [status, setStatus] = useState("All Status");
+  const [status, setStatus] = useState(initialStatus);
+
+  useEffect(() => {
+    const qStatus = searchParams.get("status");
+    if (qStatus) {
+      setStatus(qStatus);
+    } else {
+      setStatus("All Status");
+    }
+  }, [searchParams]);
   const [entriesPerPage, setEntriesPerPage] = useState("10");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

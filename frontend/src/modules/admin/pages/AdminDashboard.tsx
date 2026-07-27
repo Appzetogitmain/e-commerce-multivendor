@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardCard from "../components/DashboardCard";
 import OrderChart from "../components/OrderChart";
 import SalesLineChart from "../components/SalesLineChart";
@@ -22,6 +23,7 @@ import {
 } from "../../../services/api/admin/adminDashboardService";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
   const { isAuthenticated, token } = useAuth();
 
   const getSharingText = (link: string) => `प्रिय ग्राहकों, अब 🛍️ अपने पसंदीदा स्टोर गीता स्टोर्स सरपंच साहब की दुकान से सीधे अपने 📱 मोबाइल से खरीदारी करें। अपने प्रोडक्ट घर पर पाएं। 🚚 एक्सप्रेस कॉन्टैक्ट-लेस डिलीवरी, 💳 ऑनलाइन भुगतान और बहुत कुछ। ऑर्डर करने के लिए 👉 https://${link} पर जाएं`;
@@ -529,66 +531,77 @@ export default function AdminDashboard() {
           title="Total User"
           value={stats.totalUser}
           accentColor="var(--primary-color)"
+          onClick={() => navigate("/admin/customers")}
         />
         <DashboardCard
           icon={categoryIcon}
           title="Total Category"
           value={stats.totalCategory}
           accentColor="#eab308"
+          onClick={() => navigate("/admin/category")}
         />
         <DashboardCard
           icon={subcategoryIcon}
           title="Total Subcategory"
           value={stats.totalSubcategory ?? 0}
           accentColor="var(--primary-color)"
+          onClick={() => navigate("/admin/category")}
         />
         <DashboardCard
           icon={productIcon}
           title="Total Product"
           value={stats.totalProduct}
           accentColor="#ef4444"
+          onClick={() => navigate("/admin/product")}
         />
         <DashboardCard
           icon={ordersIcon}
           title="Total Orders"
           value={stats.totalOrders}
           accentColor="var(--primary-color)"
+          onClick={() => navigate("/admin/orders/all")}
         />
         <DashboardCard
           icon={completedOrdersIcon}
           title="Completed Orders"
           value={stats.completedOrders}
           accentColor="#16a34a"
+          onClick={() => navigate("/admin/orders/all?status=Delivered")}
         />
         <DashboardCard
           icon={pendingOrdersIcon}
           title="Pending Orders"
           value={stats.pendingOrders}
           accentColor="#a855f7"
+          onClick={() => navigate("/admin/orders/all?status=Pending")}
         />
         <DashboardCard
           icon={cancelledOrdersIcon}
           title="Cancelled Orders"
           value={stats.cancelledOrders}
           accentColor="#ef4444"
+          onClick={() => navigate("/admin/orders/all?status=Cancelled")}
         />
         <DashboardCard
           icon={soldOutIcon}
           title="Product Sold Out"
           value={stats.soldOutProducts}
           accentColor="var(--primary-color)"
+          onClick={() => navigate("/admin/reports/inventory/out-of-stock")}
         />
         <DashboardCard
           icon={lowStockIcon}
           title="Product low on Stock"
           value={stats.lowStockProducts}
           accentColor="#eab308"
+          onClick={() => navigate("/admin/reports/inventory/low-stock")}
         />
         <DashboardCard
           icon={abandonedCartIcon}
           title="Abandoned Carts"
           value={JSON.parse(localStorage.getItem('abandoned_carts') || '[]').length || 3}
           accentColor="var(--primary-color)"
+          onClick={() => navigate("/admin/customers/abandoned-carts")}
         />
       </div>
 

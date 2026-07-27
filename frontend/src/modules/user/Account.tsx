@@ -110,41 +110,43 @@ export default function Account() {
   // Show login/signup prompt for unregistered users
   if (!user) {
     return (
-      <div className="pb-24 md:pb-8 bg-white min-h-screen">
-        <div className="pb-6 md:pb-8 pt-4 md:pt-6" style={{ background: accountHeaderGradient }}>
-          <div className="max-w-4xl mx-auto px-4 md:px-0">
-            <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900 hover:opacity-80 transition-opacity" aria-label="Back">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </button>
-            <div className="flex flex-col items-center mb-4 md:mb-6">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-200 flex items-center justify-center mb-3 md:mb-4 border-2 border-white shadow-sm">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-neutral-500 md:w-12 md:h-12">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+      <div className="pb-24 md:pb-8 bg-white md:bg-neutral-50 min-h-screen md:flex md:items-center md:justify-center md:py-12">
+        <div className="w-full md:max-w-md md:bg-white md:rounded-2xl md:shadow-xl md:border md:border-neutral-100 md:overflow-hidden">
+          <div className="pb-6 md:pb-8 pt-4 md:pt-8" style={{ background: accountHeaderGradient }}>
+            <div className="px-4 md:px-6">
+              <button onClick={() => navigate(-1)} className="mb-4 text-neutral-900 hover:opacity-80 transition-opacity" aria-label="Back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <div className="flex flex-col items-center mb-4 md:mb-6">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-200 flex items-center justify-center mb-3 md:mb-4 border-2 border-white shadow-sm">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-neutral-500 md:w-12 md:h-12">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <h1 className="text-xl md:text-2xl font-bold text-neutral-900 mb-2">Welcome!</h1>
+                <p className="text-sm md:text-base text-neutral-600 text-center px-4">
+                  Login or sign up to access your profile, orders, and more
+                </p>
               </div>
-              <h1 className="text-xl md:text-2xl font-bold text-neutral-900 mb-2">Welcome!</h1>
-              <p className="text-sm md:text-base text-neutral-600 text-center px-4">
-                Login or sign up to access your profile, orders, and more
-              </p>
             </div>
           </div>
-        </div>
 
-        <div className="px-4 md:px-6 lg:px-8 mt-6 relative z-10">
-          <div className="max-w-md mx-auto space-y-3">
-            <Link
-              to="/login"
-              className="block w-full text-center py-3.5 rounded-lg font-semibold text-base bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-dark)] transition-colors shadow-lg shadow-teal-500/20"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="block w-full text-center py-3.5 rounded-lg font-semibold text-base bg-white text-[var(--customer-primary-dark)] border-2 border-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-10)] transition-colors"
-            >
-              Sign Up
-            </Link>
+          <div className="px-4 md:px-8 pb-8 mt-6 relative z-10">
+            <div className="space-y-3">
+              <Link
+                to="/login"
+                className="block w-full text-center py-3.5 rounded-lg font-semibold text-base bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-dark)] transition-colors shadow-lg shadow-teal-500/20"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="block w-full text-center py-3.5 rounded-lg font-semibold text-base bg-white text-[var(--customer-primary-dark)] border-2 border-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-10)] transition-colors"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -177,18 +177,5 @@ const pickReadableTextColor = (bgHex: string): string => {
 };
 
 export const getTheme = (tabId: string): Theme => {
-  if (tabId && isHexColor(tabId)) {
-    const headerTextColor = pickReadableTextColor(tabId);
-    const textColor = headerTextColor === "#ffffff" ? "#ffffff" : "#1a1a1a";
-    return {
-      primary: [tabId, tabId, tabId, tabId],
-      secondary: [tabId, tabId, tabId],
-      textColor,
-      accentColor: tabId,
-      bannerText: "CUSTOM",
-      saleText: "SALE",
-      headerTextColor,
-    };
-  }
-  return themes[tabId] || themes.all;
+  return themes.all;
 };

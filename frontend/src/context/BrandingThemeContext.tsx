@@ -44,26 +44,26 @@ interface BrandingThemeContextType {
 
 // ─── Fallback defaults (mirrors backend defaults) ───
 const FALLBACK_GLOBAL: GlobalThemeData = {
-  primary: "#2563eb",
-  secondary: "#1e40af",
-  accent: "#f59e0b",
-  background: "#ffffff",
-  sidebar: "#1e293b",
-  navbar: "#1e293b",
-  text: "#111827",
+  primary: "#0B5D3B",
+  secondary: "#66B82E",
+  accent: "#F2B134",
+  background: "#F4FAF6",
+  sidebar: "#163F2E",
+  navbar: "#163F2E",
+  text: "#26332D",
   success: "#10b981",
-  warning: "#f59e0b",
+  warning: "#F2B134",
   danger: "#ef4444",
 };
 
 const FALLBACK_CUSTOMER: CustomerThemeData = {
-  primary: "#ef4444",
-  secondary: "#dc2626",
-  accent: "#f97316",
-  background: "#ffffff",
-  text: "#111827",
+  primary: "#0B5D3B",
+  secondary: "#66B82E",
+  accent: "#F2B134",
+  background: "#F4FAF6",
+  text: "#26332D",
   success: "#10b981",
-  warning: "#f59e0b",
+  warning: "#F2B134",
   danger: "#ef4444",
 };
 
@@ -74,8 +74,15 @@ const BrandingThemeContext = createContext<BrandingThemeContextType | undefined>
 export const BrandingThemeProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  // Hydrate from cache instantly to prevent flash
-  const cached = useMemo(() => getCachedTheme(), []);
+  // Hydrate from cache instantly to prevent flash, ignoring old fallback configs
+  const cached = useMemo(() => {
+    const data = getCachedTheme();
+    if (data?.customerTheme?.primary === "#ef4444" || data?.customerTheme?.primary === "#EF4444" || data?.globalTheme?.primary === "#2563eb" || data?.globalTheme?.primary === "#2563EB") {
+      invalidateThemeCache();
+      return null;
+    }
+    return data;
+  }, []);
 
   const [globalTheme, setGlobalTheme] = useState<GlobalThemeData>(
     cached?.globalTheme || FALLBACK_GLOBAL

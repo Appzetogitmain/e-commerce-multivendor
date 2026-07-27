@@ -50,7 +50,7 @@ const ProductCard = memo(({
 
   return (
     <div
-      className="flex-shrink-0 w-[170px]"
+      className="flex-shrink-0 w-[195px]"
       style={{ scrollSnapAlign: 'start' }}
     >
       <div
@@ -59,7 +59,7 @@ const ProductCard = memo(({
       >
         {/* Product Image Area */}
         <div className="relative block">
-          <div className="w-full h-40 bg-neutral-50 flex items-center justify-center overflow-hidden relative">
+          <div className="w-full h-44 bg-neutral-50 flex items-center justify-center overflow-hidden relative">
             {product.imageUrl ? (
               <img
                 src={product.imageUrl}
@@ -75,10 +75,10 @@ const ProductCard = memo(({
             {/* Red Discount Badge - Top Left */}
             {discount > 0 && (
               <div
-                  className="absolute top-0 left-0 z-10 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-br-lg flex items-center gap-0.5 shadow-sm"
+                  className="absolute top-0 left-0 z-10 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-br-lg flex items-center gap-1 shadow-sm"
                   style={{ background: 'linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-primary-dark) 100%)' }}
               >
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                   <line x1="7" y1="7" x2="7.01" y2="7"></line>
                 </svg>
@@ -138,7 +138,7 @@ const ProductCard = memo(({
                     }`}
                   >
                     {product.isAvailable === false ? (
-                      'Out'
+                      'Out of Stock'
                     ) : (
                       <>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
@@ -207,29 +207,29 @@ const ProductCard = memo(({
         </div>
 
         {/* Product Details */}
-        <div className="p-2 flex-1 flex flex-col min-h-0 bg-white">
+        <div className="p-3.5 flex-1 flex flex-col min-h-0 bg-white">
           {/* Light Grey Tags */}
-          <div className="flex gap-0.5 mb-1">
-            <div className="bg-neutral-100 text-neutral-600 text-[8px] font-medium px-1.5 py-0.5 rounded">
+          <div className="flex gap-0.5 mb-1.5">
+            <div className="bg-neutral-100 text-neutral-600 text-[10px] font-medium px-2 py-0.5 rounded">
               {product.pack || '1 unit'}
             </div>
           </div>
 
           {/* Product Name */}
-          <div className="mb-1">
-            <h3 className="text-[10px] font-bold text-neutral-900 line-clamp-2 leading-tight overflow-hidden" title={productName}>
+          <div className="mb-1.5">
+            <h3 className="text-xs font-bold text-neutral-900 line-clamp-2 leading-snug overflow-hidden min-h-[2rem]" title={productName}>
               {displayName}
             </h3>
           </div>
 
           {/* Rating and Reviews */}
-          <div className="flex items-center gap-0.5 mb-0.5">
+          <div className="flex items-center gap-1 mb-1">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
-                  width="8"
-                  height="8"
+                  width="10"
+                  height="10"
                   viewBox="0 0 24 24"
                   fill={i < 4 ? '#fbbf24' : '#e5e7eb'}
                   xmlns="http://www.w3.org/2000/svg"
@@ -238,33 +238,33 @@ const ProductCard = memo(({
                 </svg>
               ))}
             </div>
-            <span className="text-[8px] text-neutral-500">(85)</span>
+            <span className="text-[10px] text-neutral-500">(85)</span>
           </div>
 
           {/* Delivery Time */}
-          <div className="text-[9px] text-neutral-500 mb-1 flex items-center gap-0.5 leading-none">
-             <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+          <div className="text-[10px] text-neutral-500 mb-1.5 flex items-center gap-1 leading-none">
+             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                <circle cx="12" cy="12" r="10" />
                <path d="M12 6v6l4 2" />
              </svg>
             <span>20 MINS</span>
           </div>
 
-          {/* Discount - Red Text */}
+          {/* Discount - Brand Green Text */}
           {discount > 0 && (
-            <div className="text-[9px] text-[var(--customer-primary)] font-bold mb-1 leading-none">
+            <div className="text-[10px] text-[var(--customer-primary)] font-bold mb-1.5 leading-none">
               {discount}% OFF
             </div>
           )}
 
           {/* Price */}
-          <div className="mb-2 mt-auto">
-            <div className="flex items-baseline gap-1">
-              <span className="text-[13px] font-bold text-[var(--customer-primary)]">
+          <div className="mb-3 mt-auto">
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="text-base font-black text-[var(--customer-primary)]">
                 ₹{displayPrice.toLocaleString('en-IN')}
               </span>
               {hasDiscount && (
-                <span className="text-[9px] text-neutral-500 line-through">
+                <span className="text-[11px] text-neutral-500 line-through">
                   ₹{mrp.toLocaleString('en-IN')}
                 </span>
               )}

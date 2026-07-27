@@ -137,6 +137,7 @@ const LanguageDropdown = ({ language, setLanguage, isSticky, themeKey }: Languag
 };
 
 export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroProps) {
+  const { config } = useAppContext();
   const cachedHeaderCategories = getCachedHeaderCategoriesPublic() || [];
   const [headerCategories, setHeaderCategories] = useState<any[]>(cachedHeaderCategories);
   const [tabs, setTabs] = useState<Tab[]>(() => {
@@ -220,6 +221,46 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [language, setLanguage] = useState('EN');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScrollLimits = () => {
+    const container = tabsContainerRef.current;
+    if (container) {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+    }
+  };
+
+  useEffect(() => {
+    const container = tabsContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', checkScrollLimits, { passive: true });
+      checkScrollLimits();
+      const timers = [
+        setTimeout(checkScrollLimits, 100),
+        setTimeout(checkScrollLimits, 300),
+        setTimeout(checkScrollLimits, 500),
+        setTimeout(checkScrollLimits, 1000),
+      ];
+      window.addEventListener('resize', checkScrollLimits);
+      return () => {
+        container.removeEventListener('scroll', checkScrollLimits);
+        window.removeEventListener('resize', checkScrollLimits);
+        timers.forEach(t => clearTimeout(t));
+      };
+    }
+  }, [tabs]);
+
+  const scrollTabs = (direction: 'left' | 'right') => {
+    const container = tabsContainerRef.current;
+    if (container) {
+      const scrollAmount = container.clientWidth * 0.6;
+      const targetScroll = container.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
+      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    }
+  };
 
   // Format location display text
   const locationDisplayText = useMemo(() => {
@@ -408,9 +449,9 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
   const renderStickyContent = () => (
     <div
       ref={stickyRef}
-      className={isSticky ? 'fixed top-0 md:top-[60px] left-0 right-0 z-[99] shadow-md pb-0 animate-fade-in' : 'relative z-50'}
+      className={isSticky ? 'sticky top-0 md:top-[68px] left-0 right-0 z-[99] shadow-sm pb-0 animate-fade-in' : 'relative z-50'}
       style={{
-        backgroundColor: '#ffd1d1',
+        backgroundColor: '#ffffff',
         transition: 'background-color 0.3s ease',
       }}
     >
@@ -463,85 +504,127 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
       </div>
 
       {/* Category Tabs */}
-      <div className={`${isSticky ? '' : 'border-b border-neutral-400/40'} w-full py-1.5 md:py-2.5 flex items-center justify-center`} style={{ paddingBottom: 0 }}>
+      <div className={`${isSticky ? '' : 'border-b border-neutral-200 mt-1 md:mt-2'} w-full py-0.5 md:py-1 flex items-center justify-center`} style={{ paddingBottom: 0 }}>
+        <div className="flex items-center justify-center max-w-full px-2 md:px-4 gap-1 md:gap-2">
+          {/* Left Arrow Button */}
           <div
-           ref={tabsContainerRef}
-          className="relative flex items-center gap-1.5 md:gap-2.5 overflow-x-auto scrollbar-hide -mx-4 md:mx-0 px-2 md:px-4 lg:px-4 scroll-smooth w-full"
-          style={{ paddingBottom: '4px' }}
-          data-padding-bottom="md:8px"
-          onWheel={(e) => {
-            // Web view: mouse wheel is vertical; use it to scroll categories horizontally.
-            if (window.innerWidth >= 768 && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-              e.preventDefault();
-              e.stopPropagation();
-              e.currentTarget.scrollLeft += e.deltaY;
-            }
-          }}
-        >
-          {indicatorStyle.width > 0 && (
-            <div
-              className="absolute bottom-0 h-[3px] rounded-full transition-all duration-300 ease-out pointer-events-none"
-              style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px`, backgroundColor: theme.accentColor, transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: 0 }}
-            />
-          )}
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            const tabColor = isActive ? 'text-neutral-900 font-extrabold' : isSticky ? 'text-neutral-600' : 'text-neutral-800';
-            return (
-              <button
-                key={tab.id}
-                ref={(el) => { if (el) tabRefs.current.set(tab.id, el); else tabRefs.current.delete(tab.id); }}
-                onClick={() => handleTabClick(tab.id)}
-                className="flex-shrink-0 flex flex-col items-center justify-center w-auto min-w-[70px] md:min-w-[95px] px-2.5 py-1.5 md:px-4 md:py-2 relative z-10 transition-all duration-300"
-                type="button"
-              >
-                <motion.div
-                  className="mb-1.5 w-11 h-11 md:w-13 md:h-13 flex items-center justify-center"
-                  animate={
-                    isActive
-                      ? { scale: [1, 1.05, 1], y: [0, -1, 0] }
-                      : { scale: 1, y: 0 }
-                  }
-                  transition={
-                    isActive
-                      ? { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }
-                      : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
-                  }
+            className="flex-shrink-0 flex items-center justify-center transition-all duration-300"
+            style={{ paddingBottom: '1px' }}
+          >
+            <button
+              onClick={() => scrollTabs('left')}
+              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0.5 transition-all duration-300"
+              type="button"
+            >
+              <div className="mb-0.5 w-[30px] h-[30px] md:w-[36px] md:h-[36px] flex items-center justify-center">
+                <div
+                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 shadow-sm border bg-white border-gray-200 hover:border-neutral-400 active:scale-95 text-neutral-600 hover:text-neutral-900"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <span className="text-[6.5px] md:text-[7.5px] font-sans tracking-wide uppercase font-semibold text-neutral-400 opacity-80">
+                Prev
+              </span>
+            </button>
+          </div>
+
+          {/* Scroll Container */}
+          <div
+            ref={tabsContainerRef}
+            className="relative flex items-center gap-1 md:gap-3 overflow-x-auto scrollbar-hide scroll-smooth max-w-full"
+            style={{ paddingBottom: '1px' }}
+            onWheel={(e) => {
+              // Web view: mouse wheel is vertical; use it to scroll categories horizontally.
+              if (window.innerWidth >= 768 && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.currentTarget.scrollLeft += e.deltaY;
+              }
+            }}
+          >
+            {indicatorStyle.width > 0 && (
+              <div
+                className="absolute bottom-0 h-[2.5px] rounded-full transition-all duration-300 ease-out pointer-events-none"
+                style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px`, backgroundColor: '#F2B134', transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: 0 }}
+              />
+            )}
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  ref={(el) => { if (el) tabRefs.current.set(tab.id, el); else tabRefs.current.delete(tab.id); }}
+                  onClick={() => handleTabClick(tab.id)}
+                  className="flex-shrink-0 flex flex-col items-center justify-center w-auto min-w-[44px] md:min-w-[62px] px-0.5 py-0.5 md:px-1 relative z-10 transition-all duration-300"
+                  type="button"
                 >
                   <div
-                    className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 shadow-sm border bg-transparent"
-                    style={{
-                      borderColor: isActive ? theme.accentColor : 'transparent',
-                      borderWidth: isActive ? '1.5px' : '1px',
-                      boxShadow: isActive ? '0 4px 10px rgba(37,99,235,0.12)' : 'none'
-                    }}
+                    className="mb-0.5 w-[36px] h-[36px] md:w-[42px] md:h-[42px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
                   >
-                    {tab.icon}
+                    <div
+                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 category-tab-icon ${isActive ? 'shadow-sm border border-[var(--customer-primary-alpha-30)]' : 'hover:bg-neutral-100/80'}`}
+                      style={{
+                        backgroundColor: isActive ? 'var(--customer-primary-alpha-10)' : 'transparent',
+                        color: isActive ? 'var(--customer-primary)' : 'inherit'
+                      }}
+                    >
+                      {tab.id === 'all' && config?.appLogo ? (
+                        <img src={config.appLogo} alt="All" className="w-full h-full object-contain" />
+                      ) : (
+                        tab.icon
+                      )}
+                    </div>
                   </div>
-                </motion.div>
-                <span
-                  className={`text-[9px] md:text-xs md:whitespace-nowrap font-sans tracking-wide uppercase ${isActive ? 'font-bold' : 'font-medium'}`}
-                  style={{ color: isActive ? 'var(--customer-primary-dark)' : undefined, transition: 'color 0.3s' }}
+                  <span
+                    className={`text-[8.5px] md:text-[10px] md:whitespace-nowrap font-sans font-semibold transition-all duration-200`}
+                    style={{ color: isActive ? '#0B5D3B' : '#26332D', transition: 'color 0.3s' }}
+                  >
+                    {tab.label.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Right Arrow Button */}
+          <div
+            className="flex-shrink-0 flex items-center justify-center transition-all duration-300"
+            style={{ paddingBottom: '1px' }}
+          >
+            <button
+              onClick={() => scrollTabs('right')}
+              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0.5 transition-all duration-300"
+              type="button"
+            >
+              <div className="mb-0.5 w-[30px] h-[30px] md:w-[36px] md:h-[36px] flex items-center justify-center">
+                <div
+                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 shadow-sm border bg-white border-gray-200 hover:border-neutral-400 active:scale-95 text-neutral-600 hover:text-neutral-900"
                 >
-                  {tab.label}
-                </span>
-              </button>
-            )
-          })}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <span className="text-[6.5px] md:text-[7.5px] font-sans tracking-wide uppercase font-semibold text-neutral-400 opacity-80">
+                Next
+              </span>
+            </button>
+          </div>
         </div>
       </div>
-      {isSticky && <div className="h-3 w-full bg-white" />}
+      {isSticky && <div className="h-1.5 w-full bg-white" />}
     </div>
   );
-
-  const { config } = useAppContext();
   const { isAuthenticated, user, logout: authLogout } = useAuth();
 
   return (
     <div
       ref={heroRef}
       className="relative z-20"
-      style={{ backgroundColor: '#ffd1d1', paddingBottom: 0, marginBottom: 0 }}
+      style={{ backgroundColor: '#ffffff', paddingBottom: 0, marginBottom: 0 }}
     >
       {/* Top section with logo - NOT sticky */}
       <div className="md:hidden">
@@ -550,9 +633,9 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
             {/* Logo */}
             <div className="flex-shrink-0">
               <img
-                src="/assets/Ecommercestoreslogo.png"
+                src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
                 alt={config?.appName || "Ecommerce"}
-                className="h-9 w-auto object-contain"
+                className="h-9 w-auto object-contain rounded-md"
               />
             </div>
 
@@ -617,7 +700,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
               <div className="flex items-center justify-between pb-5">
                 <div className="flex items-center gap-2.5">
                   <div className="p-1">
-                    <img src="/assets/Ecommercestoreslogo.png" className="h-7 w-auto object-contain" alt="Logo" />
+                    <img src={config?.appLogo || "/assets/Ecommercestoreslogo.png"} className="h-7 w-auto object-contain rounded-md" alt="Logo" />
                   </div>
                   <span className="text-sm font-bold text-neutral-800">{config?.appName || 'Ecommerce Stores'}</span>
                 </div>
@@ -829,14 +912,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
       document.body
     )}
 
-      {isSticky ? (
-        <>
-          <div className="h-[110px] md:h-[66px]" />
-          {createPortal(renderStickyContent(), document.body)}
-        </>
-      ) : (
-        renderStickyContent()
-      )}
+      {renderStickyContent()}
     </div>
   );
 }

@@ -288,7 +288,7 @@ export default function OrderAgain() {
 
                         {/* Red Discount Badge - Top Left */}
                         {discount > 0 && (
-                          <div className="absolute top-1.5 left-1.5 z-10 bg-[var(--customer-primary-dark)] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+                          <div className="absolute top-1.5 left-1.5 z-10 bg-[var(--customer-primary-dark)] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">
                             {discount}% OFF
                           </div>
                         )}
@@ -316,7 +316,7 @@ export default function OrderAgain() {
                                   e.stopPropagation();
                                   addToCart(product, e.currentTarget);
                                 }}
-                                className="bg-white/95 backdrop-blur-sm text-[#d35400] border-2 border-[#d35400] text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm hover:bg-white active:scale-95 transition-all"
+                                className="bg-white/95 backdrop-blur-sm text-[var(--customer-primary)] border-2 border-[var(--customer-primary)] text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm hover:bg-white active:scale-95 transition-all"
                               >
                                 ADD
                               </motion.button>
@@ -327,7 +327,7 @@ export default function OrderAgain() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 transition={{ duration: 0.2 }}
-                                className="flex items-center gap-1.5 bg-[#d35400] rounded-lg px-2 py-1 shadow-sm"
+                                className="flex items-center gap-1.5 bg-[var(--customer-primary)] rounded-lg px-2 py-1 shadow-sm"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <motion.button

@@ -143,9 +143,9 @@ const AdminSalesSummary = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 space-y-6 animate-fadeIn bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 pt-2 sm:pt-3 space-y-4 animate-fadeIn bg-gray-50 min-h-screen">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Sales & Summary</h1>
           <p className="text-gray-500 text-sm mt-1">Track your business growth and revenue</p>
@@ -192,7 +192,7 @@ const AdminSalesSummary = () => {
       )}
 
       {/* Summary Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <SummaryCard
           title="Total Sales"
           value={`₹${(data?.summary.totalSales || 0).toLocaleString()}`}
@@ -224,7 +224,7 @@ const AdminSalesSummary = () => {
       </div>
 
       {/* Profit & Loss Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <SummaryCard
           title="Total Profit"
           value={`₹${(data?.summary.totalProfit || 0).toLocaleString()}`}
@@ -358,19 +358,32 @@ const AdminSalesSummary = () => {
   );
 };
 
+const getTrendStyle = (trend: string) => {
+  if (trend === 'Est.' || trend === 'Final') {
+    return 'bg-gray-100 text-gray-500';
+  }
+  if (trend.startsWith('+')) {
+    return 'bg-green-50 text-green-700 border border-green-100';
+  }
+  if (trend.startsWith('-')) {
+    return 'bg-red-50 text-red-700 border border-red-100';
+  }
+  return 'bg-gray-50 text-gray-500 border border-gray-100';
+};
+
 const SummaryCard = ({ title, value, icon, color, trend }: any) => (
-  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-    <div className="flex justify-between items-start mb-4">
-      <div className={`p-3 rounded-xl text-white ${color} shadow-lg shadow-gray-200 transition-transform group-hover:scale-110`}>
+  <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+    <div className="flex justify-between items-start mb-3">
+      <div className={`p-2 rounded-lg text-white ${color} shadow-md shadow-gray-100 transition-transform group-hover:scale-105`}>
         {icon}
       </div>
-      <div className={`text-[10px] font-bold px-2 py-1 rounded-full ${trend.startsWith('+') ? 'bg-[var(--primary-alpha-20)] text-[var(--primary-darker)]' : 'bg-red-100 text-red-700'}`}>
+      <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${getTrendStyle(trend)}`}>
         {trend}
       </div>
     </div>
-    <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">{title}</p>
-    <div className="text-2xl font-black text-gray-800 tracking-tight">{value}</div>
-    <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+    <p className="text-gray-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">{title}</p>
+    <div className="text-xl font-extrabold text-gray-800 tracking-tight">{value}</div>
+    <div className="absolute right-[-10px] bottom-[-10px] opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
       {icon}
     </div>
   </div>

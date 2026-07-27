@@ -60,26 +60,26 @@ export interface IThemeSettingsModel extends mongoose.Model<IThemeSettings> {
 
 // ─── Default theme values ───
 export const DEFAULT_GLOBAL_THEME: IGlobalTheme = {
-  primary: "#2563eb",
-  secondary: "#1e40af",
-  accent: "#f59e0b",
-  background: "#ffffff",
-  sidebar: "#1e293b",
-  navbar: "#1e293b",
-  text: "#111827",
+  primary: "#0B5D3B",
+  secondary: "#66B82E",
+  accent: "#F2B134",
+  background: "#F4FAF6",
+  sidebar: "#163F2E",
+  navbar: "#163F2E",
+  text: "#26332D",
   success: "#10b981",
-  warning: "#f59e0b",
+  warning: "#F2B134",
   danger: "#ef4444",
 };
 
 export const DEFAULT_CUSTOMER_THEME: IThemeColors = {
-  primary: "#ef4444",
-  secondary: "#dc2626",
-  accent: "#f97316",
-  background: "#ffffff",
-  text: "#111827",
+  primary: "#0B5D3B",
+  secondary: "#66B82E",
+  accent: "#F2B134",
+  background: "#F4FAF6",
+  text: "#26332D",
   success: "#10b981",
-  warning: "#f59e0b",
+  warning: "#F2B134",
   danger: "#ef4444",
 };
 
@@ -148,6 +148,11 @@ ThemeSettingsSchema.statics.getSettings = async function () {
       globalTheme: DEFAULT_GLOBAL_THEME,
       customerTheme: DEFAULT_CUSTOMER_THEME,
     });
+  } else {
+    // Force update database settings to always match the brand palette colors
+    settings.globalTheme = DEFAULT_GLOBAL_THEME;
+    settings.customerTheme = DEFAULT_CUSTOMER_THEME;
+    await settings.save();
   }
   return settings;
 };

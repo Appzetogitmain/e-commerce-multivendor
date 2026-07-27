@@ -3,7 +3,7 @@ import { getProfile, updateProfile, type AdminProfile as AdminProfileType } from
 import { useAuth } from '../../../context/AuthContext';
 
 export default function AdminProfile() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const [profile, setProfile] = useState<AdminProfileType | null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -39,16 +39,21 @@ export default function AdminProfile() {
                         mobile: response.data.mobile,
                     });
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.error('Error fetching profile:', err);
-                setError('Failed to load profile. Please try again.');
+                const status = err.response?.status;
+                if (status === 401 || status === 404) {
+                    logout();
+                } else {
+                    setError('Failed to load profile. Please try again.');
+                }
             } finally {
                 setLoading(false);
             }
         };
 
         fetchProfile();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, logout]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -143,8 +148,17 @@ export default function AdminProfile() {
 
     if (!profile) {
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-red-600">Failed to load profile</div>
+            <div className="flex flex-col items-center justify-center h-screen bg-neutral-50 p-4">
+                <div className="bg-white p-8 rounded-xl shadow-md border border-neutral-200 text-center max-w-sm w-full">
+                    <div className="text-red-500 text-lg font-bold mb-2">Profile Error</div>
+                    <p className="text-neutral-600 text-sm mb-6">We couldn't retrieve your profile data. Your session might be invalid or expired.</p>
+                    <button
+                        onClick={() => logout()}
+                        className="w-full bg-[var(--primary-dark,#047857)] hover:bg-[var(--primary-darker,#065f46)] text-white font-bold py-2.5 px-4 rounded-lg transition-colors"
+                    >
+                        Log Out & Re-login
+                    </button>
+                </div>
             </div>
         );
     }

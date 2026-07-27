@@ -4,10 +4,12 @@ import { sendOTP, verifyOTP } from '../../services/api/auth/customerAuthService'
 import { useAuth } from '../../context/AuthContext';
 import OTPInput from '../../components/OTPInput';
 import { requestNotificationPermission } from '../../services/pushNotificationService';
+import { useAppContext } from '../../context/AppContext';
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { config } = useAppContext();
   const [mobileNumber, setMobileNumber] = useState('');
   const [showOTP, setShowOTP] = useState(false);
   const [sessionId, setSessionId] = useState('');
@@ -102,9 +104,9 @@ export default function Login() {
         <div className="w-full max-w-sm flex flex-col items-center">
           {/* Brand header on desktop */}
           <div className="hidden md:flex flex-col items-center mb-8">
-            <img src="/Ecommercestoreslogo.png" alt="Logo" className="w-16 h-16 object-contain mb-3" />
+            <img src={config?.appLogo || "/assets/Ecommercestoreslogo.png"} alt="Logo" className="w-16 h-16 object-contain rounded-md mb-3" />
             <h2 className="text-2xl font-bold text-neutral-800">Welcome Back</h2>
-            <p className="text-sm text-neutral-500 mt-1">Please login to your account</p>
+            <p className="text-sm text-neutral-500 mt-1">Please login to your account of {config?.appName || 'Ecommerce Stores'}</p>
           </div>
 
           {!showOTP ? (

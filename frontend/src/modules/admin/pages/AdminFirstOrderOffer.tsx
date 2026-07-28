@@ -14,7 +14,7 @@ type FirstOrderOfferConfig = {
 const defaultConfig: FirstOrderOfferConfig = {
   enabled: false,
   title: "On your first order",
-  subtitle: "OFF",
+  subtitle: "OFFER",
   discountAmount: 60,
   minOrderAmount: 0,
   ctaText: "Claim",
@@ -52,7 +52,7 @@ export default function AdminFirstOrderOffer() {
     return {
       line1: config.title?.trim() || "On your first order",
       amount: `₹${amount}`,
-      line2: config.subtitle?.trim() || "OFF",
+      line2: config.subtitle?.trim() || "OFFER",
     };
   }, [config.discountAmount, config.subtitle, config.title]);
 
@@ -227,7 +227,7 @@ export default function AdminFirstOrderOffer() {
                   value={config.subtitle}
                   onChange={(e) => setConfig((prev) => ({ ...prev, subtitle: e.target.value }))}
                   className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg bg-white focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all"
-                  placeholder="e.g., OFF"
+                  placeholder="e.g., OFFER"
                 />
               </div>
 

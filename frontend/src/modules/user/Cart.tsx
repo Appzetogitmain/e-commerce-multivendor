@@ -182,7 +182,7 @@ export default function Cart() {
                       </div>
                       {hasDiscount && (
                         <span className="text-xs text-[var(--customer-primary-dark)] font-medium">
-                          {Math.round(((mrp - applicableUnitPrice) / mrp) * 100)}% OFF
+                          {Math.round(((mrp - applicableUnitPrice) / mrp) * 100)}% OFFER
                         </span>
                       )}
                       {isTieredApplied && (

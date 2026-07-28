@@ -792,7 +792,7 @@ export default function ProductDetail() {
                     {hasDiscount && (
                       <>
                         <span className="text-sm text-neutral-400 line-through">₹{variantMrp.toLocaleString('en-IN')}</span>
-                        <Badge className="!bg-[var(--customer-primary)] !text-white text-xs px-2 py-0.5 rounded-full font-semibold">{discount}% OFF</Badge>
+                        <Badge className="!bg-[var(--customer-primary)] !text-white text-xs px-2 py-0.5 rounded-full font-semibold">{discount}% OFFERER</Badge>
                       </>
                     )}
                   </div>
@@ -889,7 +889,7 @@ export default function ProductDetail() {
                     {hasDiscount && (
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-sm text-neutral-400 line-through">MRP ₹{variantMrp.toLocaleString('en-IN')}</span>
-                        <Badge className="!bg-[var(--customer-primary)] !text-white text-xs px-2 py-0.5 rounded-full font-semibold">{discount}% OFF</Badge>
+                        <Badge className="!bg-[var(--customer-primary)] !text-white text-xs px-2 py-0.5 rounded-full font-semibold">{discount}% OFFERER</Badge>
                       </div>
                     )}
                     {product.taxPreference === "excluded" ? (

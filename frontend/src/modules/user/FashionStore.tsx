@@ -169,7 +169,7 @@ export default function FashionStore() {
 
                     {hasDiscount && (
                       <div className="text-[9px] text-[var(--customer-primary-dark)] font-semibold mb-0.5">
-                        {discount}% OFF
+                        {discount}% OFFER
                       </div>
                     )}
 

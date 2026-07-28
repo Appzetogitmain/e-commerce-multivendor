@@ -624,7 +624,7 @@ export default function QRScannerModal({
                     : "bg-white border-gray-200 text-gray-700"
                 }`}
               >
-                {torchOn ? "🔦 Flash ON" : "🔦 Flash OFF"}
+                {torchOn ? "🔦 Flash ON" : "🔦 Flash OFFER"}
               </button>
             )}
           </div>

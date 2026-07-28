@@ -463,7 +463,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     </svg>
                     <div className="flex flex-col min-w-0">
                       <span className="text-[10px] text-white leading-none font-normal">Delivering to</span>
-                      <span className="text-[12px] font-bold leading-tight truncate text-white" title={userLocation?.address || ''}>
+                      <span className="text-[12px] font-bold leading-tight truncate text-neutral-300" title={userLocation?.address || ''}>
                         {userLocation?.address
                           ? userLocation.address.length > 20
                             ? `${userLocation.address.substring(0, 20)}...`
@@ -862,7 +862,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                                           <span className="text-[10px] text-neutral-400 line-through">₹{item.mrp}</span>
                                         )}
                                         {item.discount > 0 && (
-                                          <span className="text-[10px] text-[var(--customer-primary)] font-medium">({item.discount}% OFF)</span>
+                                          <span className="text-[10px] text-[var(--customer-primary)] font-medium">({item.discount}% OFFERER)</span>
                                         )}
                                       </div>
                                     )}

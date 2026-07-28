@@ -1808,7 +1808,7 @@ export default function AdminStockManagement() {
                             : "bg-white text-gray-500 border border-gray-200"
                         }`}
                       >
-                        {product.publish ? "ACTIVE" : "OFF"}
+                        {product.publish ? "ACTIVE" : "OFFER"}
                       </button>
                     </div>
 

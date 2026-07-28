@@ -82,7 +82,7 @@ const ProductCard = memo(({
                   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                   <line x1="7" y1="7" x2="7.01" y2="7"></line>
                 </svg>
-                <span>{discount}% OFF</span>
+                <span>{discount}% OFFERER</span>
               </div>
             )}
 
@@ -253,7 +253,7 @@ const ProductCard = memo(({
           {/* Discount - Brand Green Text */}
           {discount > 0 && (
             <div className="text-[10px] md:text-xs text-[var(--customer-primary)] font-bold mb-1.5 leading-none">
-              {discount}% OFF
+              {discount}% OFFERER
             </div>
           )}
 

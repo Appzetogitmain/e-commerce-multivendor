@@ -289,7 +289,7 @@ export default function OrderAgain() {
                         {/* Red Discount Badge - Top Left */}
                         {discount > 0 && (
                           <div className="absolute top-1.5 left-1.5 z-10 bg-[var(--customer-primary-dark)] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-md shadow-sm">
-                            {discount}% OFF
+                            {discount}% OFFER
                           </div>
                         )}
 

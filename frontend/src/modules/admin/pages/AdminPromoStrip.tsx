@@ -460,7 +460,7 @@ export default function AdminPromoStrip() {
                           type="text"
                           value={card.badge}
                           onChange={(e) => updateCategoryCard(index, "badge", e.target.value)}
-                          placeholder="Badge (e.g., Up to 55% OFF)"
+                          placeholder="Badge (e.g., Up to 55% OFFER)"
                           className="w-full px-2 py-1 text-sm border border-neutral-300 rounded bg-white"
                           required
                         />

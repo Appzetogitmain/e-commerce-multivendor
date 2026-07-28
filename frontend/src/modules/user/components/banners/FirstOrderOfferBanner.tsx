@@ -52,7 +52,7 @@ export default function FirstOrderOfferBanner() {
     return {
       discountAmount: Number(offer?.discountAmount ?? 0),
       title: (offer?.title || "On your first order").trim(),
-      subtitle: (offer?.subtitle || "OFF").trim(),
+      subtitle: (offer?.subtitle || "OFFER").trim(),
       ctaText: (offer?.ctaText || "Claim").trim(),
       minOrderAmount: Number(offer?.minOrderAmount ?? 0),
     };

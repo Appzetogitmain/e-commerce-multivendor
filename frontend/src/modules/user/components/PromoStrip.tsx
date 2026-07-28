@@ -201,7 +201,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                   const category = typeof card.categoryId === 'object' ? card.categoryId : null;
                   return {
                     id: card._id || card.categoryId?._id || card.categoryId,
-                    badge: card.badge || `Up to ${card.discountPercentage || 0}% OFF`,
+                    badge: card.badge || `Up to ${card.discountPercentage || 0}% OFFER`,
                     title: card.title || category?.name || "",
                     categoryId: category?._id || card.categoryId,
                     slug: category?.slug || card.categoryId,

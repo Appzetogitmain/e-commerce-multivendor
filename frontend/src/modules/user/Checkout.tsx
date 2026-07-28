@@ -1383,7 +1383,7 @@ export default function Checkout() {
                         {config.firstOrderOffer?.title || 'First order offer'}
                       </p>
                       <p className="text-[10px] text-emerald-800 truncate">
-                        Automatically applied · ₹{firstOrderDiscount} {config.firstOrderOffer?.subtitle || 'OFF'}
+                        Automatically applied · ₹{firstOrderDiscount} {config.firstOrderOffer?.subtitle || 'OFFER'}
                       </p>
                     </div>
                   </div>
@@ -1543,7 +1543,7 @@ export default function Checkout() {
                       </svg>
                       <span className="text-xs text-neutral-700">Online Payment Discount</span>
                       <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
-                        {onlineDiscountPercentage}% OFF
+                        {onlineDiscountPercentage}% OFFER
                       </span>
                     </div>
                     <span className="text-xs font-medium text-[var(--customer-primary-dark)]">-₹{onlineDiscountAmount.toFixed(2)}</span>

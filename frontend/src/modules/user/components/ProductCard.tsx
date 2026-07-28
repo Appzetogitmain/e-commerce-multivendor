@@ -327,7 +327,7 @@ export default function ProductCard({
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
-              <span>{discount}% OFF</span>
+              <span>{discount}% OFFERER</span>
             </div>
           )}
 
@@ -340,7 +340,7 @@ export default function ProductCard({
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
-              <span>{badgeText || `${discount}% OFF`}</span>
+              <span>{badgeText || `${discount}% OFFERER`}</span>
             </div>
           )}
 
@@ -393,7 +393,7 @@ export default function ProductCard({
 
         <div className={`${compact ? 'p-3 md:p-4' : categoryStyle ? 'px-2.5 md:px-3 pt-1.5 md:pt-2 pb-2.5 md:pb-3.5' : 'p-4 md:p-5'} flex-1 flex flex-col`}>
           {categoryStyle ? (
-            // Category Style Layout: Quantity, Name, Time, % off, Price
+            // Category Style Layout: Quantity, Name, Time, % offer, Price
             <>
               {/* 1. Quantity */}
               {!showPackBadge && (product.pack || primaryVariantLabel) && (
@@ -451,7 +451,7 @@ export default function ProductCard({
                                <div className="flex items-center gap-1">
                                  <span className="font-bold text-[var(--customer-primary-dark)]">₹{tier.price}</span>
                                   <span className="text-[var(--customer-primary)] font-bold bg-[var(--customer-primary-alpha-10)] px-1 rounded-sm">
-                                   {Math.round(((mrp - tier.price) / mrp) * 100)}% OFF
+                                   {Math.round(((mrp - tier.price) / mrp) * 100)}% OFFERER
                                  </span>
                                </div>
                             </div>
@@ -460,7 +460,7 @@ export default function ProductCard({
                   ) : (
                      discount > 0 && (
                        <p className="text-[10px] font-semibold text-[var(--customer-primary)] mb-0.5 leading-tight">
-                        {discount}% OFF
+                        {discount}% OFFERER
                        </p>
                      )
                   )}
@@ -622,7 +622,7 @@ export default function ProductCard({
                                       <span className="font-bold text-red-800">Buy {tier.minQty}+</span>
                                       <div className="flex items-center gap-1">
                                           <span className="font-bold text-red-700">₹{tier.price}</span>
-                                          {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFF)</span>}
+                                          {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFFERER)</span>}
                                       </div>
                                   </div>
                               );

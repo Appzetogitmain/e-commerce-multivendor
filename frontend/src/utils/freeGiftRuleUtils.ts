@@ -62,9 +62,9 @@ export function getDiscountRules(rules: CartRewardRule[]): CartRewardRule[] {
 export function getRuleRewardLabel(rule: CartRewardRule): string {
   if (rule.ruleType === 'discount') {
     if (rule.discountType === 'percentage') {
-      return `${rule.discountValue || 0}% OFF`;
+      return `${rule.discountValue || 0}% OFFER`;
     }
-    return `₹${rule.discountValue || 0} OFF`;
+    return `₹${rule.discountValue || 0} OFFER`;
   }
 
   return rule.giftProduct?.productName || rule.giftProduct?.name || 'Free Gift';

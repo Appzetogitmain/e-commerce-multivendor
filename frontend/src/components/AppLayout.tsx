@@ -432,11 +432,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className="flex flex-col min-h-screen w-full md:overflow-x-visible overflow-x-hidden">
       {/* Desktop Container Wrapper */}
       <div className="md:w-full md:bg-white md:min-h-screen md:overflow-x-visible overflow-x-hidden">
-        <div className={`md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden ${(isCheckoutPage || isAccountPage) ? '' : 'md:pt-[82px]'}`}>
+        <div className={`md:w-full md:min-h-screen md:flex md:flex-col md:overflow-x-visible overflow-x-hidden ${(isCheckoutPage || isAccountPage) ? '' : 'md:pt-[56px]'}`}>
           {/* Top Navigation Bar - Desktop Only */}
           {!isCheckoutPage && !isAccountPage && (
             <nav
-              className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between gap-4 px-4 lg:px-6 py-3 shadow-md h-[68px] amazon-nav-font"
+              className="hidden md:flex fixed top-0 left-0 right-0 z-[100] items-center justify-between gap-4 px-4 lg:px-6 py-2 shadow-md h-[56px] amazon-nav-font"
               style={{ backgroundColor: '#163F2E' }}
             >
               {/* Left Side: Logo & Location */}
@@ -446,7 +446,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                   <img
                     src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
                     alt={config?.appName || "Ecommerce"}
-                    className="h-9 w-auto object-contain rounded-md"
+                    className="h-[42px] w-auto object-contain rounded-md"
                   />
                 </Link>
 
@@ -475,8 +475,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 )}
               </div>
 
-                       {/* Center: Search Bar */}
-              <div className="flex-1 max-w-xl lg:max-w-2xl xl:max-w-3xl relative" ref={suggestionRef}>
+                      {/* Center: Search Bar */}
+              <div className="flex-1 max-w-2xl lg:max-w-4xl xl:max-w-5xl relative" ref={suggestionRef}>
                 <div className="flex items-center bg-white rounded-md focus-within:ring-2 focus-within:ring-[#F2B134] transition-all h-[38px] relative">
                   {/* Category Dropdown (All) */}
                   <div 
@@ -718,14 +718,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     Brand
                   </Link>
 
-                  {/* Video Finds */}
-                  <Link
-                    to="/video-finds"
-                    className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/video-finds') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
-                  >
-                    Video Finds
-                  </Link>
-
                   {/* Categories */}
                   <Link
                     to="/categories"
@@ -739,7 +731,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     to="/account"
                     className={`px-2.5 py-1.5 rounded text-[13px] transition-all font-normal text-white hover:text-[#F2B134] hover:outline hover:outline-1 hover:outline-white/30 ${isActive('/account') ? 'text-[#F2B134] font-medium border-b border-[#F2B134] rounded-none' : ''}`}
                   >
-                    Profile
+                    Login
                   </Link>
                 </div>
 
@@ -766,7 +758,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
           {/* Sticky Header - Show on search page and other non-home pages, excluding account page */}
           {showHeader && (
-            <header className="sticky top-0 z-50 bg-white shadow-sm md:shadow-md md:top-[60px]">
+            <header className="sticky top-0 z-50 bg-white shadow-sm md:shadow-md md:top-[56px]">
               {/* Delivery info line */}
               <div className="px-4 md:px-6 lg:px-8 py-1.5 bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] text-center">
                 Delivering in 10–15 mins
@@ -924,7 +916,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           {/* Scrollable Main Content */}
           <main
             ref={mainRef}
-            className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide pb-24 md:pb-8"
+            className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide pb-24 md:pb-8 md:px-[50px]"
             style={{ overflowAnchor: 'none' }}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -1249,7 +1241,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         </motion.svg>
                       </div>
                       <span className={`text-[10px] mt-1 relative z-10 transition-colors duration-200 ${isActive('/account') ? 'font-semibold text-[var(--customer-primary-dark)]' : 'font-medium text-neutral-400'}`}>
-                        Profile
+                        Login
                       </span>
                       {isActive('/account') && (
                         <motion.div layoutId="activeDot" className="absolute bottom-1.5 w-1 h-1 rounded-full bg-[var(--customer-primary)]" />

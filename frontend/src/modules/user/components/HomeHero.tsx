@@ -454,7 +454,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
   const renderStickyContent = () => (
     <div
       ref={stickyRef}
-      className={isSticky ? 'sticky top-0 md:top-[68px] left-0 right-0 z-[99] shadow-sm pb-0 animate-fade-in' : 'relative z-50'}
+      className={isSticky ? 'sticky top-0 md:top-[56px] left-0 right-0 z-[99] shadow-sm pb-0 animate-fade-in' : 'relative z-50'}
       style={{
         backgroundColor: '#ffffff',
         transition: 'background-color 0.3s ease',
@@ -510,30 +510,27 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
         </Link>
       </div>
 
-      <div className={`${isSticky ? '' : 'border-b border-neutral-200 mt-0.5 md:mt-2'} w-full pt-2 pb-2.5 md:py-1 flex items-center justify-center`} style={{ paddingBottom: isSticky ? 0 : '' }}>
+      <div className={`${isSticky ? 'pt-2 pb-1' : 'border-b border-neutral-200 mt-0.5 md:mt-0 pt-2 pb-1.5'} w-full flex items-center justify-center`}>
         <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-4 md:px-6 gap-1 md:gap-2">
           {/* Left Arrow Button */}
           <div
             className="hidden md:flex flex-shrink-0 items-center justify-center transition-all duration-300"
-            style={{ paddingBottom: '1px' }}
+            style={{ paddingBottom: 0 }}
           >
             <button
               onClick={() => scrollTabs('left')}
-              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0.5 transition-all duration-300"
+              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0 transition-all duration-300"
               type="button"
             >
-              <div className="mb-0.5 w-[30px] h-[30px] md:w-[36px] md:h-[36px] flex items-center justify-center">
+              <div className="w-[48px] h-[48px] md:w-[56px] md:h-[56px] flex items-center justify-center">
                 <div
-                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 shadow-sm border bg-white border-gray-200 hover:border-neutral-400 active:scale-95 text-neutral-600 hover:text-neutral-900"
+                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1 transition-all duration-300 active:scale-95 text-neutral-800 hover:text-neutral-600"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                   </svg>
                 </div>
               </div>
-              <span className="text-[6.5px] md:text-[7.5px] font-sans tracking-wide uppercase font-semibold text-neutral-400 opacity-80">
-                Prev
-              </span>
             </button>
           </div>
 
@@ -563,20 +560,20 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
                   key={tab.id}
                   ref={(el) => { if (el) tabRefs.current.set(tab.id, el); else tabRefs.current.delete(tab.id); }}
                   onClick={() => handleTabClick(tab.id)}
-                  className="flex-shrink-0 flex flex-col items-center justify-center w-[calc((100vw-32px-48px)/5)] md:w-auto md:min-w-[62px] px-0.5 py-0.5 md:px-3 relative z-10 transition-all duration-300"
+                  className="flex-shrink-0 flex flex-col items-center justify-center w-[calc((100vw-32px-48px)/5)] md:w-auto md:min-w-[62px] px-0.5 py-0 md:px-3 relative z-10 transition-all duration-300"
                   type="button"
                 >
                   <div
-                    className="mb-0.5 w-[38px] h-[38px] md:w-[42px] md:h-[42px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
+                    className="w-[48px] h-[48px] md:w-[56px] md:h-[56px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
                   >
                     <div
-                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 category-tab-icon ${isActive ? 'category-tab-icon-active shadow-sm border border-[#b3d7ff]' : 'border border-transparent hover:bg-neutral-100 hover:scale-105'}`}
+                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1 transition-all duration-300 category-tab-icon ${isActive ? 'category-tab-icon-active shadow-sm border border-[#b3d7ff]' : 'border border-transparent hover:bg-neutral-100 hover:scale-105'}`}
                       style={{
                         backgroundColor: isActive ? '#e6f2ff' : 'transparent',
                         color: isActive ? '#1e40af' : '#4b5563'
                       }}
                     >
-                      <div className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center flex-shrink-0">
+                      <div className="w-9 h-9 md:w-[44px] md:h-[44px] flex items-center justify-center flex-shrink-0 [&>svg]:w-full [&>svg]:h-full">
                         {tab.icon}
                       </div>
                     </div>
@@ -595,25 +592,22 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
           {/* Right Arrow Button */}
           <div
             className="hidden md:flex flex-shrink-0 items-center justify-center transition-all duration-300"
-            style={{ paddingBottom: '1px' }}
+            style={{ paddingBottom: 0 }}
           >
             <button
               onClick={() => scrollTabs('right')}
-              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0.5 transition-all duration-300"
+              className="flex flex-col items-center justify-center w-auto min-w-[35px] md:min-w-[45px] px-0.5 py-0 transition-all duration-300"
               type="button"
             >
-              <div className="mb-0.5 w-[30px] h-[30px] md:w-[36px] md:h-[36px] flex items-center justify-center">
+              <div className="w-[48px] h-[48px] md:w-[56px] md:h-[56px] flex items-center justify-center">
                 <div
-                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 shadow-sm border bg-white border-gray-200 hover:border-neutral-400 active:scale-95 text-neutral-600 hover:text-neutral-900"
+                  className="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-1 transition-all duration-300 active:scale-95 text-neutral-800 hover:text-neutral-600"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </div>
               </div>
-              <span className="text-[6.5px] md:text-[7.5px] font-sans tracking-wide uppercase font-semibold text-neutral-400 opacity-80">
-                Next
-              </span>
             </button>
           </div>
         </div>

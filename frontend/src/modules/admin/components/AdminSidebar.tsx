@@ -1727,7 +1727,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps) {
         <button
           type="button"
           onClick={() => handleNavigation("/admin")}
-          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-all duration-150 ${isActive("/admin") && location.pathname === "/admin"
+          className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg text-left transition-all duration-150 ${isActive("/admin") && location.pathname === "/admin"
             ? "bg-[#1a2620] text-white border-l-[3px] border-[#6DBB2D] pl-2.5 font-semibold"
             : "text-white/80 hover:bg-[#6DBB2D]/10 hover:text-white"
             }`}>
@@ -1758,7 +1758,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps) {
         <button
           type="button"
           onClick={() => handleNavigation("/admin/sales-summary")}
-          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-all duration-150 ${isActive("/admin/sales-summary")
+          className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg text-left transition-all duration-150 ${isActive("/admin/sales-summary")
             ? "bg-[#1a2620] text-white border-l-[3px] border-[#6DBB2D] pl-2.5 font-semibold"
             : "text-white/80 hover:bg-[#6DBB2D]/10 hover:text-white"
             }`}>
@@ -1811,7 +1811,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps) {
                           handleNavigation(item.path);
                         }
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-all duration-150 ${active
+                      className={`w-full flex items-center justify-between px-3 py-3 rounded-lg text-left transition-all duration-150 ${active
                         ? "bg-[#1a2620] text-white border-l-[3px] border-[#6DBB2D] pl-2.5 font-semibold"
                         : "text-white/80 hover:bg-[#6DBB2D]/10 hover:text-white"
                         }`}>
@@ -1864,7 +1864,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps) {
                                       handleNavigation(subItem.path);
                                     }
                                   }}
-                                  className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-all duration-150 ${subActive
+                                  className={`w-full flex items-center justify-between gap-2 px-3 py-3 rounded-lg text-left transition-all duration-150 ${subActive
                                     ? "bg-[#1a2620] text-white border-l-[3px] border-[#6DBB2D] pl-2.5 font-semibold"
                                     : "text-white/70 hover:bg-[#6DBB2D]/10 hover:text-white"
                                     }`}>
@@ -1902,7 +1902,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps) {
                                           <button
                                             type="button"
                                             onClick={() => handleNavigation(nestedItem.path)}
-                                            className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-all duration-150 ${nestedActive
+                                            className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg text-left transition-all duration-150 ${nestedActive
                                               ? "bg-[#1a2620] text-white border-l-[3px] border-[#6DBB2D] pl-2.5 font-semibold"
                                               : "text-white/60 hover:bg-[#6DBB2D]/10 hover:text-white"
                                               }`}>

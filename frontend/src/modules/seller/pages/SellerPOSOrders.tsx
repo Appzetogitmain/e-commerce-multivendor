@@ -149,6 +149,7 @@ const SellerPOSOrders = () => {
 
   const [selectedSeller] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showLocationPopup, setShowLocationPopup] = useState<string | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -3881,21 +3882,22 @@ const SellerPOSOrders = () => {
               </div>
 
               {/* Cart Items */}
-              <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative">
+              <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden relative">
                   {/* Cart Items List Wrapper */}
                   <div className="flex-1 min-h-0 overflow-hidden w-full flex flex-col">
                       {/* Scrollable Product Container */}
-                      <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-40 md:p-0 md:pb-0 md:overflow-y-auto custom-pos-scroll">
+                      <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-40 lg:p-4 lg:pb-0 lg:overflow-y-auto custom-pos-scroll mt-4">
                           <div className={mobileCartView === 'grid'
-                              ? 'grid grid-cols-2 gap-2 md:flex md:flex-col'
+                              ? 'grid grid-cols-2 gap-2 lg:flex lg:flex-col'
                               : 'space-y-2 flex flex-col'
                           }>
                               {/* Desktop Header Row */}
-                              <div className="hidden md:grid grid-cols-12 gap-2 text-xs font-bold text-gray-400 pb-2 border-b border-gray-100 px-2 sticky top-0 bg-white z-10">
+                              <div className="hidden lg:grid gap-2 text-xs font-bold text-gray-400 pb-2 border-b border-gray-100 px-2 sticky top-0 bg-white z-10" style={{ gridTemplateColumns: 'repeat(13, minmax(0, 1fr))' }}>
                                   <div className="col-span-1 text-center">Sr.no</div>
                                   <div className="col-span-1 text-center">Edit</div>
                                   <div className="col-span-1 text-center">Image</div>
                                   <div className="col-span-2">Name</div>
+                                  <div className="col-span-1 text-center">Rack No.</div>
                                   <div className="col-span-1 text-center">MRP</div>
                                   <div className="col-span-2 text-center">Quantity</div>
                                   <div className="col-span-2 text-center">Retail Price</div>
@@ -4044,9 +4046,9 @@ const SellerPOSOrders = () => {
                                           )}
 
                                           {/* --- DESKTOP VIEW (Table Row Style) --- */}
-                                          <div className="hidden md:grid grid-cols-12 gap-2 items-center py-0.5 px-2 border-b border-gray-100 hover:bg-gray-50/80 transition-all even:bg-gray-50/20">
+                                          <div className="hidden lg:grid gap-2 items-center py-0.5 px-2 border-b border-gray-100 hover:bg-gray-50/80 transition-all even:bg-gray-50/20" style={{ gridTemplateColumns: 'repeat(13, minmax(0, 1fr))' }}>
                                                {/* Sr No */}
-                                               <div className="col-span-1 text-center text-gray-500 text-sm font-bold">
+                                               <div className="col-span-1 text-center text-gray-500 text-xs font-bold">
                                                    {index + 1}
                                                </div>
 
@@ -4054,88 +4056,128 @@ const SellerPOSOrders = () => {
                                                <div className="col-span-1 text-center">
                                                    <button
                                                       onClick={() => openEditModal(item)}
-                                                      className="p-1.5 text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] rounded-lg transition-colors inline-flex"
+                                                      className="p-1 text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] rounded-lg transition-colors inline-flex"
                                                    >
-                                                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                                                    </button>
                                                </div>
 
                                                {/* Image */}
                                                <div className="col-span-1 flex justify-center">
-                                                   <div className="w-14 h-14 bg-white rounded-lg border border-gray-200 flex items-center justify-center p-1 overflow-hidden shadow-sm">
+                                                   <div className="w-10 h-10 bg-white rounded-lg border border-gray-200 flex items-center justify-center p-0.5 overflow-hidden shadow-sm">
                                                        {item.mainImage ? (
                                                            <img src={item.mainImage} alt="" className="w-full h-full object-contain" />
                                                        ) : (
-                                                           <span className="text-[10px] text-gray-300 font-bold">IMG</span>
+                                                           <span className="text-[9px] text-gray-300 font-bold">IMG</span>
                                                        )}
                                                    </div>
                                                </div>
 
                                                {/* Name */}
                                                 <div className="col-span-2 min-w-0">
-                                                    <h4 className="text-base font-bold text-gray-900 truncate" title={item.productName}>{item.productName}</h4>
+                                                    <h4 className="text-[13px] font-bold text-gray-900 whitespace-normal break-words leading-tight" title={item.productName}>{item.productName}</h4>
                                                     {(item as any).warrantyType && (item as any).warrantyType !== 'None' && (
-                                                        <div className="text-xs text-[var(--primary-color)] font-bold mt-0.5">
+                                                        <div className="text-[10px] text-[var(--primary-color)] font-bold mt-0.5">
                                                             {(item as any).warrantyType}: {(item as any).warrantyDuration}
                                                         </div>
                                                     )}
                                                    {showProfit && (
-                                                       <span className={`text-[11px] ${parseFloat(profitPercent) >= 0 ? 'text-[var(--primary-dark)]' : 'text-red-500'}`}>
+                                                       <span className={`text-[10px] ${parseFloat(profitPercent) >= 0 ? 'text-[var(--primary-dark)]' : 'text-red-500'}`}>
                                                            Profit: {profitPercent}%
                                                        </span>
                                                    )}
-                                               </div>
+                                                </div>
 
-                                               {/* MRP Input */}
+                                                {/* Rack Number */}
+                                                <div className="col-span-1 text-center relative">
+                                                    <button
+                                                       type="button"
+                                                       onClick={(e) => {
+                                                           e.stopPropagation();
+                                                           setShowLocationPopup(showLocationPopup === getCartLineId(item) ? null : getCartLineId(item));
+                                                       }}
+                                                       className="px-1.5 py-0.5 bg-gray-50 border border-gray-200 hover:border-[var(--primary-color)] rounded text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all inline-flex items-center gap-0.5"
+                                                       title="Click to view full storage location"
+                                                    >
+                                                        <span className="truncate max-w-[45px]">{(item as any).storageLocation?.rackNumber || item.rackNumber || "-"}</span>
+                                                        <svg className="w-2.5 h-2.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                                    </button>
+                                                    {showLocationPopup === getCartLineId(item) && (
+                                                        <div className="absolute z-50 bg-white border border-gray-200 rounded-xl shadow-xl p-3 text-left text-xs min-w-[200px] mt-1 left-1/2 -translate-x-1/2">
+                                                            <div className="flex justify-between items-center border-b border-gray-100 pb-1 mb-1.5">
+                                                                <span className="font-bold text-gray-800">Storage Location</span>
+                                                                <button type="button" onClick={() => setShowLocationPopup(null)} className="text-gray-400 hover:text-gray-600 font-bold">✕</button>
+                                                            </div>
+                                                            <div className="space-y-1 text-gray-700">
+                                                                <p><span className="text-gray-400">City:</span> <span className="font-bold">{(item as any).storageLocation?.city || '-'}</span></p>
+                                                                <p><span className="text-gray-400">Warehouse:</span> <span className="font-bold">{(item as any).storageLocation?.warehouse || '-'}</span></p>
+                                                                <p><span className="text-gray-400">Room:</span> <span className="font-bold">{(item as any).storageLocation?.room || '-'}</span></p>
+                                                                <p><span className="text-gray-400">Rack Number:</span> <span className="font-bold">{(item as any).storageLocation?.rackNumber || item.rackNumber || '-'}</span></p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                                           {/* MRP Input */}
                                                <div className="col-span-1">
                                                      <input
                                                          type="number"
                                                          value={mrp}
                                                          onChange={(e) => updateItemDetails(getCartLineId(item), { compareAtPrice: parseFloat(e.target.value) || 0 })}
-                                                         className="w-full text-center text-base border border-transparent hover:border-gray-200 focus:border-[var(--primary-color)] bg-transparent focus:bg-white rounded px-1 py-1 outline-none transition-all"
+                                                         className="w-full text-center text-[13px] border border-transparent hover:border-gray-200 focus:border-[var(--primary-color)] bg-transparent focus:bg-white rounded px-1 py-1 outline-none transition-all"
                                                      />
                                                 </div>
-
+ 
                                                {/* Quantity */}
                                                <div className="col-span-2 flex justify-center">
-                                                   <div className="flex items-center bg-white border border-gray-200 rounded-lg h-9 w-28 shadow-sm">
-                                                        <button
-                                                          onClick={() => updateQuantity(getCartLineId(item), -1)}
-                                                          className="w-8 h-full flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-gray-50 rounded-l transition-colors text-xl font-bold"
-                                                        >−</button>
-                                                        <div className="flex-1 h-full flex items-center justify-center text-base font-bold text-gray-700 border-x border-gray-100 bg-gray-50/50">
-                                                            {item.qty}
-                                                        </div>
-                                                        <button
-                                                          onClick={() => updateQuantity(getCartLineId(item), 1)}
-                                                          className="w-8 h-full flex items-center justify-center text-[var(--primary-color)] hover:bg-gray-50 rounded-r transition-colors font-bold text-xl"
-                                                        >+</button>
-                                                   </div>
+                                                    <div className="flex items-center bg-white border border-gray-200 rounded-lg h-8 w-24 shadow-sm overflow-hidden">
+                                                         <button
+                                                           onClick={() => updateQuantity(getCartLineId(item), -1)}
+                                                           className="w-7 h-full shrink-0 flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-gray-50 rounded-l transition-colors text-base font-bold"
+                                                         >−</button>
+                                                         <input
+                                                           type="number"
+                                                           min={1}
+                                                           step={1}
+                                                           value={item.qty}
+                                                           onChange={(e) => {
+                                                             const nextQty = Number(e.target.value);
+                                                             if (Number.isFinite(nextQty) && nextQty > 0) {
+                                                               setQuantity(getCartLineId(item), Math.floor(nextQty));
+                                                             }
+                                                           }}
+                                                           className="pos-stepper-input w-10 h-full shrink-0 text-center text-sm font-bold text-gray-700 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                           style={{ border: 'none', borderRadius: '0', boxShadow: 'none', height: '100%', padding: '0', margin: '0', background: 'transparent' }}
+                                                         />
+                                                         <button
+                                                           onClick={() => updateQuantity(getCartLineId(item), 1)}
+                                                           className="w-7 h-full shrink-0 flex items-center justify-center text-[var(--primary-color)] hover:bg-gray-50 rounded-r transition-colors font-bold text-base"
+                                                         >+</button>
+                                                    </div>
                                                </div>
-
+ 
                                                {/* Retail Price (SP) Input */}
                                                <div className="col-span-2">
                                                     <input
                                                          type="number"
                                                          value={sp}
                                                          onChange={(e) => updateItemDetails(getCartLineId(item), { customPrice: parseFloat(e.target.value) || 0 })}
-                                                         className="w-full text-center text-base font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded px-1 py-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                         className="w-full text-center text-[13px] font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded px-1 py-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                      />
                                                 </div>
-
+ 
                                                {/* Sub Total */}
-                                               <div className="col-span-1 text-center font-bold text-gray-900 text-base">
+                                               <div className="col-span-1 text-center font-bold text-gray-900 text-[13px]">
                                                    ₹{sp * item.qty}
                                                </div>
-
+ 
                                                {/* Delete */}
                                                <div className="col-span-1 text-center">
                                                    <button
                                                       onClick={() => removeFromCart(getCartLineId(item))}
-                                                      className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors inline-flex"
+                                                      className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors inline-flex"
                                                       title="Remove Item"
                                                    >
-                                                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                                    </button>
                                                </div>
                                           </div>
@@ -4236,12 +4278,12 @@ const SellerPOSOrders = () => {
                       {/* --- ORDER TYPE --- */}
                          <div className="mb-2.5">
                             <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Order Type</label>
-                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-9 items-center">
+                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-11 items-center">
                                  <div
                                      className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#0d055a] rounded-lg transition-all duration-300 ease-in-out shadow-sm ${orderType === 'Wholesale' ? 'left-[calc(50%+2px)]' : 'left-1'}`}
                                  ></div>
-                                <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'}`}>Retail</button>
-                                <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'}`}>Wholesale</button>
+                                <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-sm font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'} h-full`}>Retail</button>
+                                <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-sm font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'} h-full`}>Wholesale</button>
                             </div>
                         </div>
 

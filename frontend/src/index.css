@@ -27,6 +27,24 @@
     width: 100%;
     overflow-x: hidden;
     background: white;
+    font-size: 17.5px !important;
+  }
+
+  /* Exclude top header navigation bar and subcategory slider from root font scaling */
+  nav span,
+  nav a,
+  nav input,
+  nav button,
+  nav p,
+  nav div {
+    font-size: 14px;
+  }
+
+  /* Keep category tabs labels at their correct size */
+  button span.text-\[9\.5px\],
+  button span.md\:text-\[12px\],
+  .category-tab-icon * {
+    font-size: 12px;
   }
 
   #root {
@@ -355,4 +373,50 @@ button[class*="border-[#0d055a]"][class*="group"]:hover {
 /* Ensure fill remains correct if required */
 .category-tab-icon svg path:nth-last-child(1)[fill="currentColor"] {
   fill: #F2B134 !important;
+}
+
+/* Scale up checkout page typography */
+.checkout-page-container h2 {
+  font-size: 1.55rem !important;
+}
+.checkout-page-container h3 {
+  font-size: 1.15rem !important;
+}
+.checkout-page-container .text-xs {
+  font-size: 0.85rem !important;
+}
+.checkout-page-container .text-sm {
+  font-size: 1.0rem !important;
+}
+.checkout-page-container .text-[10px] {
+  font-size: 0.8rem !important;
+}
+.checkout-page-container .text-[8px] {
+  font-size: 0.72rem !important;
+}
+.checkout-page-container .text-lg {
+  font-size: 1.2rem !important;
+}
+.checkout-page-container .text-xl {
+  font-size: 1.4rem !important;
+}
+.checkout-page-container .text-2xl {
+  font-size: 1.6rem !important;
+}
+.checkout-page-container .text-3xl {
+  font-size: 1.95rem !important;
+}
+
+/* POS Stepper Input Override */
+.premium-theme input[type="number"].pos-stepper-input,
+input[type="number"].pos-stepper-input,
+input.pos-stepper-input {
+  height: 100% !important;
+  border-radius: 0px !important;
+  border: none !important;
+  padding: 0px !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  min-height: 0px !important;
+  margin: 0px !important;
 }

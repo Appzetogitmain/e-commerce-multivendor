@@ -743,7 +743,7 @@ export default function Checkout() {
 
   return (
     <div
-      className="bg-white min-h-screen flex flex-col"
+      className="bg-white min-h-screen flex flex-col checkout-page-container"
     >
 
       {/* Party Popper Animation */}

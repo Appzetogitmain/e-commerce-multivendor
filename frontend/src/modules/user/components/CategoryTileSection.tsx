@@ -107,7 +107,7 @@ export default function CategoryTileSection({
 
   return (
     <div className="mb-6 md:mb-8 mt-0 overflow-visible relative">
-      <h2 className="text-lg md:text-2xl font-semibold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight">
+      <h2 className="text-xl md:text-3xl font-bold text-neutral-900 mb-3 md:mb-6 px-2 md:px-4 lg:px-4 tracking-tight">
         {title}
       </h2>
       <div 
@@ -228,7 +228,7 @@ export default function CategoryTileSection({
                   {/* Product count - shown first (only for bestsellers) */}
                   {showProductCount && tile.productCount && (
                     <div className="mb-1.5 flex justify-center">
-                      <span className="inline-block bg-neutral-100 text-neutral-600 text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight">
+                      <span className="inline-block bg-neutral-100 text-neutral-600 text-xs font-semibold px-2 py-0.5 rounded-full leading-tight">
                         +{tile.productCount} more
                       </span>
                     </div>
@@ -236,7 +236,7 @@ export default function CategoryTileSection({
 
                   {/* Tile name - inside card only for bestsellers */}
                   {showProductCount && (
-                    <div className="text-[11px] font-semibold text-neutral-900 line-clamp-2 leading-tight text-center w-full block">
+                    <div className="text-sm font-bold text-neutral-900 line-clamp-2 leading-tight text-center w-full block">
                       {tile.name}
                     </div>
                   )}
@@ -245,7 +245,7 @@ export default function CategoryTileSection({
                 {/* Category name - outside card for non-bestsellers */}
                 {!showProductCount && (
                   <div className="mt-1.5 text-center px-1">
-                    <span className="text-xs font-semibold text-neutral-900 line-clamp-2 leading-tight block min-h-[2rem]">
+                    <span className="text-sm md:text-base font-bold text-neutral-900 line-clamp-2 leading-tight block min-h-[2rem]">
                       {tile.name}
                     </span>
                   </div>

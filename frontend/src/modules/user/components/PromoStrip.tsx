@@ -657,11 +657,11 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                 minHeight: "122px",
               }}>
               {/* CRAZY DEALS - Two lines, bigger */}
-              <div className="text-center mb-1.5" style={{ marginTop: "4px" }}>
+              <div className="text-center mb-1.5" style={{ marginTop: "6px" }}>
                 <div
                   className="text-white font-black leading-tight"
                   style={{
-                    fontSize: "13px",
+                    fontSize: "16px",
                     fontFamily: "sans-serif",
                     textShadow:
                       "2px 2px 4px rgba(0, 0, 0, 0.8), 1px 1px 2px rgba(0, 0, 0, 0.9)",
@@ -686,7 +686,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                     paddingTop: "2px",
                     paddingBottom: "2px",
                   }}>
-                  <span className="text-white text-[8px] font-medium line-through leading-none">
+                  <span className="text-white text-[10px] font-medium line-through leading-none">
                     ₹{safeOriginalPrice}
                   </span>
                 </div>
@@ -696,10 +696,10 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                   style={{
                     height: "fit-content",
                     lineHeight: "1",
-                    paddingTop: "2px",
-                    paddingBottom: "2px",
+                    paddingTop: "2.5px",
+                    paddingBottom: "2.5px",
                   }}>
-                  <span className="text-white text-[9px] font-bold leading-none">
+                  <span className="text-white text-[11px] font-bold leading-none">
                     ₹{safeDiscountedPrice}
                   </span>
                 </div>
@@ -709,7 +709,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
               <div
                 ref={productNameRef}
                 onClick={handleProductClick}
-                className="text-neutral-900 font-medium text-[9px] text-center mb-0.5 cursor-pointer hover:underline line-clamp-2"
+                className="text-neutral-900 font-medium text-[11px] text-center mb-0.5 cursor-pointer hover:underline line-clamp-2"
                 title={displayProduct.productName || displayProduct.name}>
                 {displayProduct.productName || displayProduct.name}
               </div>
@@ -790,7 +790,7 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                     <div
                       className="w-full flex justify-center"
                       style={{ paddingTop: "0", paddingBottom: "2px" }}>
-                      <div className="bg-[var(--customer-primary-dark)] text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-sm tracking-wider text-center inline-block uppercase">
+                      <div className="bg-[var(--customer-primary-dark)] text-white text-[13px] font-extrabold px-2.5 py-0.5 rounded-sm tracking-wider text-center inline-block uppercase">
                         {card.badge}
                       </div>
                     </div>
@@ -800,9 +800,9 @@ export default function PromoStrip({ activeTab = "all" }: PromoStripProps) {
                       style={{ paddingTop: "2px" }}>
                       {/* Category Title */}
                       <div
-                        className="text-neutral-900 font-sans font-bold text-center uppercase tracking-wide"
+                        className="text-neutral-900 font-sans font-black text-center uppercase tracking-wide"
                         style={{
-                          fontSize: "11px",
+                          fontSize: "15px",
                           lineHeight: "1.2",
                           marginBottom: "6px",
                         }}>

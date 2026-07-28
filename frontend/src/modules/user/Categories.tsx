@@ -167,7 +167,7 @@ export default function Categories() {
       {/* Page Header */}
       {/* Page Header */}
       <div className="px-4 py-4 md:px-6 md:py-6 bg-white border-b border-neutral-200 fixed top-0 left-0 right-0 z-20 shadow-sm md:sticky md:top-0">
-        <h1 className="text-xl md:text-2xl font-bold text-neutral-900">Categories</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-neutral-900">Categories</h1>
       </div>
       {/* Spacer for fixed header on mobile */}
       <div className="h-[61px] md:hidden"></div>

@@ -475,7 +475,7 @@ export default function Home() {
 
       {/* 2. MAIN SLIDER - White Background */}
       <div
-        className="px-2 md:px-4 lg:px-4 pt-0 pb-1 mt-2 md:mt-3"
+        className="px-2 md:px-4 lg:px-4 pt-0 pb-1 mt-0.5 md:mt-1"
       >
           <BannerSlider position="HOME_MAIN_SLIDER" />
       </div>

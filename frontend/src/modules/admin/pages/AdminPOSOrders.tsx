@@ -175,6 +175,7 @@ const AdminPOSOrders = () => {
   const [selectedSeller, setSelectedSeller] = useState('');
   const [scannerKey, setScannerKey] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showLocationPopup, setShowLocationPopup] = useState<string | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -3696,15 +3697,15 @@ const AdminPOSOrders = () => {
       </div>
 
 
-      <div className="flex-1 flex flex-col min-h-0 w-full md:max-w-6xl md:mx-auto md:pb-8 md:h-auto md:block md:overflow-visible">
-        <div className="bg-white flex flex-col flex-1 h-full min-h-0 w-full relative transition-all duration-300 md:rounded-2xl md:shadow-xl md:border md:border-gray-200 md:h-[90vh] md:overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 w-full lg:max-w-6xl lg:mx-auto lg:pb-8 lg:h-auto lg:block lg:overflow-visible">
+        <div className="bg-white flex flex-col flex-1 h-full min-h-0 w-full relative transition-all duration-300 lg:rounded-2xl lg:shadow-xl lg:border lg:border-gray-200 lg:h-[90vh] lg:overflow-hidden">
 
           {/* Top Header Section */}
-          <div className="flex-none px-3 py-1.5 md:px-6 md:py-2 border-b border-gray-100 md:border-[#0d055a] flex flex-col md:flex-row justify-between items-center bg-white md:rounded-t-2xl gap-2 md:gap-4">
-             <div className="flex items-center gap-2.5 md:gap-4">
-                 <h2 className="hidden md:block text-base md:text-lg font-bold text-gray-800 tracking-tight">Billing & POS</h2>
+          <div className="flex-none px-3 py-1.5 lg:px-6 lg:py-2 border-b border-gray-100 lg:border-[#0d055a] flex flex-col lg:flex-row justify-between items-center bg-white lg:rounded-t-2xl gap-2 lg:gap-4">
+             <div className="flex items-center gap-2.5 lg:gap-4">
+                 <h2 className="hidden lg:block text-base lg:text-lg font-bold text-gray-800 tracking-tight">Billing & POS</h2>
                 <div 
-                  className="hidden md:flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-lg border border-gray-200 cursor-pointer select-none hover:bg-gray-100 transition-colors"
+                  className="hidden lg:flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-lg border border-gray-200 cursor-pointer select-none hover:bg-gray-100 transition-colors"
                   onClick={() => setShowProfit(!showProfit)}
                 >
                     <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">Profit</span>
@@ -3717,7 +3718,7 @@ const AdminPOSOrders = () => {
                  </div>
                 <button
                   onClick={() => setShowPurchaseSheet(true)}
-                  className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--primary-color)]/30 bg-[var(--primary-color)]/10 text-[var(--primary-color)] text-xs font-bold hover:bg-[var(--primary-color)]/20 transition-colors"
+                  className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--primary-color)]/30 bg-[var(--primary-color)]/10 text-[var(--primary-color)] text-xs font-bold hover:bg-[var(--primary-color)]/20 transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1 5h12M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
@@ -3729,7 +3730,7 @@ const AdminPOSOrders = () => {
              <div className="hidden">
                  <button
                     onClick={() => setShowPurchaseSheet(true)}
-                    className="flex-1 md:flex-none bg-white border border-[var(--primary-color)]/40 text-[var(--primary-color)] text-[11px] px-2.5 py-1.5 rounded-lg font-bold hover:bg-[var(--primary-alpha-10)] transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                    className="flex-1 lg:flex-none bg-white border border-[var(--primary-color)]/40 text-[var(--primary-color)] text-[11px] px-2.5 py-1.5 rounded-lg font-bold hover:bg-[var(--primary-alpha-10)] transition-all active:scale-95 flex items-center justify-center gap-1.5"
                  >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1 5h12M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
@@ -3897,10 +3898,10 @@ const AdminPOSOrders = () => {
               </button>
             </div>
 
-            <div className="flex-1 flex flex-col min-h-0 overflow-hidden md:overflow-visible md:h-auto md:min-h-0">
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden lg:overflow-visible lg:h-auto lg:min-h-0">
 
               {/* Payment Method & Order Type Controls */}
-              <div className="flex-none px-4 pt-2 pb-1 md:hidden">
+              <div className="flex-none px-4 pt-2 pb-1 lg:hidden">
                    {/* Payment Method + View Toggle (Mobile Row) */}
                    <div className="flex items-center gap-2 mb-2">
                        <div className="relative flex-[0_0_58%]">
@@ -3973,7 +3974,7 @@ const AdminPOSOrders = () => {
               </div>
 
               {/* Customer Selection */}
-              <div className="flex-none px-4 pb-2 border-b border-gray-100 md:hidden">
+              <div className="flex-none px-4 pb-2 border-b border-gray-100 lg:hidden">
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                       <input
@@ -4043,20 +4044,21 @@ const AdminPOSOrders = () => {
               </div>
 
               {/* Cart Items List */}
-              <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative">
+              <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden relative">
                   {/* Cart Items List */}
                   <div className="flex-1 min-h-0 overflow-hidden w-full flex flex-col">
-                  <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-40 md:p-0 md:pb-0 md:overflow-y-auto custom-pos-scroll">
+                  <div className="flex-1 min-h-0 overflow-y-auto p-4 pb-40 lg:p-4 lg:pb-0 lg:overflow-y-auto custom-pos-scroll mt-4">
                       <div className={mobileCartView === 'grid'
-                          ? 'grid grid-cols-2 gap-2 md:flex md:flex-col'
+                          ? 'grid grid-cols-2 gap-2 lg:flex lg:flex-col'
                           : 'space-y-2 flex flex-col'
                       }>
                   {/* Desktop Header Row */}
-                  <div className="hidden md:grid grid-cols-12 gap-2 text-xs font-bold text-black pb-2 border-b border-gray-100 px-2 sticky top-0 bg-white z-10">
+                  <div className="hidden lg:grid gap-2 text-xs font-bold text-black pb-2 border-b border-gray-100 px-2 sticky top-0 bg-white z-10" style={{ gridTemplateColumns: 'repeat(13, minmax(0, 1fr))' }}>
                       <div className="col-span-1 text-center">Sr.no</div>
                       <div className="col-span-1 text-center">Edit</div>
                       <div className="col-span-1 text-center">Image</div>
                       <div className="col-span-2">Name</div>
+                      <div className="col-span-1 text-center">Rack No.</div>
                       <div className="col-span-1 text-center">MRP</div>
                       <div className="col-span-2 text-center">Quantity</div>
                       <div className="col-span-2 text-center">Retail Price</div>
@@ -4081,7 +4083,7 @@ const AdminPOSOrders = () => {
                           return (
                           <React.Fragment key={getCartLineId(item)}>
                               {/* --- MOBILE VIEW (Card Style) --- */}
-                               <div className={`${mobileCartView === 'list' ? 'block' : 'hidden'} md:hidden bg-white border border-gray-400 rounded-xl p-2 shadow-sm mb-1 relative overflow-hidden group shrink-0`}>
+                               <div className={`${mobileCartView === 'list' ? 'block' : 'hidden'} lg:hidden bg-white border border-gray-400 rounded-xl p-2 shadow-sm mb-1 relative overflow-hidden group shrink-0`}>
                                    {/* Main Row: Image, Info, and Price */}
                                    <div className="flex items-start gap-2 mb-0">
                                        {/* Image */}
@@ -4171,7 +4173,7 @@ const AdminPOSOrders = () => {
                               </div>
 
                               {mobileCartView === 'grid' && (
-                                  <div className="block md:hidden bg-white border border-gray-200 rounded-xl p-2 shadow-sm relative overflow-hidden">
+                                  <div className="block lg:hidden bg-white border border-gray-200 rounded-xl p-2 shadow-sm relative overflow-hidden">
                                       <div className="flex items-start justify-between gap-2 mb-1.5">
                                           <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-1.5 py-0.5 rounded flex-shrink-0">#{index + 1}</span>
                                           <div className="text-xs font-bold text-gray-900">₹{sp * item.qty}</div>
@@ -4211,7 +4213,7 @@ const AdminPOSOrders = () => {
                                                     setQuantity(getCartLineId(item), Math.floor(nextQty));
                                                   }
                                                 }}
-                                                className="w-8 h-6 text-center text-xs font-bold text-gray-800 bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                className="pos-stepper-input w-8 h-6 text-center text-xs font-bold text-gray-800 bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                               />
                                               <button
                                                 onClick={() => updateQuantity(getCartLineId(item), 1)}
@@ -4227,11 +4229,10 @@ const AdminPOSOrders = () => {
                                       </div>
                                   </div>
                               )}
-
-                              {/* --- DESKTOP VIEW (Table Row Style) --- */}
-                               <div className="hidden md:grid grid-cols-12 gap-2 items-center py-0.5 px-2 border-b border-gray-100 hover:bg-gray-50/80 transition-all even:bg-gray-50/20">
+                                   {/* --- DESKTOP VIEW (Table Row Style) --- */}
+                               <div className="hidden lg:grid gap-2 items-center py-0.5 px-2 border-b border-gray-100 hover:bg-gray-50/80 transition-all even:bg-gray-50/20" style={{ gridTemplateColumns: 'repeat(13, minmax(0, 1fr))' }}>
                                     {/* Sr No */}
-                                    <div className="col-span-1 text-center text-gray-500 text-sm font-bold">
+                                    <div className="col-span-1 text-center text-gray-500 text-xs font-bold">
                                         {index + 1}
                                     </div>
 
@@ -4239,38 +4240,67 @@ const AdminPOSOrders = () => {
                                     <div className="col-span-1 text-center">
                                         <button
                                            onClick={() => openEditModal(item)}
-                                           className="p-1.5 text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] rounded-lg transition-colors inline-flex"
+                                           className="p-1 text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] rounded-lg transition-colors inline-flex"
                                         >
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                                         </button>
                                     </div>
 
                                     {/* Image */}
                                     <div className="col-span-1 flex justify-center">
-                                        <div className="w-14 h-14 bg-white rounded-lg border border-gray-200 flex items-center justify-center p-1 overflow-hidden shadow-sm">
+                                        <div className="w-10 h-10 bg-white rounded-lg border border-gray-200 flex items-center justify-center p-0.5 overflow-hidden shadow-sm">
                                             {item.mainImage ? (
                                                 <img src={item.mainImage} alt="" className="w-full h-full object-contain" />
                                             ) : (
-                                                <span className="text-[10px] text-gray-300 font-bold">IMG</span>
+                                                <span className="text-[9px] text-gray-300 font-bold">IMG</span>
                                             )}
                                         </div>
                                     </div>
-
-                                    {/* Name */}
+                                                  {/* Name */}
                                      <div className="col-span-2 min-w-0">
-                                         <h4 className="text-base font-bold text-gray-900 whitespace-normal break-words leading-tight" title={item.productName}>{item.productName}</h4>
+                                         <h4 className="text-[13px] font-bold text-gray-900 whitespace-normal break-words leading-tight" title={item.productName}>{item.productName}</h4>
                                          {(item as any).warrantyType && (item as any).warrantyType !== 'None' && (
-                                             <div className="text-xs text-[var(--primary-color)] font-bold mt-0.5">
+                                             <div className="text-[10px] text-[var(--primary-color)] font-bold mt-0.5">
                                                  {(item as any).warrantyType}: {(item as any).warrantyDuration}
                                              </div>
                                          )}
                                         {showProfit && (
-                                            <span className={`text-[11px] ${parseFloat(profitPercent) >= 0 ? 'text-[var(--primary-dark)]' : 'text-red-500'}`}>
+                                            <span className={`text-[10px] ${parseFloat(profitPercent) >= 0 ? 'text-[var(--primary-dark)]' : 'text-red-500'}`}>
                                                 Profit: {profitPercent}%
                                             </span>
                                         )}
                                     </div>
-
+ 
+                                    {/* Rack Number */}
+                                    <div className="col-span-1 text-center relative">
+                                        <button
+                                           type="button"
+                                           onClick={(e) => {
+                                               e.stopPropagation();
+                                               setShowLocationPopup(showLocationPopup === getCartLineId(item) ? null : getCartLineId(item));
+                                           }}
+                                           className="px-1.5 py-0.5 bg-gray-50 border border-gray-200 hover:border-[var(--primary-color)] rounded text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all inline-flex items-center gap-0.5"
+                                           title="Click to view full storage location"
+                                        >
+                                            <span className="truncate max-w-[45px]">{(item as any).storageLocation?.rackNumber || item.rackNumber || "-"}</span>
+                                            <svg className="w-2.5 h-2.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                        </button>
+                                        {showLocationPopup === getCartLineId(item) && (
+                                            <div className="absolute z-50 bg-white border border-gray-200 rounded-xl shadow-xl p-3 text-left text-xs min-w-[200px] mt-1 left-1/2 -translate-x-1/2">
+                                                <div className="flex justify-between items-center border-b border-gray-100 pb-1 mb-1.5">
+                                                    <span className="font-bold text-gray-800">Storage Location</span>
+                                                    <button type="button" onClick={() => setShowLocationPopup(null)} className="text-gray-400 hover:text-gray-600 font-bold">✕</button>
+                                                </div>
+                                                <div className="space-y-1 text-gray-700">
+                                                    <p><span className="text-gray-400">City:</span> <span className="font-bold">{(item as any).storageLocation?.city || '-'}</span></p>
+                                                    <p><span className="text-gray-400">Warehouse:</span> <span className="font-bold">{(item as any).storageLocation?.warehouse || '-'}</span></p>
+                                                    <p><span className="text-gray-400">Room:</span> <span className="font-bold">{(item as any).storageLocation?.room || '-'}</span></p>
+                                                    <p><span className="text-gray-400">Rack Number:</span> <span className="font-bold">{(item as any).storageLocation?.rackNumber || item.rackNumber || '-'}</span></p>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+ 
                                     {/* MRP Input */}
                                     <div className="col-span-1">
                                           <input
@@ -4280,16 +4310,16 @@ const AdminPOSOrders = () => {
                                               onChange={(e) => updateItemDetails(getCartLineId(item), { compareAtPrice: parseFloat(e.target.value) || 0 })}
                                               onWheel={preventNumberScrollChange}
                                               onKeyDown={preventArrowStepChange}
-                                              className="w-full text-center text-base border border-transparent hover:border-gray-200 focus:border-[var(--primary-color)] bg-transparent focus:bg-white rounded px-1 py-1 outline-none transition-all"
+                                              className="w-full text-center text-[13px] border border-transparent hover:border-gray-200 focus:border-[var(--primary-color)] bg-transparent focus:bg-white rounded px-1 py-1 outline-none transition-all"
                                           />
                                      </div>
-
+ 
                                     {/* Quantity */}
                                     <div className="col-span-2 flex justify-center">
-                                        <div className="flex items-center bg-white border border-gray-200 rounded-lg h-9 w-28 shadow-sm">
+                                        <div className="flex items-center bg-white border border-gray-200 rounded-lg h-8 w-24 shadow-sm overflow-hidden">
                                              <button
                                                onClick={() => updateQuantity(getCartLineId(item), -1)}
-                                               className="w-8 h-full shrink-0 flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-gray-50 rounded-l transition-colors text-xl font-bold"
+                                               className="w-7 h-full shrink-0 flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-gray-50 rounded-l transition-colors text-base font-bold"
                                              >−</button>
                                              <input
                                                type="number"
@@ -4302,15 +4332,16 @@ const AdminPOSOrders = () => {
                                                    setQuantity(getCartLineId(item), Math.floor(nextQty));
                                                  }
                                                }}
-                                               className="w-12 h-full shrink-0 text-center text-base font-bold text-gray-700 border-x border-gray-100 bg-gray-50/50 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                               className="pos-stepper-input w-10 h-full shrink-0 text-center text-sm font-bold text-gray-700 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                               style={{ border: 'none', borderRadius: '0', boxShadow: 'none', height: '100%', padding: '0', margin: '0', background: 'transparent' }}
                                              />
                                              <button
                                                onClick={() => updateQuantity(getCartLineId(item), 1)}
-                                               className="w-8 h-full shrink-0 flex items-center justify-center text-[var(--primary-color)] hover:bg-gray-50 rounded-r transition-colors font-bold text-xl"
+                                               className="w-7 h-full shrink-0 flex items-center justify-center text-[var(--primary-color)] hover:bg-gray-50 rounded-r transition-colors font-bold text-base"
                                              >+</button>
                                         </div>
                                     </div>
-
+ 
                                     {/* Retail Price (SP) Input */}
                                     <div className="col-span-2">
                                          <input
@@ -4320,12 +4351,12 @@ const AdminPOSOrders = () => {
                                               onChange={(e) => updateItemDetails(getCartLineId(item), { customPrice: parseFloat(e.target.value) || 0 })}
                                               onWheel={preventNumberScrollChange}
                                               onKeyDown={preventArrowStepChange}
-                                              className="w-full text-center text-base font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded px-1 py-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                              className="w-full text-center text-[13px] font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded px-1 py-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                           />
                                      </div>
-
+ 
                                     {/* Sub Total */}
-                                    <div className="col-span-1 text-center font-bold text-gray-900 text-base">
+                                    <div className="col-span-1 text-center font-bold text-gray-900 text-[13px]">
                                         ₹{sp * item.qty}
                                     </div>
 
@@ -4333,10 +4364,10 @@ const AdminPOSOrders = () => {
                                     <div className="col-span-1 text-center">
                                         <button
                                            onClick={() => removeFromCart(getCartLineId(item))}
-                                           className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors inline-flex"
+                                           className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors inline-flex"
                                            title="Remove Item"
                                         >
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                         </button>
                                     </div>
                                </div>
@@ -4351,7 +4382,7 @@ const AdminPOSOrders = () => {
               {/* Footer Summary */}
 
                    {/* Desktop Sidebar (New Two-Column Layout) */}
-                    <div className="hidden md:flex w-[320px] bg-gray-50 border-l border-gray-200 flex-col p-3 shadow-[inset_4px_0_24px_-12px_rgba(0,0,0,0.1)] z-20 overflow-hidden">
+                    <div className="hidden lg:flex w-[320px] bg-gray-50 border-l border-gray-200 flex-col p-3 shadow-[inset_4px_0_24px_-12px_rgba(0,0,0,0.1)] z-20 overflow-hidden">
                         <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 pr-1">
 
                       {/* --- QUICK ACTIONS --- */}
@@ -4438,12 +4469,12 @@ const AdminPOSOrders = () => {
                       {/* --- ORDER TYPE --- */}
                          <div className="mb-2.5">
                             <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1.5">Order Type</label>
-                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-9 items-center">
+                             <div className="bg-gray-200 p-1 rounded-xl flex relative h-11 items-center">
                                  <div
                                      className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#0d055a] rounded-lg transition-all duration-300 ease-in-out shadow-sm ${orderType === 'Wholesale' ? 'left-[calc(50%+2px)]' : 'left-1'}`}
                                  ></div>
-                                <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'}`}>Retail</button>
-                                <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-xs font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'}`}>Wholesale</button>
+                                <button onClick={() => setOrderType('Retail')} className={`flex-1 relative z-10 text-center text-sm font-bold transition-colors ${orderType === 'Retail' ? 'text-white' : 'text-gray-500'} h-full`}>Retail</button>
+                                <button onClick={() => setOrderType('Wholesale')} className={`flex-1 relative z-10 text-center text-sm font-bold transition-colors ${orderType === 'Wholesale' ? 'text-white' : 'text-gray-500'} h-full`}>Wholesale</button>
                             </div>
                         </div>
 

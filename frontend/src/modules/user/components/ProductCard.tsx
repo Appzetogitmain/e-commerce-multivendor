@@ -140,6 +140,47 @@ export default function ProductCard({
   const cartItem = findCartItemForPrimaryVariant(cart.items, product);
   const inCartQty = cartItem?.quantity || 0;
 
+  const [localQty, setLocalQty] = useState(inCartQty);
+  useEffect(() => {
+    setLocalQty(inCartQty);
+  }, [inCartQty]);
+
+  const handleQuantityInputChange = async (val: string) => {
+    if (val === '') {
+      setLocalQty(0);
+      return;
+    }
+    const num = parseInt(val, 10);
+    if (!isNaN(num) && num >= 0) {
+      setLocalQty(num);
+      await updateQuantity(
+        ((product as any).id || product._id) as string,
+        num,
+        primaryVariantId,
+        primaryVariantLabel
+      );
+    }
+  };
+
+  const handleQuantityInputBlurOrSubmit = async (newQty: number) => {
+    if (newQty === inCartQty) return;
+    if (newQty <= 0) {
+      await updateQuantity(
+        ((product as any).id || product._id) as string,
+        0,
+        primaryVariantId,
+        primaryVariantLabel
+      );
+    } else {
+      await updateQuantity(
+        ((product as any).id || product._id) as string,
+        newQty,
+        primaryVariantId,
+        primaryVariantLabel
+      );
+    }
+  };
+
   // Get Price and MRP using primary variant (first created) with legacy fallbacks
   const { displayPrice, mrp, discount } = calculateCardPrice(product);
 
@@ -397,13 +438,13 @@ export default function ProductCard({
             <>
               {/* 1. Quantity */}
               {!showPackBadge && (product.pack || primaryVariantLabel) && (
-                <p className="text-[10px] text-neutral-500 mb-0.5 leading-tight font-medium">
+                <p className="text-xs text-neutral-500 mb-0.5 leading-tight font-medium">
                   {primaryVariantLabel || product.pack}
                 </p>
               )}
 
               {/* 2. Name */}
-              <h3 className="text-xs md:text-sm font-bold text-neutral-900 mb-0.5 line-clamp-2 leading-tight overflow-hidden">
+              <h3 className="text-sm md:text-base font-bold text-neutral-900 mb-0.5 line-clamp-2 leading-tight overflow-hidden">
                 {product.name || product.productName || ''}
               </h3>
 
@@ -420,10 +461,10 @@ export default function ProductCard({
               )}
 
               {/* 3. Time */}
-               <p className="text-[10px] text-neutral-500 mb-0.5 flex items-center gap-0.5 leading-tight">
-                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
-                   <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                   <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+               <p className="text-xs text-neutral-500 mb-0.5 flex items-center gap-0.5 leading-tight">
+                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                   <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" />
+                   <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
                  </svg>
                  <span>{deliveryTimeText}</span>
                </p>
@@ -468,11 +509,11 @@ export default function ProductCard({
                   {/* 5. Price with discount */}
                   <div className="mt-auto pt-0.5">
                     <div className="flex items-baseline gap-1 flex-wrap">
-                      <span className="text-sm md:text-base font-bold text-[var(--customer-primary)] leading-tight">
+                      <span className="text-base md:text-lg font-bold text-[var(--customer-primary)] leading-tight">
                         ₹{currentUnitPrice.toLocaleString('en-IN')}
                       </span>
                       {mrp && mrp > displayPrice && (
-                        <span className="text-[10px] text-neutral-500 line-through leading-tight">
+                        <span className="text-xs text-neutral-500 line-through leading-tight">
                           ₹{mrp.toLocaleString('en-IN')}
                         </span>
                       )}
@@ -532,7 +573,7 @@ export default function ProductCard({
                       </div>
                     ) : (
                       <div
-                        className="flex items-center justify-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-lg px-1 py-0.5 h-8 w-full border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                        className="flex items-center justify-center gap-2.5 bg-neutral-50 rounded-lg px-2 py-1 h-10 w-full border border-neutral-200 shadow-sm"
                       >
                         <Button
                           variant="default"
@@ -541,16 +582,33 @@ export default function ProductCard({
                             e.stopPropagation();
                             handleDecrease(e);
                           }}
-                          className="w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
+                          className="w-8 h-8 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
                           aria-label="Decrease quantity"
                         >
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                           </svg>
                         </Button>
-                        <span className="text-xs font-black min-w-[1.25rem] text-center text-[var(--customer-primary-dark)]">
-                          {inCartQty}
-                        </span>
+                        {inCartQty >= 5 ? (
+                          <input
+                            type="number"
+                            value={localQty === 0 ? '' : localQty}
+                            onChange={(e) => handleQuantityInputChange(e.target.value)}
+                            onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                handleQuantityInputBlurOrSubmit(localQty);
+                                (e.target as HTMLInputElement).blur();
+                              }
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-12 h-8 text-center font-bold text-sm bg-white text-neutral-800 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--customer-primary)] focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-sm"
+                          />
+                        ) : (
+                          <span className="text-sm font-bold min-w-[1.5rem] text-center text-neutral-850">
+                            {inCartQty}
+                          </span>
+                        )}
                         <Button
                           variant="default"
                           size="icon"
@@ -559,12 +617,12 @@ export default function ProductCard({
                             e.stopPropagation();
                             handleIncrease(e);
                           }}
-                          className={`w-6 h-6 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
+                          className={`w-8 h-8 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center ${
                             product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           aria-label="Increase quantity"
                         >
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                           </svg>
@@ -715,33 +773,50 @@ export default function ProductCard({
               </div>
             ) : (
               <div
-                className="flex items-center justify-center gap-2 bg-[var(--customer-primary-alpha-10)] rounded-lg px-2 py-1 h-9 border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                className="flex items-center justify-center gap-2.5 bg-neutral-50 rounded-lg px-2 py-1.5 h-11 border border-neutral-200 shadow-sm"
               >
                 <Button
                   variant="default"
                   size="icon"
                   onClick={handleDecrease}
-                  className="w-7 h-7 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
+                  className="w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
                   aria-label="Decrease quantity"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                   </svg>
                 </Button>
-                <span className="text-xs font-black min-w-[1.5rem] text-center text-[var(--customer-primary-dark)]">
-                  {inCartQty}
-                </span>
+                {inCartQty >= 5 ? (
+                  <input
+                    type="number"
+                    value={localQty === 0 ? '' : localQty}
+                    onChange={(e) => handleQuantityInputChange(e.target.value)}
+                    onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleQuantityInputBlurOrSubmit(localQty);
+                        (e.target as HTMLInputElement).blur();
+                      }
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-14 h-9 text-center font-bold text-sm bg-white text-neutral-800 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--customer-primary)] focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-sm"
+                  />
+                ) : (
+                  <span className="text-sm font-bold min-w-[1.75rem] text-center text-neutral-850">
+                    {inCartQty}
+                  </span>
+                )}
                 <Button
                   variant="default"
                   size="icon"
                   disabled={product.isAvailable === false}
                   onClick={handleIncrease}
-                  className={`w-7 h-7 p-0 bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
+                  className={`w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center ${
                     product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   aria-label="Increase quantity"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                   </svg>

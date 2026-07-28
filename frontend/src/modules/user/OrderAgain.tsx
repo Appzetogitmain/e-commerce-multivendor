@@ -371,13 +371,13 @@ export default function OrderAgain() {
                     </div>
 
                     {/* Product Details */}
-                    <div className="p-2 md:p-3 flex-1 flex flex-col bg-white">
+                    <div className="p-2.5 md:p-4 flex-1 flex flex-col bg-white">
                       {/* Product Name */}
                       <div
                         onClick={() => navigate(`/product/${product.id}`)}
-                        className="mb-1 cursor-pointer"
+                        className="mb-1.5 cursor-pointer"
                       >
-                        <h3 className="text-[11px] md:text-xs font-bold text-neutral-800 line-clamp-2 leading-snug hover:text-[var(--customer-primary-dark)] transition-colors">
+                        <h3 className="text-xs md:text-sm font-bold text-neutral-800 line-clamp-2 leading-snug hover:text-[var(--customer-primary-dark)] transition-colors">
                           {(() => {
                             const productName = product.name || product.productName || '';
                             return productName.replace(/\s*-\s*(Fresh|Quality|Assured|Premium|Best|Top|Hygienic|Carefully|Selected).*$/i, '').trim();
@@ -386,13 +386,13 @@ export default function OrderAgain() {
                       </div>
 
                       {/* Rating and Reviews */}
-                      <div className="flex items-center gap-1 mb-1">
+                      <div className="flex items-center gap-1.5 mb-1.5">
                         <div className="flex items-center">
                           {[...Array(5)].map((_, i) => (
                             <svg
                               key={i}
-                              width="10"
-                              height="10"
+                              width="12"
+                              height="12"
                               viewBox="0 0 24 24"
                               fill={i < 4 ? '#fbbf24' : '#e5e7eb'}
                               xmlns="http://www.w3.org/2000/svg"
@@ -401,22 +401,26 @@ export default function OrderAgain() {
                             </svg>
                           ))}
                         </div>
-                        <span className="text-[9px] font-medium text-neutral-400">(85)</span>
+                        <span className="text-xs font-semibold text-neutral-450">(85)</span>
                       </div>
 
                       {/* Delivery Time */}
-                      <div className="text-[10px] font-bold text-neutral-500 mb-1">
-                        20 MINS
+                      <div className="text-xs font-bold text-neutral-550 mb-1.5 flex items-center gap-1 leading-none">
+                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                           <circle cx="12" cy="12" r="10" />
+                           <path d="M12 6v6l4 2" />
+                         </svg>
+                         <span>20 MINS</span>
                       </div>
 
                       {/* Price */}
-                      <div className="mb-2 mt-auto">
+                      <div className="mb-2.5 mt-auto">
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-sm font-black text-neutral-900">
+                          <span className="text-base font-black text-neutral-900">
                             ₹{displayPrice.toLocaleString('en-IN')}
                           </span>
                           {hasDiscount && (
-                            <span className="text-xs text-neutral-400 line-through">
+                            <span className="text-xs md:text-sm text-neutral-400 line-through">
                               ₹{mrp.toLocaleString('en-IN')}
                             </span>
                           )}
@@ -426,12 +430,12 @@ export default function OrderAgain() {
                       {/* Bottom Link */}
                       <div
                         onClick={() => navigate(`/category/${product.categoryId || 'all'}`)}
-                        className="w-full bg-neutral-50 text-neutral-600 border border-neutral-100 text-[9px] font-semibold py-1 rounded-lg flex items-center justify-between px-2 hover:bg-neutral-100 hover:text-neutral-950 transition-all cursor-pointer"
+                        className="w-full bg-neutral-50 text-neutral-600 border border-neutral-100 text-xs font-semibold py-1.5 rounded-lg flex items-center justify-between px-2 hover:bg-neutral-100 hover:text-neutral-950 transition-all cursor-pointer"
                       >
                         <span>See more like this</span>
-                        <div className="flex items-center gap-0.5">
-                          <div className="w-px h-2.5 bg-neutral-200"></div>
-                          <svg width="6" height="6" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-0.5">
+                        <div className="flex items-center gap-1">
+                          <div className="w-px h-3 bg-neutral-200"></div>
+                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-0.5">
                             <path d="M0 0L8 4L0 8Z" fill="currentColor" />
                           </svg>
                         </div>

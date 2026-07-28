@@ -13,6 +13,7 @@ import { getIconByName } from '../../../utils/iconLibrary';
 import { useThemeContext } from '../../../context/ThemeContext';
 import { useAppContext } from '../../../context/AppContext';
 import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,9 +32,11 @@ const ALL_TAB: Tab = {
   id: 'all',
   label: 'All',
   icon: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
 };
@@ -138,6 +141,8 @@ const LanguageDropdown = ({ language, setLanguage, isSticky, themeKey }: Languag
 
 export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroProps) {
   const { config } = useAppContext();
+  const { cart } = useCart();
+  const cartItemsCount = cart?.itemCount || 0;
   const cachedHeaderCategories = getCachedHeaderCategoriesPublic() || [];
   const [headerCategories, setHeaderCategories] = useState<any[]>(cachedHeaderCategories);
   const [tabs, setTabs] = useState<Tab[]>(() => {
@@ -455,21 +460,17 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
         transition: 'background-color 0.3s ease',
       }}
     >
-      <div className={`px-4 md:px-6 lg:px-8 pt-2 ${isSticky ? 'md:pt-2.5' : 'md:pt-0'} pb-2 md:pb-2 md:hidden`}>
+      <div className="px-4 pt-2.5 pb-2 md:hidden flex items-center gap-3">
         {/* Search Bar */}
         <div
           onClick={() => navigate('/search')}
-          className={`w-full md:w-auto md:max-w-xl md:mx-auto rounded-xl shadow-lg px-3 ${isSticky ? 'py-3 md:py-2.5' : 'py-2 md:py-1.5'} flex items-center gap-2 cursor-pointer hover:shadow-xl transition-all duration-300 mb-2 md:mb-1.5 bg-white relative z-50`}
-          style={{
-            backgroundColor: isSticky ? `rgba(249, 250, 251, 1)` : 'white',
-            border: isSticky ? `1px solid rgba(229, 231, 235, 1)` : 'none',
-          }}
+          className="flex-1 rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer transition-all duration-300 bg-white border border-[#3b82f6] shadow-sm relative z-50"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 md:w-4 md:h-4">
-            <circle cx="11" cy="11" r="8" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" />
-            <path d="m21 21-4.35-4.35" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" strokeLinecap="round" />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-neutral-400">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2.5" />
+            <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
-          <div className="flex-1 relative h-4 md:h-4 overflow-hidden">
+          <div className="flex-1 relative h-4 overflow-hidden">
             {searchSuggestions.map((suggestion, index) => {
               const isActive = index === currentSearchIndex;
               const prevIndex = (currentSearchIndex - 1 + searchSuggestions.length) % searchSuggestions.length;
@@ -479,36 +480,41 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
                   key={suggestion}
                   className={`absolute inset-0 flex items-center transition-all duration-500 ${isActive ? 'translate-y-0 opacity-100' : isPrev ? '-translate-y-full opacity-0' : 'translate-y-full opacity-0'}`}
                 >
-                  <span className={`text-xs md:text-xs`} style={{ color: isSticky ? '#9ca3af' : '#6b7280' }}>
-                    {language === 'HI' ? 'खोजें' : 'Search'} &apos;{suggestion}&apos;
+                  <span className="text-xs text-neutral-400 font-sans">
+                    {language === 'HI' ? 'खोजें' : 'Search for'} &apos;{suggestion}&apos;
                   </span>
                 </div>
               );
             })}
           </div>
-
-          <LanguageDropdown
-            language={language}
-            setLanguage={setLanguage}
-            isSticky={isSticky}
-            themeKey={currentThemeKey}
-          />
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 md:w-4 md:h-4">
-            <path d="M12 1C13.1 1 14 1.9 14 3C14 4.1 13.1 5 12 5C10.9 5 10 4.1 10 3C10 1.9 10.9 1 12 1Z" fill={isSticky ? "#9ca3af" : "#6b7280"} />
-            <path d="M19 10V17C19 18.1 18.1 19 17 19H7C5.9 19 5 18.1 5 17V10" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M12 11V17" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" strokeLinecap="round" />
-            <path d="M8 11V17" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" strokeLinecap="round" />
-            <path d="M16 11V17" stroke={isSticky ? "#9ca3af" : "#6b7280"} strokeWidth="2" strokeLinecap="round" />
-          </svg>
         </div>
+
+        {/* Cart Link with Cart Text */}
+        <Link
+          to="/cart"
+          className="flex-shrink-0 flex items-center gap-1 text-neutral-800 hover:text-blue-500 transition-colors p-1 relative"
+        >
+          <div className="relative">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white">
+                {cartItemsCount}
+              </span>
+            )}
+          </div>
+          <span className="text-xs font-semibold text-neutral-800">Cart</span>
+        </Link>
       </div>
 
-      {/* Category Tabs */}
-      <div className={`${isSticky ? '' : 'border-b border-neutral-200 mt-1 md:mt-2'} w-full py-0.5 md:py-1 flex items-center justify-center`} style={{ paddingBottom: 0 }}>
-        <div className="flex items-center justify-center max-w-full px-2 md:px-4 gap-1 md:gap-2">
+      <div className={`${isSticky ? '' : 'border-b border-neutral-200 mt-0.5 md:mt-2'} w-full pt-2 pb-2.5 md:py-1 flex items-center justify-center`} style={{ paddingBottom: isSticky ? 0 : '' }}>
+        <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-4 md:px-6 gap-1 md:gap-2">
           {/* Left Arrow Button */}
           <div
-            className="flex-shrink-0 flex items-center justify-center transition-all duration-300"
+            className="hidden md:flex flex-shrink-0 items-center justify-center transition-all duration-300"
             style={{ paddingBottom: '1px' }}
           >
             <button
@@ -531,10 +537,9 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
             </button>
           </div>
 
-          {/* Scroll Container */}
           <div
             ref={tabsContainerRef}
-            className="relative flex items-center gap-1 md:gap-3 overflow-x-auto scrollbar-hide scroll-smooth max-w-full"
+            className="relative flex-1 flex items-center gap-3 md:gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
             style={{ paddingBottom: '1px' }}
             onWheel={(e) => {
               // Web view: mouse wheel is vertical; use it to scroll categories horizontally.
@@ -548,7 +553,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
             {indicatorStyle.width > 0 && (
               <div
                 className="absolute bottom-0 h-[2.5px] rounded-full transition-all duration-300 ease-out pointer-events-none"
-                style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px`, backgroundColor: '#F2B134', transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: 0 }}
+                style={{ left: `${indicatorStyle.left}px`, width: `${indicatorStyle.width}px`, backgroundColor: '#2563eb', transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: 0 }}
               />
             )}
             {tabs.map((tab) => {
@@ -558,29 +563,27 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
                   key={tab.id}
                   ref={(el) => { if (el) tabRefs.current.set(tab.id, el); else tabRefs.current.delete(tab.id); }}
                   onClick={() => handleTabClick(tab.id)}
-                  className="flex-shrink-0 flex flex-col items-center justify-center w-auto min-w-[44px] md:min-w-[62px] px-0.5 py-0.5 md:px-1 relative z-10 transition-all duration-300"
+                  className="flex-shrink-0 flex flex-col items-center justify-center w-[calc((100vw-32px-48px)/5)] md:w-auto md:min-w-[62px] px-0.5 py-0.5 md:px-3 relative z-10 transition-all duration-300"
                   type="button"
                 >
                   <div
-                    className="mb-0.5 w-[36px] h-[36px] md:w-[42px] md:h-[42px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
+                    className="mb-0.5 w-[38px] h-[38px] md:w-[42px] md:h-[42px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
                   >
                     <div
-                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 category-tab-icon ${isActive ? 'shadow-sm border border-[var(--customer-primary-alpha-30)]' : 'hover:bg-neutral-100/80'}`}
+                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1.5 transition-all duration-300 category-tab-icon ${isActive ? 'category-tab-icon-active shadow-sm border border-[#b3d7ff]' : 'border border-transparent hover:bg-neutral-100 hover:scale-105'}`}
                       style={{
-                        backgroundColor: isActive ? 'var(--customer-primary-alpha-10)' : 'transparent',
-                        color: isActive ? 'var(--customer-primary)' : 'inherit'
+                        backgroundColor: isActive ? '#e6f2ff' : 'transparent',
+                        color: isActive ? '#1e40af' : '#4b5563'
                       }}
                     >
-                      {tab.id === 'all' && config?.appLogo ? (
-                        <img src={config.appLogo} alt="All" className="w-full h-full object-contain" />
-                      ) : (
-                        tab.icon
-                      )}
+                      <div className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center flex-shrink-0">
+                        {tab.icon}
+                      </div>
                     </div>
                   </div>
                   <span
-                    className={`text-[8.5px] md:text-[10px] md:whitespace-nowrap font-sans font-semibold transition-all duration-200`}
-                    style={{ color: isActive ? '#0B5D3B' : '#26332D', transition: 'color 0.3s' }}
+                    className={`text-[9.5px] md:text-[12px] text-center font-sans transition-all duration-200 ${isActive ? 'font-bold whitespace-normal' : 'font-medium whitespace-nowrap truncate w-full'}`}
+                    style={{ color: isActive ? '#111827' : '#4b5563', transition: 'color 0.3s' }}
                   >
                     {tab.label.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
                   </span>
@@ -591,7 +594,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
 
           {/* Right Arrow Button */}
           <div
-            className="flex-shrink-0 flex items-center justify-center transition-all duration-300"
+            className="hidden md:flex flex-shrink-0 items-center justify-center transition-all duration-300"
             style={{ paddingBottom: '1px' }}
           >
             <button
@@ -626,23 +629,22 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
       className="relative z-20"
       style={{ backgroundColor: '#ffffff', paddingBottom: 0, marginBottom: 0 }}
     >
-      {/* Top section with logo - NOT sticky */}
-      <div className="md:hidden">
-        <div ref={topSectionRef} className="px-4 pt-3 pb-2">
+      <div className="md:hidden" style={{ backgroundColor: '#163F2E' }}>
+        <div ref={topSectionRef} className="px-4 pt-2.5 pb-2">
           <div className="flex items-center justify-between gap-3">
             {/* Logo */}
             <div className="flex-shrink-0">
               <img
                 src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
                 alt={config?.appName || "Ecommerce"}
-                className="h-9 w-auto object-contain rounded-md"
+                className="h-8 w-auto object-contain rounded-md bg-white/10 p-0.5"
               />
             </div>
 
             {/* Compact Location Pill */}
             {locationDisplayText && (
               <div
-                className={`flex items-center gap-1.5 text-neutral-800 text-xs cursor-pointer hover:opacity-85 transition-all min-w-0 ${isLocationLoading ? 'opacity-70 pointer-events-none' : ''}`}
+                className={`flex items-center gap-1.5 text-white text-xs cursor-pointer hover:opacity-85 transition-all min-w-0 ${isLocationLoading ? 'opacity-70 pointer-events-none' : ''}`}
                 onClick={() => {
                   if (!isLocationLoading) {
                     requestLocation();
@@ -650,20 +652,20 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
                 }}
               >
                 {isLocationLoading ? (
-                  <svg className="animate-spin h-3.5 w-3.5 flex-shrink-0 text-[var(--customer-primary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-3.5 w-3.5 flex-shrink-0 text-[#F2B134]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                 ) : (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 text-[var(--customer-primary)]">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 text-[#F2B134]">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 )}
-                <span className="truncate font-semibold text-neutral-800 max-w-[130px] sm:max-w-[200px]" title={locationDisplayText}>
+                <span className="truncate font-semibold text-white max-w-[130px] sm:max-w-[200px]" title={locationDisplayText}>
                   {isLocationLoading ? 'Updating...' : locationDisplayText}
                 </span>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 text-neutral-500">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 text-white/80">
                   <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
@@ -672,7 +674,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
             {/* Hamburger Button */}
             <button
               onClick={() => setIsMenuOpen(true)}
-              className="w-9 h-9 flex items-center justify-center text-neutral-800 hover:text-neutral-900 active:scale-95 transition-all flex-shrink-0"
+              className="w-8 h-8 flex items-center justify-center text-white hover:text-white/80 active:scale-95 transition-all flex-shrink-0"
               aria-label="Open menu"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

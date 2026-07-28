@@ -75,6 +75,12 @@ export interface NormalizedProductPayload {
   variations: ProductVariant[];
   isEnquiryOnly?: boolean;
   taxPreference?: "included" | "excluded" | "hidden";
+  storageLocation?: {
+    city?: string;
+    warehouse?: string;
+    room?: string;
+    rackNumber?: string;
+  };
 }
 
 export function extractVariantsFromBody(body: Record<string, unknown>): ProductVariant[] {
@@ -192,5 +198,11 @@ export function normalizeCreatePayload(
     variations,
     isEnquiryOnly: parseBool(parsed.isEnquiryOnly, false),
     taxPreference: parsed.taxPreference as any || "included",
+    storageLocation: parsed.storageLocation ? {
+      city: parsed.storageLocation.city ? String(parsed.storageLocation.city).trim() : undefined,
+      warehouse: parsed.storageLocation.warehouse ? String(parsed.storageLocation.warehouse).trim() : undefined,
+      room: parsed.storageLocation.room ? String(parsed.storageLocation.room).trim() : undefined,
+      rackNumber: parsed.storageLocation.rackNumber ? String(parsed.storageLocation.rackNumber).trim() : undefined,
+    } : undefined,
   };
 }

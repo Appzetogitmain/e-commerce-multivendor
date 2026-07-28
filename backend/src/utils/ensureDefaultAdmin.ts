@@ -106,6 +106,36 @@ export async function ensureDefaultAdmin() {
     creditBalance: 0,
   });
   console.log(`New test customer created (mobile: ${customer.phone})`);
+
+  // Ensure Admin Store (Seller) account is approved and enabled
+  const adminStore = await Seller.findOne({
+    $or: [{ email: "admin-store@geetastores.com" }, { mobile: "9999999999" }],
+  });
+  if (adminStore) {
+    if (adminStore.status !== "Approved" || !adminStore.isEnabled) {
+      adminStore.status = "Approved";
+      adminStore.isEnabled = true;
+      await adminStore.save();
+      console.log("Admin Store (Seller) status verified and updated to Approved/Enabled.");
+    }
+  } else {
+    await Seller.create({
+      sellerName: "Geeta Stores Admin",
+      storeName: "Geeta Stores Admin Store",
+      email: "admin-store@geetastores.com",
+      mobile: "9999999999",
+      password: "AdminStore@123",
+      address: "Geeta Stores HQ",
+      city: "Admin City",
+      category: "Admin",
+      commission: 0,
+      status: "Approved",
+      isEnabled: true,
+      requireProductApproval: false,
+      location: { type: "Point", coordinates: [0, 0] },
+    });
+    console.log("Admin Store (Seller) account created as Approved/Enabled.");
+  }
 }
 
 export default ensureDefaultAdmin;

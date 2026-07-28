@@ -60,6 +60,10 @@ export interface ProductMainInfoForm {
   seller: string;
   isEnquiryOnly: "Yes" | "No";
   taxPreference: "included" | "excluded" | "hidden";
+  storageCity: string;
+  storageWarehouse: string;
+  storageRoom: string;
+  storageRack: string;
 }
 
 export interface ProductFormState {
@@ -128,6 +132,10 @@ export const defaultMainInfo = (overrides?: Partial<ProductMainInfoForm>): Produ
   seller: "",
   isEnquiryOnly: "No",
   taxPreference: "included",
+  storageCity: "",
+  storageWarehouse: "",
+  storageRoom: "",
+  storageRack: "",
   ...overrides,
 });
 
@@ -174,6 +182,12 @@ export interface CreateProductPayload {
   seller?: string;
   isEnquiryOnly?: boolean;
   taxPreference?: "included" | "excluded" | "hidden";
+  storageLocation?: {
+    city?: string;
+    warehouse?: string;
+    room?: string;
+    rackNumber?: string;
+  };
   variants: Array<{
     _id?: string;
     variationType: string;

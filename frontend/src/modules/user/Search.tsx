@@ -302,7 +302,7 @@ export default function Search() {
 
   return (
     <div className="min-h-screen bg-neutral-50 pb-24 md:pb-8">
-      <div className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur">
+      <div className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur md:hidden">
         <div className="mx-auto max-w-7xl px-4 py-3 md:px-6">
           <div ref={suggestionBoxRef} className="relative">
             <div className="flex h-12 items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 shadow-sm">

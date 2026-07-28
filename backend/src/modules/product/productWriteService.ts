@@ -37,9 +37,14 @@ async function resolveAdminSeller(sellerId?: string): Promise<string> {
       category: "Admin",
       commission: 0,
       status: "Approved",
+      isEnabled: true,
       requireProductApproval: false,
       location: { type: "Point", coordinates: [0, 0] },
     });
+  } else if (!adminSeller.isEnabled || adminSeller.status !== "Approved") {
+    adminSeller.isEnabled = true;
+    adminSeller.status = "Approved";
+    await adminSeller.save();
   }
 
   return String(adminSeller._id);
@@ -131,6 +136,7 @@ function buildMongooseDoc(
   if (payload.shopId) doc.shopId = payload.shopId;
   if (payload.isEnquiryOnly != null) doc.isEnquiryOnly = payload.isEnquiryOnly;
   if (payload.taxPreference) doc.taxPreference = payload.taxPreference;
+  if (payload.storageLocation) doc.storageLocation = payload.storageLocation;
 
   return doc;
 }
@@ -311,6 +317,19 @@ export class ProductWriteService {
     delete doc.seller;
 
     Object.assign(existing, doc);
+    if (doc.storageLocation) {
+      const sl = doc.storageLocation as any;
+      existing.storageLocation = {
+        city: sl.city,
+        warehouse: sl.warehouse,
+        room: sl.room,
+        rackNumber: sl.rackNumber,
+      };
+      existing.markModified("storageLocation");
+    } else {
+      existing.storageLocation = undefined;
+      existing.markModified("storageLocation");
+    }
     await existing.save();
     return toDetail(existing);
   }

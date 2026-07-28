@@ -101,6 +101,9 @@ interface ProductVariation {
   brand: string; // 23
   valueMrp: number; // 24
   valuePurchase: number; // 25
+  storageCity?: string;
+  storageWarehouse?: string;
+  storageRoom?: string;
 }
 
 const STATUS_OPTIONS = ["All Products", "Published", "Unpublished"];
@@ -870,7 +873,11 @@ export default function AdminStockManagement() {
         subCategory: subCategoryName,
         subSubCategory: subSubCategoryName,
         sku: p.itemCode || p.sku || "", // Item Code (5) (Note: variation might allow specific SKU)
-        rackNumber: p.rackNumber || "-",
+        rackNumber: p.storageLocation?.rackNumber || p.rackNumber || "-",
+        storageLocation: p.storageLocation ? `${p.storageLocation.city || ""}${p.storageLocation.city && p.storageLocation.warehouse ? " > " : ""}${p.storageLocation.warehouse || ""}${(p.storageLocation.warehouse || p.storageLocation.city) && p.storageLocation.room ? " > " : ""}${p.storageLocation.room || ""}${(p.storageLocation.room || p.storageLocation.warehouse || p.storageLocation.city) && p.storageLocation.rackNumber ? " > " : ""}${p.storageLocation.rackNumber || ""}` : "-",
+        storageCity: p.storageLocation?.city || "-",
+        storageWarehouse: p.storageLocation?.warehouse || "-",
+        storageRoom: p.storageLocation?.room || "-",
         description: p.smallDescription || p.description || "-",
         barcode: Array.isArray(p.barcode) ? p.barcode.join(', ') : (p.barcode || "-"),
         hsnCode: p.hsnCode || "-",
@@ -917,6 +924,7 @@ export default function AdminStockManagement() {
               Number(v.discPrice) || Number((p as any).discPrice) || 0,
             status: product.publish ? "Published" : "Unpublished",
             sku: v.sku || baseVariation.sku,
+            rackNumber: v.rackNumber || baseVariation.rackNumber,
             image: v.mainImage || v.image || baseVariation.image,
             barcode: variantBarcodes.length
               ? variantBarcodes.join(", ")
@@ -1153,7 +1161,6 @@ export default function AdminStockManagement() {
   };
 
   const handleExport = () => {
-    // Columns exactly matching visible table headers [1-26] + Status
     const headers = [
       "Variation Id",
       "Category",
@@ -1161,6 +1168,9 @@ export default function AdminStockManagement() {
       "Sub Sub Cat",
       "Product Name",
       "SKU",
+      "City",
+      "Warehouse",
+      "Room",
       "Rack",
       "Desc",
       "Barcode",
@@ -1204,6 +1214,9 @@ export default function AdminStockManagement() {
           escapeCsv(product.subSubCategory),
           escapeCsv(product.name),
           escapeCsv(product.sku),
+          escapeCsv(product.storageCity),
+          escapeCsv(product.storageWarehouse),
+          escapeCsv(product.storageRoom),
           escapeCsv(product.rackNumber),
           escapeCsv(product.description),
           escapeCsv(product.barcode),
@@ -1527,27 +1540,30 @@ export default function AdminStockManagement() {
                     <th className="p-4 whitespace-nowrap">3. Sub Sub Cat</th>
                     <th className="p-4 whitespace-nowrap">4. Product Name</th>
                     <th className="p-4 whitespace-nowrap">5. SKU</th>
-                    <th className="p-4 whitespace-nowrap">6. Rack</th>
-                    <th className="p-4 whitespace-nowrap">7. Desc</th>
-                    <th className="p-4 whitespace-nowrap">8. Barcode</th>
-                    <th className="p-4 whitespace-nowrap">9. HSN</th>
-                    <th className="p-4 whitespace-nowrap">10. Unit</th>
-                    <th className="p-4 whitespace-nowrap">11. Size</th>
-                    <th className="p-4 whitespace-nowrap">12. Color</th>
+                    <th className="p-4 whitespace-nowrap">6. City</th>
+                    <th className="p-4 whitespace-nowrap">7. Warehouse</th>
+                    <th className="p-4 whitespace-nowrap">8. Room</th>
+                    <th className="p-4 whitespace-nowrap">9. Rack</th>
+                    <th className="p-4 whitespace-nowrap">10. Desc</th>
+                    <th className="p-4 whitespace-nowrap">11. Barcode</th>
+                    <th className="p-4 whitespace-nowrap">12. HSN</th>
+                    <th className="p-4 whitespace-nowrap">13. Unit</th>
+                    <th className="p-4 whitespace-nowrap">14. Size</th>
+                    <th className="p-4 whitespace-nowrap">15. Color</th>
                     <th className="p-4 whitespace-nowrap">Variations</th>
-                    <th className="p-4 whitespace-nowrap">13. Tax Cat</th>
-                    <th className="p-4 whitespace-nowrap">14. GST</th>
-                    <th className="p-4 whitespace-nowrap">15. Pur. Price</th>
-                    <th className="p-4 whitespace-nowrap">16. MRP</th>
-                    <th className="p-4 whitespace-nowrap">17. Sell Price</th>
-                    <th className="p-4 whitespace-nowrap">18. Del. Time</th>
-                    <th className="p-4 whitespace-nowrap">19. Stock</th>
-                    <th className="p-4 whitespace-nowrap">20. Offer Price</th>
+                    <th className="p-4 whitespace-nowrap">16. Tax Cat</th>
+                    <th className="p-4 whitespace-nowrap">17. GST</th>
+                    <th className="p-4 whitespace-nowrap">18. Pur. Price</th>
+                    <th className="p-4 whitespace-nowrap">19. MRP</th>
+                    <th className="p-4 whitespace-nowrap">20. Sell Price</th>
+                    <th className="p-4 whitespace-nowrap">21. Del. Time</th>
+                    <th className="p-4 whitespace-nowrap">22. Stock</th>
+                    <th className="p-4 whitespace-nowrap">23. Offer Price</th>
                     <th className="p-4 whitespace-nowrap">Wholesale Price</th>
-                    <th className="p-4 whitespace-nowrap">21. Low Stock</th>
-                    <th className="p-4 whitespace-nowrap">22. Brand</th>
-                    <th className="p-4 whitespace-nowrap">23. Val (MRP)</th>
-                    <th className="p-4 whitespace-nowrap">24. Val (Pur)</th>
+                    <th className="p-4 whitespace-nowrap">24. Low Stock</th>
+                    <th className="p-4 whitespace-nowrap">25. Brand</th>
+                    <th className="p-4 whitespace-nowrap">26. Val (MRP)</th>
+                    <th className="p-4 whitespace-nowrap">27. Val (Pur)</th>
                     <th className="p-4 whitespace-nowrap">Status</th>
                     <th className="p-4 whitespace-nowrap">Action</th>
                   </tr>
@@ -1588,6 +1604,9 @@ export default function AdminStockManagement() {
                       <td className="p-4 align-middle text-sm text-neutral-600">{product.subSubCategory}</td>
                       <td className="p-4 align-middle text-sm font-medium text-neutral-800">{product.name}</td>
                       <td className="p-4 align-middle text-sm text-neutral-600">{product.sku}</td>
+                      <td className="p-4 align-middle text-sm text-neutral-600">{product.storageCity || "-"}</td>
+                      <td className="p-4 align-middle text-sm text-neutral-600">{product.storageWarehouse || "-"}</td>
+                      <td className="p-4 align-middle text-sm text-neutral-600">{product.storageRoom || "-"}</td>
                       <td className="p-4 align-middle text-sm text-neutral-600">{product.rackNumber}</td>
                       <td
                         className="p-4 align-middle text-sm text-neutral-600 max-w-xs truncate"

@@ -50,7 +50,7 @@ const ProductCard = memo(({
 
   return (
     <div
-      className="flex-shrink-0 w-[195px]"
+      className="flex-shrink-0 w-[145px] md:w-[250px]"
       style={{ scrollSnapAlign: 'start' }}
     >
       <div
@@ -59,7 +59,7 @@ const ProductCard = memo(({
       >
         {/* Product Image Area */}
         <div className="relative block">
-          <div className="w-full h-44 bg-neutral-50 flex items-center justify-center overflow-hidden relative">
+          <div className="w-full h-32 md:h-44 bg-neutral-50 flex items-center justify-center overflow-hidden relative">
             {product.imageUrl ? (
               <img
                 src={product.imageUrl}
@@ -131,7 +131,7 @@ const ProductCard = memo(({
                       e.stopPropagation();
                       onAddToCart(product, e.currentTarget);
                     }}
-                    className={`rounded-full font-bold text-[9px] h-6 px-3 flex items-center justify-center gap-1 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
+                    className={`rounded-lg font-bold text-[9px] md:text-xs h-6 md:h-8 px-3 md:px-4 flex items-center justify-center gap-1 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
                       product.isAvailable === false
                       ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                       : 'bg-white/95 backdrop-blur-sm text-[var(--customer-primary)] border-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)]'
@@ -156,7 +156,7 @@ const ProductCard = memo(({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.2 }}
-                    className="flex items-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-full px-1 py-0.5 h-6 border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                    className="flex items-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-lg px-1 py-0.5 h-6 md:h-8 border border-[var(--customer-primary-alpha-30)] shadow-sm"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <motion.button
@@ -166,7 +166,7 @@ const ProductCard = memo(({
                         e.stopPropagation();
                         onUpdateQuantity(product.id, inCartQty - 1, undefined, product.pack);
                       }}
-                      className="w-4 h-4 flex items-center justify-center bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
+                      className="w-4 h-4 md:w-6 md:h-6 flex items-center justify-center bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)]"
                     >
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -178,7 +178,7 @@ const ProductCard = memo(({
                       animate={{ scale: 1, y: 0 }}
                       transition={{ type: 'spring', stiffness: 500, damping: 15 }}
                       className="text-[var(--customer-primary-dark)] font-black min-w-[0.75rem] text-center"
-                      style={{ fontSize: '10px' }}
+                      style={{ fontSize: '12px' }}
                     >
                       {inCartQty}
                     </motion.span>
@@ -190,7 +190,7 @@ const ProductCard = memo(({
                         e.stopPropagation();
                         onUpdateQuantity(product.id, inCartQty + 1, undefined, product.pack);
                       }}
-                      className={`w-4 h-4 flex items-center justify-center bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
+                      className={`w-4 h-4 md:w-6 md:h-6 flex items-center justify-center bg-white hover:bg-[var(--customer-primary-alpha-20)] rounded-full shadow-sm text-[var(--customer-primary-dark)] transition-colors border border-[var(--customer-primary-alpha-20)] ${
                         product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                     >
@@ -207,17 +207,17 @@ const ProductCard = memo(({
         </div>
 
         {/* Product Details */}
-        <div className="p-3.5 flex-1 flex flex-col min-h-0 bg-white">
+        <div className="p-2 md:p-3.5 flex-1 flex flex-col min-h-0 bg-white">
           {/* Light Grey Tags */}
           <div className="flex gap-0.5 mb-1.5">
-            <div className="bg-neutral-100 text-neutral-600 text-[10px] font-medium px-2 py-0.5 rounded">
+            <div className="bg-neutral-100 text-neutral-600 text-[9px] md:text-[12px] font-medium px-1.5 md:px-3 py-0.5 rounded">
               {product.pack || '1 unit'}
             </div>
           </div>
 
           {/* Product Name */}
           <div className="mb-1.5">
-            <h3 className="text-xs font-bold text-neutral-900 line-clamp-2 leading-snug overflow-hidden min-h-[2rem]" title={productName}>
+            <h3 className="text-[11px] md:text-[14px] font-bold text-neutral-900 line-clamp-2 leading-snug overflow-hidden min-h-[1.75rem] md:min-h-[2.5rem]" title={productName}>
               {displayName}
             </h3>
           </div>
@@ -238,11 +238,11 @@ const ProductCard = memo(({
                 </svg>
               ))}
             </div>
-            <span className="text-[10px] text-neutral-500">(85)</span>
+            <span className="text-[10px] md:text-xs text-neutral-500">(85)</span>
           </div>
 
           {/* Delivery Time */}
-          <div className="text-[10px] text-neutral-500 mb-1.5 flex items-center gap-1 leading-none">
+          <div className="text-[10px] md:text-xs text-neutral-500 mb-1.5 flex items-center gap-1 leading-none">
              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                <circle cx="12" cy="12" r="10" />
                <path d="M12 6v6l4 2" />
@@ -252,19 +252,19 @@ const ProductCard = memo(({
 
           {/* Discount - Brand Green Text */}
           {discount > 0 && (
-            <div className="text-[10px] text-[var(--customer-primary)] font-bold mb-1.5 leading-none">
+            <div className="text-[10px] md:text-xs text-[var(--customer-primary)] font-bold mb-1.5 leading-none">
               {discount}% OFF
             </div>
           )}
 
           {/* Price */}
-          <div className="mb-3 mt-auto">
-            <div className="flex items-baseline gap-1.5 flex-wrap">
-              <span className="text-base font-black text-[var(--customer-primary)]">
+          <div className="mb-1 md:mb-3 mt-auto">
+            <div className="flex items-baseline gap-1 md:gap-1.5 flex-wrap">
+              <span className="text-sm md:text-[18px] font-black text-[var(--customer-primary)]">
                 ₹{displayPrice.toLocaleString('en-IN')}
               </span>
               {hasDiscount && (
-                <span className="text-[11px] text-neutral-500 line-through">
+                <span className="text-[9px] md:text-[13px] text-neutral-500 line-through">
                   ₹{mrp.toLocaleString('en-IN')}
                 </span>
               )}
@@ -274,7 +274,7 @@ const ProductCard = memo(({
           {/* Bottom Link */}
           <Link
             to={`/category/${product.categoryId || 'all'}`}
-            className="w-full bg-neutral-100 text-black text-[8px] font-bold py-1 rounded-lg flex items-center justify-between px-2 hover:bg-neutral-200 transition-colors mt-auto cursor-pointer"
+            className="hidden md:flex w-full bg-neutral-100 text-black text-[11px] font-bold py-1.5 rounded-lg items-center justify-between px-3 hover:bg-neutral-200 transition-colors mt-auto cursor-pointer"
           >
             <span>See more like this</span>
             <div className="flex items-center gap-0.5">
@@ -511,7 +511,7 @@ export default function LowestPricesEver({ activeTab = 'all', products: adminPro
         <button
           type="button"
           onClick={() => navigate('/lowest-prices-ever')}
-          className="text-xs font-bold flex items-center gap-1 transition-colors bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-neutral-200 text-[var(--customer-primary)] hover:bg-white shadow-sm"
+          className="text-xs font-bold flex items-center gap-1 transition-colors bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg border border-neutral-200 text-[var(--customer-primary)] hover:bg-white shadow-sm"
         >
           View All
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

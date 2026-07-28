@@ -77,6 +77,10 @@ export function fromProductDetail(product: any): ProductFormState {
       seller: product.seller?._id || product.seller || "",
       isEnquiryOnly: product.isEnquiryOnly ? "Yes" : "No",
       taxPreference: product.taxPreference || "included",
+      storageCity: product.storageLocation?.city || "",
+      storageWarehouse: product.storageLocation?.warehouse || "",
+      storageRoom: product.storageLocation?.room || "",
+      storageRack: product.storageLocation?.rackNumber || "",
     }),
     variants,
   };

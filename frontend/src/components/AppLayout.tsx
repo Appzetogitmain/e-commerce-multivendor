@@ -463,7 +463,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     </svg>
                     <div className="flex flex-col min-w-0">
                       <span className="text-[10px] text-white leading-none font-normal">Delivering to</span>
-                      <span className="text-[12px] font-bold leading-tight truncate text-[#F2B134]" title={userLocation?.address || ''}>
+                      <span className="text-[12px] font-bold leading-tight truncate text-white" title={userLocation?.address || ''}>
                         {userLocation?.address
                           ? userLocation.address.length > 20
                             ? `${userLocation.address.substring(0, 20)}...`
@@ -754,7 +754,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                       <circle cx="20" cy="21" r="1"></circle>
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span className="absolute -top-2 left-3 bg-[#f08804] text-neutral-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full min-w-[16px] text-center leading-none border border-[#131921] shadow-sm">
+                    <span className="absolute -top-2.5 left-3.5 bg-[#EF4444] text-white text-[9px] font-bold px-1.5 h-4 min-w-[16px] rounded-full flex items-center justify-center border border-[#163F2E] shadow-sm">
                       {cart?.itemCount || 0}
                     </span>
                   </div>

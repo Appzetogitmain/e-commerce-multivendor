@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface FormFieldProps {
-  label: string;
+  label: ReactNode;
   required?: boolean;
   hint?: string;
   className?: string;

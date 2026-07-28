@@ -124,6 +124,12 @@ export interface IProduct extends Document {
   warrantyDuration?: string;
 
   inactiveReason?: string;
+  storageLocation?: {
+    city?: string;
+    warehouse?: string;
+    room?: string;
+    rackNumber?: string;
+  };
 
   createdAt: Date;
   updatedAt: Date;
@@ -413,6 +419,12 @@ export interface IProduct extends Document {
     inactiveReason: {
       type: String,
       trim: true,
+    },
+    storageLocation: {
+      city: { type: String, trim: true },
+      warehouse: { type: String, trim: true },
+      room: { type: String, trim: true },
+      rackNumber: { type: String, trim: true },
     },
   },
   {

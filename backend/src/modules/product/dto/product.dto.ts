@@ -75,6 +75,12 @@ const productPayloadShape = {
   status: z.enum(["Active", "Inactive", "Pending", "Rejected"]).optional(),
   isEnquiryOnly: z.union([z.boolean(), z.literal("true"), z.literal("false")]).optional(),
   taxPreference: z.enum(["included", "excluded", "hidden"]).optional(),
+  storageLocation: z.object({
+    city: z.string().optional(),
+    warehouse: z.string().optional(),
+    room: z.string().optional(),
+    rackNumber: z.string().optional(),
+  }).optional(),
   variants: z.array(variantSchema).min(1, "At least one variant is required").optional(),
   variations: z.array(variantSchema).min(1).optional(),
 };

@@ -489,7 +489,7 @@ export default function ProductCard({
                           e.stopPropagation();
                           handleCardClick();
                         }}
-                        className="w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md cursor-pointer border-transparent"
+                        className="w-full rounded-lg font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md cursor-pointer border-transparent"
                       >
                         Enquiry Now
                       </Button>
@@ -505,7 +505,7 @@ export default function ProductCard({
                               e.stopPropagation();
                               handleAdd(e);
                             }}
-                            className={`w-full rounded-full font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
+                            className={`w-full rounded-lg font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
                               product.isAvailable === false
                               ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                               : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -532,7 +532,7 @@ export default function ProductCard({
                       </div>
                     ) : (
                       <div
-                        className="flex items-center justify-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-full px-1 py-0.5 h-8 w-full border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                        className="flex items-center justify-center gap-1.5 bg-[var(--customer-primary-alpha-10)] rounded-lg px-1 py-0.5 h-8 w-full border border-[var(--customer-primary-alpha-30)] shadow-sm"
                       >
                         <Button
                           variant="default"
@@ -675,7 +675,7 @@ export default function ProductCard({
                   e.stopPropagation();
                   handleCardClick();
                 }}
-                className="w-full border h-9 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
+                className="w-full border h-9 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
               >
                 Enquiry Now
               </Button>
@@ -687,7 +687,7 @@ export default function ProductCard({
                   size="sm"
                   disabled={product.isAvailable === false}
                   onClick={handleAdd}
-                  className={`w-full border h-9 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 shadow-sm ${
+                  className={`w-full border h-9 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all duration-300 shadow-sm ${
                     product.isAvailable === false
                     ? 'border-neutral-200 text-neutral-400 bg-neutral-50 cursor-not-allowed'
                     : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -715,7 +715,7 @@ export default function ProductCard({
               </div>
             ) : (
               <div
-                className="flex items-center justify-center gap-2 bg-[var(--customer-primary-alpha-10)] rounded-full px-2 py-1 h-9 border border-[var(--customer-primary-alpha-30)] shadow-sm"
+                className="flex items-center justify-center gap-2 bg-[var(--customer-primary-alpha-10)] rounded-lg px-2 py-1 h-9 border border-[var(--customer-primary-alpha-30)] shadow-sm"
               >
                 <Button
                   variant="default"

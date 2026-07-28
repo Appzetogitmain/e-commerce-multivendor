@@ -6,6 +6,31 @@ import CategoryCascadeFields from "../components/CategoryCascadeFields";
 import { getBrands, Brand } from "../../../../services/api/brandService";
 import { getShops, Shop } from "../../../../services/api/productService";
 
+const STORAGE_LOCATIONS: Record<string, Record<string, Record<string, string[]>>> = {
+  "Mumbai": {
+    "Mumbai Central Warehouse (MC-01)": {
+      "Room A": ["Rack 1", "Rack 2", "Rack 3", "Rack 4", "Rack 5"],
+      "Room B": ["Rack 1", "Rack 2", "Rack 3", "Rack 4", "Rack 5"]
+    },
+    "Andheri Warehouse (AW-02)": {
+      "Room 101": ["Rack A", "Rack B", "Rack C"],
+      "Room 102": ["Rack A", "Rack B", "Rack C"]
+    }
+  },
+  "Delhi": {
+    "Okhla Warehouse (OW-01)": {
+      "Room X": ["Rack R1", "Rack R2", "Rack R3"],
+      "Room Y": ["Rack R1", "Rack R2", "Rack R3"]
+    }
+  },
+  "Bangalore": {
+    "Whitefield Warehouse (WW-01)": {
+      "Room 1": ["Rack B1", "Rack B2", "Rack B3", "Rack B4"],
+      "Room 2": ["Rack B1", "Rack B2", "Rack B3", "Rack B4"]
+    }
+  }
+};
+
 interface Props {
   role: "admin" | "seller";
   mainInfo: ProductMainInfoForm;
@@ -38,6 +63,48 @@ export default function ProductMainInfoSection({
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loadingBrands, setLoadingBrands] = useState(true);
   const [shops, setShops] = useState<Shop[]>([]);
+
+  const [manualCity, setManualCity] = useState(false);
+  const [manualWarehouse, setManualWarehouse] = useState(false);
+  const [manualRoom, setManualRoom] = useState(false);
+  const [manualRack, setManualRack] = useState(false);
+
+  // Auto-detect custom values on load
+  useEffect(() => {
+    if (mainInfo.storageCity && !Object.keys(STORAGE_LOCATIONS).includes(mainInfo.storageCity)) {
+      setManualCity(true);
+    }
+  }, [mainInfo.storageCity]);
+
+  useEffect(() => {
+    if (mainInfo.storageWarehouse) {
+      const cityLocs = STORAGE_LOCATIONS[mainInfo.storageCity];
+      if (!cityLocs || !Object.keys(cityLocs).includes(mainInfo.storageWarehouse)) {
+        setManualWarehouse(true);
+      }
+    }
+  }, [mainInfo.storageCity, mainInfo.storageWarehouse]);
+
+  useEffect(() => {
+    if (mainInfo.storageRoom) {
+      const cityLocs = STORAGE_LOCATIONS[mainInfo.storageCity];
+      const whLocs = cityLocs?.[mainInfo.storageWarehouse];
+      if (!whLocs || !Object.keys(whLocs).includes(mainInfo.storageRoom)) {
+        setManualRoom(true);
+      }
+    }
+  }, [mainInfo.storageCity, mainInfo.storageWarehouse, mainInfo.storageRoom]);
+
+  useEffect(() => {
+    if (mainInfo.storageRack) {
+      const cityLocs = STORAGE_LOCATIONS[mainInfo.storageCity];
+      const whLocs = cityLocs?.[mainInfo.storageWarehouse];
+      const roomLocs = whLocs?.[mainInfo.storageRoom];
+      if (!roomLocs || !roomLocs.includes(mainInfo.storageRack)) {
+        setManualRack(true);
+      }
+    }
+  }, [mainInfo.storageCity, mainInfo.storageWarehouse, mainInfo.storageRoom, mainInfo.storageRack]);
 
   useEffect(() => {
     let cancelled = false;
@@ -344,6 +411,197 @@ export default function ProductMainInfoSection({
           </div>
         </FormSectionCard>
       )}
+
+      <FormSectionCard
+        title="Storage Location"
+        subtitle="Specify the physical location of the product"
+        accent="indigo"
+        icon={<span className="text-lg">📍</span>}
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <FormField
+            label={
+              <div className="flex justify-between items-center w-full">
+                <span>City</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setManualCity(!manualCity);
+                    onChange({ storageCity: "", storageWarehouse: "", storageRoom: "", storageRack: "" });
+                  }}
+                  className="text-xs text-blue-600 hover:text-blue-800 underline font-normal focus:outline-none"
+                >
+                  {manualCity ? "Select from list" : "Type custom"}
+                </button>
+              </div>
+            }
+          >
+            {manualCity ? (
+              <input
+                className={inputClass}
+                value={mainInfo.storageCity}
+                onChange={(e) => onChange({
+                  storageCity: e.target.value,
+                  storageWarehouse: "",
+                  storageRoom: "",
+                  storageRack: ""
+                })}
+                placeholder="Enter city"
+              />
+            ) : (
+              <select
+                className={selectClass}
+                value={mainInfo.storageCity}
+                onChange={(e) => onChange({
+                  storageCity: e.target.value,
+                  storageWarehouse: "",
+                  storageRoom: "",
+                  storageRack: ""
+                })}
+              >
+                <option value="">Select City</option>
+                {Object.keys(STORAGE_LOCATIONS).map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            )}
+          </FormField>
+
+          <FormField
+            label={
+              <div className="flex justify-between items-center w-full">
+                <span>Warehouse</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setManualWarehouse(!manualWarehouse);
+                    onChange({ storageWarehouse: "", storageRoom: "", storageRack: "" });
+                  }}
+                  className="text-xs text-blue-600 hover:text-blue-800 underline font-normal focus:outline-none"
+                >
+                  {manualWarehouse ? "Select from list" : "Type custom"}
+                </button>
+              </div>
+            }
+          >
+            {manualWarehouse ? (
+              <input
+                className={inputClass}
+                value={mainInfo.storageWarehouse}
+                onChange={(e) => onChange({
+                  storageWarehouse: e.target.value,
+                  storageRoom: "",
+                  storageRack: ""
+                })}
+                placeholder="Enter warehouse"
+                disabled={!mainInfo.storageCity}
+              />
+            ) : (
+              <select
+                className={selectClass}
+                value={mainInfo.storageWarehouse}
+                onChange={(e) => onChange({
+                  storageWarehouse: e.target.value,
+                  storageRoom: "",
+                  storageRack: ""
+                })}
+                disabled={!mainInfo.storageCity}
+              >
+                <option value="">Select Warehouse</option>
+                {mainInfo.storageCity && Object.keys(STORAGE_LOCATIONS[mainInfo.storageCity] || {}).map((wh) => (
+                  <option key={wh} value={wh}>{wh}</option>
+                ))}
+              </select>
+            )}
+          </FormField>
+
+          <FormField
+            label={
+              <div className="flex justify-between items-center w-full">
+                <span>Room</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setManualRoom(!manualRoom);
+                    onChange({ storageRoom: "", storageRack: "" });
+                  }}
+                  className="text-xs text-blue-600 hover:text-blue-800 underline font-normal focus:outline-none"
+                >
+                  {manualRoom ? "Select from list" : "Type custom"}
+                </button>
+              </div>
+            }
+          >
+            {manualRoom ? (
+              <input
+                className={inputClass}
+                value={mainInfo.storageRoom}
+                onChange={(e) => onChange({
+                  storageRoom: e.target.value,
+                  storageRack: ""
+                })}
+                placeholder="Enter room"
+                disabled={!mainInfo.storageWarehouse}
+              />
+            ) : (
+              <select
+                className={selectClass}
+                value={mainInfo.storageRoom}
+                onChange={(e) => onChange({
+                  storageRoom: e.target.value,
+                  storageRack: ""
+                })}
+                disabled={!mainInfo.storageWarehouse}
+              >
+                <option value="">Select Room</option>
+                {mainInfo.storageCity && mainInfo.storageWarehouse && Object.keys(STORAGE_LOCATIONS[mainInfo.storageCity]?.[mainInfo.storageWarehouse] || {}).map((room) => (
+                  <option key={room} value={room}>{room}</option>
+                ))}
+              </select>
+            )}
+          </FormField>
+
+          <FormField
+            label={
+              <div className="flex justify-between items-center w-full">
+                <span>Rack Number</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setManualRack(!manualRack);
+                    onChange({ storageRack: "" });
+                  }}
+                  className="text-xs text-blue-600 hover:text-blue-800 underline font-normal focus:outline-none"
+                >
+                  {manualRack ? "Select from list" : "Type custom"}
+                </button>
+              </div>
+            }
+          >
+            {manualRack ? (
+              <input
+                className={inputClass}
+                value={mainInfo.storageRack}
+                onChange={(e) => onChange({ storageRack: e.target.value })}
+                placeholder="Enter rack number"
+                disabled={!mainInfo.storageRoom}
+              />
+            ) : (
+              <select
+                className={selectClass}
+                value={mainInfo.storageRack}
+                onChange={(e) => onChange({ storageRack: e.target.value })}
+                disabled={!mainInfo.storageRoom}
+              >
+                <option value="">Select Rack Number</option>
+                {mainInfo.storageCity && mainInfo.storageWarehouse && mainInfo.storageRoom && (STORAGE_LOCATIONS[mainInfo.storageCity]?.[mainInfo.storageWarehouse]?.[mainInfo.storageRoom] || []).map((rack) => (
+                  <option key={rack} value={rack}>{rack}</option>
+                ))}
+              </select>
+            )}
+          </FormField>
+        </div>
+      </FormSectionCard>
     </div>
   );
 }

@@ -326,17 +326,33 @@ button[class*="border-[#0d055a]"][class*="group"]:hover {
 .amazon-nav-font span,
 .amazon-nav-font div,
 .amazon-nav-font a {
-  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 /* Flipkart Style Category Dual-Tone Icons */
 .category-tab-icon svg {
-  color: #26332D !important; /* Charcoal outline */
+  color: #374151; /* Charcoal outline */
   width: 28px !important;
   height: 28px !important;
   display: block;
   margin: auto;
+  transition: all 0.3s ease;
+}
+.category-tab-icon-active svg {
+  color: #163F2E !important; /* Theme primary active color */
 }
 .category-tab-icon svg * {
-  stroke-width: 2.2px !important;
+  stroke-width: 1.2px !important;
+}
+/* Sub-elements inside SVG colored with Accent Gold to achieve Flipkart dual-tone effect */
+.category-tab-icon svg path:nth-last-child(1),
+.category-tab-icon svg circle:nth-last-child(1),
+.category-tab-icon svg line:nth-last-child(1),
+.category-tab-icon svg polygon:nth-last-child(1),
+.category-tab-icon svg rect:nth-last-child(1) {
+  stroke: #F2B134 !important;
+}
+/* Ensure fill remains correct if required */
+.category-tab-icon svg path:nth-last-child(1)[fill="currentColor"] {
+  fill: #F2B134 !important;
 }

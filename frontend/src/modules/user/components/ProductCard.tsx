@@ -361,27 +361,27 @@ export default function ProductCard({
 
           {categoryStyle && showBadge && discount > 0 && (
             <div
-                className="absolute top-0 left-0 z-10 text-white text-xs font-bold px-3 py-1.5 rounded-br-xl flex items-center gap-1 shadow-sm transition-transform hover:scale-105"
+                className="absolute top-0 left-0 z-10 text-white text-sm font-bold px-4 py-2 rounded-br-xl flex items-center gap-1.5 shadow-sm transition-transform hover:scale-105"
                 style={{ background: 'linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-primary-dark) 100%)' }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
-              <span>{discount}% OFFERER</span>
+              <span>{discount}% OFFER</span>
             </div>
           )}
 
           {!categoryStyle && showBadge && (badgeText || discount > 0) && (
             <div
-              className="absolute top-0 left-0 z-10 text-white text-xs px-3 py-1.5 font-bold rounded-br-xl shadow-md flex items-center gap-1"
+              className="absolute top-0 left-0 z-10 text-white text-sm px-4 py-2 font-bold rounded-br-xl shadow-md flex items-center gap-1.5"
               style={{ background: 'linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-primary-dark) 100%)' }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
                 <line x1="7" y1="7" x2="7.01" y2="7"></line>
               </svg>
-              <span>{badgeText || `${discount}% OFFERER`}</span>
+              <span>{badgeText || `${discount}% OFFER`}</span>
             </div>
           )}
 
@@ -492,16 +492,16 @@ export default function ProductCard({
                                <div className="flex items-center gap-1">
                                  <span className="font-bold text-[var(--customer-primary-dark)]">₹{tier.price}</span>
                                   <span className="text-[var(--customer-primary)] font-bold bg-[var(--customer-primary-alpha-10)] px-1 rounded-sm">
-                                   {Math.round(((mrp - tier.price) / mrp) * 100)}% OFFERER
+                                   {Math.round(((mrp - tier.price) / mrp) * 100)}% OFFER
                                  </span>
-                               </div>
+                                </div>
                             </div>
                         ))}
                      </div>
                   ) : (
                      discount > 0 && (
-                       <p className="text-[10px] font-semibold text-[var(--customer-primary)] mb-0.5 leading-tight">
-                        {discount}% OFFERER
+                       <p className="text-xs md:text-sm font-bold text-[var(--customer-primary)] mb-0.5 leading-tight">
+                        {discount}% OFFER
                        </p>
                      )
                   )}
@@ -546,7 +546,7 @@ export default function ProductCard({
                               e.stopPropagation();
                               handleAdd(e);
                             }}
-                            className={`w-full rounded-lg font-bold text-[11px] h-8 px-4 flex items-center justify-center gap-1.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
+                            className={`w-full rounded-lg font-black text-base h-11 px-4 flex items-center justify-center gap-2.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
                               product.isAvailable === false
                               ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                               : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -561,7 +561,7 @@ export default function ProductCard({
                                'Out of Stock'
                             ) : (
                               <>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
                                   <line x1="12" y1="5" x2="12" y2="19"></line>
                                   <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
@@ -573,60 +573,45 @@ export default function ProductCard({
                       </div>
                     ) : (
                       <div
-                        className="flex items-center justify-center gap-2.5 bg-neutral-50 rounded-lg px-2 py-1 h-10 w-full border border-neutral-200 shadow-sm"
+                        className="flex items-center justify-between bg-white rounded-lg h-11 w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm"
                       >
-                        <Button
-                          variant="default"
-                          size="icon"
+                        <button
+                          type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleDecrease(e);
                           }}
-                          className="w-8 h-8 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
+                          className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
                           aria-label="Decrease quantity"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                          </svg>
-                        </Button>
-                        {inCartQty >= 5 ? (
-                          <input
-                            type="number"
-                            value={localQty === 0 ? '' : localQty}
-                            onChange={(e) => handleQuantityInputChange(e.target.value)}
-                            onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                handleQuantityInputBlurOrSubmit(localQty);
-                                (e.target as HTMLInputElement).blur();
-                              }
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-12 h-8 text-center font-bold text-sm bg-white text-neutral-800 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--customer-primary)] focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-sm"
-                          />
-                        ) : (
-                          <span className="text-sm font-bold min-w-[1.5rem] text-center text-neutral-850">
-                            {inCartQty}
-                          </span>
-                        )}
-                        <Button
-                          variant="default"
-                          size="icon"
+                          <span className="text-lg font-black select-none">−</span>
+                        </button>
+                        <input
+                          type="number"
+                          value={localQty === 0 ? '' : localQty}
+                          onChange={(e) => handleQuantityInputChange(e.target.value)}
+                          onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleQuantityInputBlurOrSubmit(localQty);
+                              (e.target as HTMLInputElement).blur();
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-12 h-full text-center font-bold text-sm bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
+                        <button
+                          type="button"
                           disabled={product.isAvailable === false}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleIncrease(e);
                           }}
-                          className={`w-8 h-8 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center ${
-                            product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
-                          }`}
+                          className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
                           aria-label="Increase quantity"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                          </svg>
-                        </Button>
+                          <span className="text-lg font-black select-none">+</span>
+                        </button>
                       </div>
                     )}
                   </div>
@@ -680,7 +665,7 @@ export default function ProductCard({
                                       <span className="font-bold text-red-800">Buy {tier.minQty}+</span>
                                       <div className="flex items-center gap-1">
                                           <span className="font-bold text-red-700">₹{tier.price}</span>
-                                          {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFFERER)</span>}
+                                          {tierDiscount > 0 && <span className="text-[9px] text-[var(--customer-primary)] font-bold">({tierDiscount}% OFFER)</span>}
                                       </div>
                                   </div>
                               );
@@ -733,7 +718,7 @@ export default function ProductCard({
                   e.stopPropagation();
                   handleCardClick();
                 }}
-                className="w-full border h-9 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
+                className="w-full border h-11 rounded-lg text-sm font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
               >
                 Enquiry Now
               </Button>
@@ -745,7 +730,7 @@ export default function ProductCard({
                   size="sm"
                   disabled={product.isAvailable === false}
                   onClick={handleAdd}
-                  className={`w-full border h-9 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all duration-300 shadow-sm ${
+                  className={`w-full border h-11 rounded-lg text-base font-black uppercase tracking-wider transition-all duration-300 shadow-sm ${
                     product.isAvailable === false
                     ? 'border-neutral-200 text-neutral-400 bg-neutral-50 cursor-not-allowed'
                     : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -759,8 +744,8 @@ export default function ProductCard({
                   {product.isAvailable === false ? (
                     'Out of Range'
                   ) : (
-                    <div className="flex items-center justify-center gap-1.5">
-                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="flex items-center justify-center gap-2.5">
+                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                       </svg>
@@ -773,54 +758,39 @@ export default function ProductCard({
               </div>
             ) : (
               <div
-                className="flex items-center justify-center gap-2.5 bg-neutral-50 rounded-lg px-2 py-1.5 h-11 border border-neutral-200 shadow-sm"
+                className="flex items-center justify-between bg-white rounded-lg h-11 w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm"
               >
-                <Button
-                  variant="default"
-                  size="icon"
+                <button
+                  type="button"
                   onClick={handleDecrease}
-                  className="w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
+                  className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
                   aria-label="Decrease quantity"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </Button>
-                {inCartQty >= 5 ? (
-                  <input
-                    type="number"
-                    value={localQty === 0 ? '' : localQty}
-                    onChange={(e) => handleQuantityInputChange(e.target.value)}
-                    onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleQuantityInputBlurOrSubmit(localQty);
-                        (e.target as HTMLInputElement).blur();
-                      }
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-14 h-9 text-center font-bold text-sm bg-white text-neutral-800 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--customer-primary)] focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-sm"
-                  />
-                ) : (
-                  <span className="text-sm font-bold min-w-[1.75rem] text-center text-neutral-850">
-                    {inCartQty}
-                  </span>
-                )}
-                <Button
-                  variant="default"
-                  size="icon"
+                  <span className="text-lg font-black select-none">−</span>
+                </button>
+                <input
+                  type="number"
+                  value={localQty === 0 ? '' : localQty}
+                  onChange={(e) => handleQuantityInputChange(e.target.value)}
+                  onBlur={() => handleQuantityInputBlurOrSubmit(localQty)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleQuantityInputBlurOrSubmit(localQty);
+                      (e.target as HTMLInputElement).blur();
+                    }
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-14 h-full text-center font-bold text-sm bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <button
+                  type="button"
                   disabled={product.isAvailable === false}
                   onClick={handleIncrease}
-                  className={`w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center ${
-                    product.isAvailable === false ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
                   aria-label="Increase quantity"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </Button>
+                  <span className="text-lg font-black select-none">+</span>
+                </button>
               </div>
             )}
           </div>

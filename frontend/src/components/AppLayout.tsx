@@ -483,7 +483,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onMouseEnter={() => setShowCategoryDropdown(true)}
                     onMouseLeave={() => setShowCategoryDropdown(false)}
                     onClick={() => setShowCategoryDropdown(true)}
-                    className="relative flex items-center gap-1 px-3 bg-neutral-100 border-r border-neutral-300 text-[11px] text-neutral-600 h-full cursor-pointer hover:bg-neutral-200 font-sans select-none rounded-l-md"
+                    className="relative flex items-center gap-1 px-3 bg-transparent text-[11px] text-neutral-600 h-full cursor-pointer hover:bg-neutral-50 font-sans select-none rounded-l-md"
                     ref={categoryDropdownRef}
                   >
                     <span className="truncate max-w-[60px]">{selectedCategory.name}</span>
@@ -618,15 +618,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
                     placeholder="Search for products..."
-                    className="w-full px-3 py-2 text-sm bg-white text-neutral-800 focus:outline-none placeholder:text-neutral-400 font-sans"
+                    className="w-full px-3 py-2 text-sm bg-transparent text-neutral-800 focus:outline-none placeholder:text-neutral-400 font-sans"
                   />
                   {/* Barcode scanner button */}
                   <button
                     onClick={() => openBarcodeScanner(() => setShowScanner(true))}
-                    className="px-3 bg-neutral-50 hover:bg-neutral-100 border-l border-neutral-200 text-neutral-600 flex items-center justify-center transition-colors h-full"
+                    className="px-3 bg-transparent hover:bg-neutral-50 text-neutral-600 flex items-center justify-center transition-colors h-full"
                     title="Scan Barcode"
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
                       <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
                       <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
@@ -854,7 +854,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                                           <span className="text-[10px] text-neutral-400 line-through">₹{item.mrp}</span>
                                         )}
                                         {item.discount > 0 && (
-                                          <span className="text-[10px] text-[var(--customer-primary)] font-medium">({item.discount}% OFFERER)</span>
+                                          <span className="text-[10px] text-[var(--customer-primary)] font-medium">({item.discount}% OFFER)</span>
                                         )}
                                       </div>
                                     )}

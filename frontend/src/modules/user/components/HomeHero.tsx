@@ -510,7 +510,7 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
         </Link>
       </div>
 
-      <div className={`${isSticky ? 'pt-2 pb-1' : 'border-b border-neutral-200 mt-0.5 md:mt-0 pt-2 pb-1.5'} w-full flex items-center justify-center`}>
+      <div className={`${isSticky ? 'pt-3 pb-1 md:pt-4' : 'border-b border-neutral-200 mt-0.5 md:mt-0 pt-3 pb-1.5 md:pt-4'} w-full flex items-center justify-center`}>
         <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-4 md:px-6 gap-1 md:gap-2">
           {/* Left Arrow Button */}
           <div
@@ -560,20 +560,20 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
                   key={tab.id}
                   ref={(el) => { if (el) tabRefs.current.set(tab.id, el); else tabRefs.current.delete(tab.id); }}
                   onClick={() => handleTabClick(tab.id)}
-                  className="flex-shrink-0 flex flex-col items-center justify-center w-[calc((100vw-32px-48px)/5)] md:w-auto md:min-w-[62px] px-0.5 py-0 md:px-3 relative z-10 transition-all duration-300"
+                  className="flex-shrink-0 flex flex-col items-center justify-center w-[calc((100vw-32px-48px)/5)] md:w-auto md:min-w-[62px] px-0.5 py-0 md:px-3 relative z-10 transition-all duration-300 group"
                   type="button"
                 >
                   <div
-                    className="w-[48px] h-[48px] md:w-[56px] md:h-[56px] flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
+                    className="w-[48px] h-[48px] md:w-[56px] md:h-[56px] flex items-center justify-center transition-all duration-300 active:scale-95"
                   >
                     <div
-                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1 transition-all duration-300 category-tab-icon ${isActive ? 'category-tab-icon-active shadow-sm border border-[#b3d7ff]' : 'border border-transparent hover:bg-neutral-100 hover:scale-105'}`}
+                      className={`w-full h-full rounded-xl flex items-center justify-center overflow-hidden p-1 transition-all duration-300 category-tab-icon ${isActive ? 'category-tab-icon-active shadow-sm border border-[#b3d7ff]' : 'border border-transparent hover:bg-neutral-100'}`}
                       style={{
                         backgroundColor: isActive ? '#e6f2ff' : 'transparent',
                         color: isActive ? '#1e40af' : '#4b5563'
                       }}
                     >
-                      <div className="w-9 h-9 md:w-[44px] md:h-[44px] flex items-center justify-center flex-shrink-0 [&>svg]:w-full [&>svg]:h-full">
+                      <div className="w-9 h-9 md:w-[44px] md:h-[44px] flex items-center justify-center flex-shrink-0 [&>svg]:w-full [&>svg]:h-full transition-transform duration-300 group-hover:scale-110">
                         {tab.icon}
                       </div>
                     </div>

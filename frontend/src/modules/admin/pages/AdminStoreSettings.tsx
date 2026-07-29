@@ -325,7 +325,7 @@ export default function AdminStoreSettings() {
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-neutral-600 ml-1">Customer Support Phone</label>
                                 <div className="relative group">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
+                                    <div className="store-settings-icon-box absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
                                         <Phone className="h-4 w-4" />
                                     </div>
                                     <input
@@ -342,7 +342,7 @@ export default function AdminStoreSettings() {
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-neutral-600 ml-1">Official Email Address</label>
                                 <div className="relative group">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
+                                    <div className="store-settings-icon-box absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
                                         <Mail className="h-4 w-4" />
                                     </div>
                                     <input
@@ -363,7 +363,7 @@ export default function AdminStoreSettings() {
                                 <span className="text-[10px] text-neutral-400 font-normal uppercase italic tracking-widest">(Used for Deliveries)</span>
                             </label>
                             <div className="relative group">
-                                <div className="absolute left-4 top-4 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-[var(--primary-color)]">
+                                <div className="store-settings-icon-box-top absolute left-4 top-4 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-[var(--primary-color)]">
                                     <MapPin className="h-4 w-4" />
                                 </div>
                                 <textarea

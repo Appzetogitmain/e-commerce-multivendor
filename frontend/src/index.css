@@ -429,3 +429,49 @@ input.pos-compact-input {
   font-size: 13px !important;
   padding: 4px 8px !important;
 }
+
+/* Footer content container centering and layout alignment */
+.footer-content-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 62px !important;
+  padding-right: 62px !important;
+}
+
+/* Enforce correct dimensions and alignment for store settings icon pills to prevent stretching */
+.store-settings-icon-box {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #f3f4f6 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  position: absolute !important;
+  left: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+}
+
+.store-settings-icon-box-top {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #f3f4f6 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  position: absolute !important;
+  left: 16px !important;
+  top: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+}
+
+

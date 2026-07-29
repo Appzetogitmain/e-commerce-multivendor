@@ -12,7 +12,7 @@ export default function Footer() {
   const address = config?.address || '123, Mall Road, Sector 15, Indore, MP, India';
 
   return (
-    <footer className="hidden md:block w-full max-w-7xl mx-auto relative bg-[#090b09] text-neutral-300 pt-20 pb-8 font-sans overflow-hidden mt-12 px-10 md:rounded-t-2xl md:mb-6 shadow-lg">
+    <footer className="hidden md:block w-full relative bg-[#090b09] text-neutral-300 pt-20 pb-8 font-sans overflow-hidden mt-12 shadow-lg md:-mx-[50px] md:w-[calc(100%+100px)]">
       {/* Green Wave border outline */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-[1]">
         <svg
@@ -39,7 +39,7 @@ export default function Footer() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="footer-content-container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-neutral-800">
           
           {/* Column 1: Logo & Desc */}

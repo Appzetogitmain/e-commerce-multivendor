@@ -33,16 +33,19 @@ function LazyProductGrid({
   showStockInfo = true,
   batchSize = 8,
 }: LazyProductGridProps) {
-  const [visibleCount, setVisibleCount] = useState(() => Math.min(batchSize, products.length));
+  const [isExpanded, setIsExpanded] = useState(false);
+  const displayProducts = isExpanded ? products : products.slice(0, 20);
+
+  const [visibleCount, setVisibleCount] = useState(() => Math.min(batchSize, displayProducts.length));
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setVisibleCount(Math.min(batchSize, products.length));
-  }, [batchSize, products]);
+    setVisibleCount(Math.min(batchSize, displayProducts.length));
+  }, [batchSize, displayProducts]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
-    if (!sentinel || visibleCount >= products.length) {
+    if (!sentinel || visibleCount >= displayProducts.length) {
       return;
     }
 
@@ -52,7 +55,7 @@ function LazyProductGrid({
           return;
         }
 
-        setVisibleCount((current) => Math.min(current + batchSize, products.length));
+        setVisibleCount((current) => Math.min(current + batchSize, displayProducts.length));
       },
       {
         rootMargin: "220px 0px",
@@ -62,12 +65,12 @@ function LazyProductGrid({
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [batchSize, products.length, visibleCount]);
+  }, [batchSize, displayProducts.length, visibleCount]);
 
   return (
-    <>
-      <div className={gridClassName}>
-        {products.slice(0, visibleCount).map((product) => (
+    <div className="flex flex-col items-center w-full">
+      <div className={`${gridClassName} w-full`}>
+        {displayProducts.slice(0, visibleCount).map((product) => (
           <ProductCard
             key={product.id || product._id}
             product={product}
@@ -79,10 +82,20 @@ function LazyProductGrid({
           />
         ))}
       </div>
-      {visibleCount < products.length && (
+      {visibleCount < displayProducts.length && (
         <div ref={sentinelRef} className="h-16 w-full" aria-hidden="true" />
       )}
-    </>
+      {!isExpanded && products.length > 20 && (
+        <div className="w-full flex justify-center mt-6">
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="px-8 py-2.5 bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 transition-all font-semibold rounded-lg shadow-sm text-sm"
+          >
+            View More
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

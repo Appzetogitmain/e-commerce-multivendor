@@ -891,14 +891,14 @@ export default function Checkout() {
             
             {/* Ordering for someone else */}
             <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-3 flex items-center justify-between shadow-sm">
-              <span className="text-xs text-neutral-700">Ordering for someone else?</span>
+              <span className="text-sm text-neutral-700">Ordering for someone else?</span>
               <button
                 onClick={() => navigate('/checkout/address', {
                   state: {
                     editAddress: savedAddress
                   }
                 })}
-                className="text-xs text-[var(--customer-primary-dark)] font-medium hover:text-[var(--customer-primary-dark)] transition-colors"
+                className="text-sm text-[var(--customer-primary-dark)] font-medium hover:text-[var(--customer-primary-dark)] transition-colors"
               >
                 Add details
               </button>
@@ -908,8 +908,8 @@ export default function Checkout() {
             {savedAddress && (
               <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
                 <div className="mb-3">
-                  <h3 className="text-sm font-semibold text-neutral-900 mb-0.5">Delivery Address</h3>
-                  <p className="text-xs text-neutral-600">Select or edit your saved address</p>
+                  <h3 className="text-base font-semibold text-neutral-900 mb-0.5">Delivery Address</h3>
+                  <p className="text-sm text-neutral-600">Select or edit your saved address</p>
                 </div>
 
                 <div
@@ -928,10 +928,10 @@ export default function Checkout() {
                             </svg>
                           )}
                         </div>
-                        <span className="text-xs font-semibold text-neutral-900">{savedAddress.name}</span>
+                        <span className="text-sm font-semibold text-neutral-900">{savedAddress.name}</span>
                       </div>
-                      <p className="text-xs text-neutral-600 mb-0.5">{savedAddress.phone}</p>
-                      <p className="text-xs text-neutral-600">
+                      <p className="text-sm text-neutral-600 mb-0.5">{savedAddress.phone}</p>
+                      <p className="text-sm text-neutral-600">
                         {savedAddress.flat}, {savedAddress.street}, {savedAddress.city} - {savedAddress.pincode}
                       </p>
                     </div>
@@ -944,7 +944,7 @@ export default function Checkout() {
                           }
                         });
                       }}
-                      className="text-xs text-[var(--customer-primary-dark)] font-medium ml-2 hover:underline"
+                      className="text-sm text-[var(--customer-primary-dark)] font-medium ml-2 hover:underline"
                     >
                       Edit
                     </button>
@@ -963,7 +963,7 @@ export default function Checkout() {
                     <path d="M12 6v6l4 2" stroke="white" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </div>
-                <span className="text-xs font-semibold text-neutral-900">Delivery in {config.estimatedDeliveryTime}</span>
+                <span className="text-sm font-semibold text-neutral-900">Delivery in {config.estimatedDeliveryTime}</span>
               </div>
 
               {/* Cart reward progress (free gifts + discounts) */}
@@ -980,13 +980,13 @@ export default function Checkout() {
                 return (
                   <div className="mb-4 p-3 bg-gray-50 rounded-xl border border-dashed border-gray-300">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-xs font-semibold text-gray-800">
+                      <span className="text-sm md:text-base font-bold text-gray-900">
                         {nextRule
                           ? `Unlock: ${getRuleRewardLabel(nextRule)}`
                           : '🎉 All Rewards Unlocked!'}
                       </span>
                       {nextRule && (
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-xs md:text-sm text-gray-600">
                           Add <span className="font-bold text-[var(--customer-primary-dark)]">₹{nextRule.minCartValue - currentTotal}</span> more
                         </span>
                       )}
@@ -1013,13 +1013,13 @@ export default function Checkout() {
                           >
                             <div className={`w-6 h-6 rounded-full border flex items-center justify-center bg-white transition-all duration-300 ${isUnlocked ? 'border-[var(--customer-primary)] text-[var(--customer-primary)] shadow-sm' : 'border-gray-300 text-gray-300'}`}>
                               {isUnlocked ? (
-                                <span className="text-[10px] font-bold">✓</span>
+                                <span className="text-xs font-bold">✓</span>
                               ) : (
-                                <span className="text-[8px]">{isDiscount ? '%' : '🎁'}</span>
+                                <span className="text-[10px]">{isDiscount ? '%' : '🎁'}</span>
                               )}
                             </div>
                             <div className="absolute top-7 w-16 text-center">
-                              <span className={`text-[8px] font-bold block ${isUnlocked ? 'text-[var(--customer-primary-dark)]' : 'text-gray-400'}`}>
+                              <span className={`text-xs md:text-sm font-extrabold block ${isUnlocked ? 'text-[var(--customer-primary-dark)]' : 'text-gray-500'}`}>
                                 ₹{rule.minCartValue}
                               </span>
                             </div>
@@ -1033,15 +1033,15 @@ export default function Checkout() {
                         {unlockedRules.map((rule) => (
                           <div key={`unlocked-${rule._id || rule.id}`} className="flex items-center gap-2">
                             {rule.ruleType === 'discount' ? (
-                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] text-[10px] font-bold flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center">
                                 {rule.discountType === 'percentage' ? '%' : '₹'}
                               </div>
                             ) : rule.giftProduct?.mainImage ? (
                               <img src={rule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm" />
                             ) : (
-                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-[10px] flex items-center justify-center">🎁</div>
+                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-xs flex items-center justify-center">🎁</div>
                             )}
-                            <span className="text-[10px] text-gray-600">
+                            <span className="text-xs md:text-sm text-gray-700">
                               {rule.ruleType === 'discount' ? (
                                 <>
                                   <b>{getRuleRewardLabel(rule)}</b> applied at ₹{rule.minCartValue}+
@@ -1060,13 +1060,13 @@ export default function Checkout() {
                     {nextRule && (
                       <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-100">
                         {nextRule.ruleType === 'discount' ? (
-                          <div className="w-6 h-6 rounded-full bg-white border border-gray-200 text-[var(--customer-primary-dark)] text-[10px] font-bold flex items-center justify-center">
+                          <div className="w-6 h-6 rounded-full bg-white border border-gray-200 text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center">
                             {nextRule.discountType === 'percentage' ? '%' : '₹'}
                           </div>
                         ) : nextRule.giftProduct?.mainImage ? (
                           <img src={nextRule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm" />
                         ) : null}
-                        <span className="text-[10px] text-gray-600">
+                        <span className="text-xs md:text-sm text-gray-700">
                           {nextRule.ruleType === 'discount' ? (
                             <>Get <b>{getRuleRewardLabel(nextRule)}</b> at ₹{nextRule.minCartValue}</>
                           ) : (
@@ -1079,7 +1079,7 @@ export default function Checkout() {
                 );
               })()}
 
-              <p className="text-xs text-neutral-600 mb-3">Shipment of {displayCart.itemCount || 0} {(displayCart.itemCount || 0) === 1 ? 'item' : 'items'}</p>
+              <p className="text-sm text-neutral-600 mb-3">Shipment of {displayCart.itemCount || 0} {(displayCart.itemCount || 0) === 1 ? 'item' : 'items'}</p>
 
               {/* Cart Items */}
               <div className="space-y-4">
@@ -1114,20 +1114,20 @@ export default function Checkout() {
                       {/* Product Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-2">
-                          <h3 className="text-xs font-semibold text-neutral-900 line-clamp-2">
+                          <h3 className="text-sm md:text-base font-bold text-neutral-900 line-clamp-2">
                             {prod?.name || prod?.productName}
-                            {isFreeGift && <span className="ml-1 text-[var(--customer-primary-dark)] font-bold">(Free Gift)</span>}
+                            {isFreeGift && <span className="ml-1 text-[var(--customer-primary-dark)] font-bold text-xs md:text-sm">(Free Gift)</span>}
                           </h3>
                           <div className="text-right flex-shrink-0">
                             {isFreeGift ? (
-                              <span className="text-xs font-bold text-neutral-900">₹0</span>
+                              <span className="text-sm md:text-base font-bold text-neutral-900">₹0</span>
                             ) : (
                               <div className="flex flex-col items-end">
-                                <span className="text-xs font-bold text-neutral-900">
+                                <span className="text-sm md:text-base font-bold text-neutral-900">
                                   ₹{(getCartLineUnitPrice(item) * (item.quantity || 0)).toFixed(2)}
                                 </span>
                                 {getCartLineUnitPrice(item) < calculateProductPrice(prod, getCartItemVariantSelector(item)).displayPrice && (
-                                  <span className="text-[9px] text-[var(--customer-primary-dark)] font-medium">
+                                  <span className="text-xs text-[var(--customer-primary-dark)] font-semibold">
                                     Bulk Applied
                                   </span>
                                 )}
@@ -1135,10 +1135,10 @@ export default function Checkout() {
                             )}
                           </div>
                         </div>
-                        <p className="text-[10px] text-neutral-600 mt-0.5">{item.quantity} × {item.variation || prod?.pack}</p>
+                        <p className="text-xs md:text-sm text-neutral-500 mt-1">{item.quantity} × {item.variation || prod?.pack}</p>
 
                         {isInsufficientStock && (
-                          <p className="text-[10px] text-red-500 font-bold mt-1 bg-red-50 border border-red-200 px-2 py-0.5 rounded block">
+                          <p className="text-xs md:text-sm text-red-600 font-bold mt-1.5 bg-red-50 border border-red-200 px-2.5 py-1 rounded block">
                             ⚠️ Only {availableStock} items left in stock (requested {item.quantity})
                           </p>
                         )}
@@ -1149,7 +1149,7 @@ export default function Checkout() {
                               e.stopPropagation();
                               if (prod) handleMoveToWishlist(prod);
                             }}
-                            className="text-[10px] text-[#d35400] font-medium mt-1 hover:text-[var(--customer-primary-dark)] transition-colors block"
+                            className="text-xs md:text-sm text-[#d35400] font-bold mt-1.5 hover:text-[var(--customer-primary-dark)] transition-colors block"
                           >
                             Move to wishlist
                           </button>
@@ -1158,11 +1158,11 @@ export default function Checkout() {
                         {/* Quantity Selector & Remove Button */}
                         <div className="flex items-center justify-between mt-2">
                           {isFreeGift ? (
-                            <div className="text-[10px] text-[var(--customer-primary-dark)] font-bold bg-[var(--customer-primary-alpha-10)] px-2 py-0.5 rounded">
+                            <div className="text-xs text-[var(--customer-primary-dark)] font-bold bg-[var(--customer-primary-alpha-10)] px-2 py-0.5 rounded">
                               Standard Qty: 1
                             </div>
                           ) : (
-                            <div className="flex items-center gap-1.5 bg-white border-2 border-[#d35400] rounded-full px-1.5 py-0.5">
+                            <div className="flex items-center justify-between w-28 h-8 bg-white border-2 border-[#d35400] rounded-full px-2">
                               <button
                                 type="button"
                                 onClick={(e) => {
@@ -1174,11 +1174,11 @@ export default function Checkout() {
                                   const pId = prod.id || prod._id || '';
                                   updateQuantity(pId as string, (item.quantity || 1) - 1, vId, vTitle);
                                 }}
-                                className="w-4 h-4 flex items-center justify-center text-[#d35400] font-bold hover:bg-[var(--customer-primary-alpha-10)] rounded-full transition-colors text-xs"
+                                className="w-5 h-5 flex items-center justify-center text-[#d35400] font-black hover:bg-[var(--customer-primary-alpha-10)] rounded-full transition-colors text-sm"
                               >
                                 −
                               </button>
-                              <span className="text-xs font-bold text-[#d35400] min-w-[1rem] text-center">
+                              <span className="text-sm font-bold text-[#d35400] min-w-[1rem] text-center">
                                 {item.quantity}
                               </span>
                               <button
@@ -1192,7 +1192,7 @@ export default function Checkout() {
                                   const pId = prod.id || prod._id || '';
                                   updateQuantity(pId as string, (item.quantity || 1) + 1, vId, vTitle);
                                 }}
-                                className="w-4 h-4 flex items-center justify-center text-[var(--customer-primary-dark)] font-bold hover:bg-[var(--customer-primary-alpha-10)] rounded-full transition-colors text-xs"
+                                className="w-5 h-5 flex items-center justify-center text-[var(--customer-primary-dark)] font-black hover:bg-[var(--customer-primary-alpha-10)] rounded-full transition-colors text-sm"
                               >
                                 +
                               </button>
@@ -1214,12 +1214,12 @@ export default function Checkout() {
                                   }
                                 }
                               }}
-                              className="flex items-center gap-1.5 text-xs text-red-600 font-bold hover:text-red-700 transition-colors bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg shadow-sm"
+                              className="flex items-center justify-center gap-1.5 text-xs text-red-600 font-bold hover:text-red-700 transition-colors bg-red-50/50 hover:bg-red-50 border border-red-200/60 h-8 px-3 rounded-lg shadow-sm"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                               </svg>
-                              Remove
+                              <span>Remove</span>
                             </button>
                           )}
                         </div>
@@ -1240,12 +1240,12 @@ export default function Checkout() {
                   </svg>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-blue-700">Get FREE delivery</span>
+                      <span className="text-sm font-bold text-blue-700">Get FREE delivery</span>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-500">
                         <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <p className="text-[10px] text-[var(--customer-primary-dark)] mt-0.5">Add products worth ₹{amountNeededForFreeDelivery} more</p>
+                    <p className="text-xs text-[var(--customer-primary-dark)] mt-0.5">Add products worth ₹{amountNeededForFreeDelivery} more</p>
                   </div>
                 </div>
                 {/* Progress bar */}
@@ -1260,8 +1260,8 @@ export default function Checkout() {
 
             {/* Tip your delivery partner */}
             <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h3 className="text-sm font-bold text-neutral-900 mb-0.5">Tip your delivery partner</h3>
-              <p className="text-xs text-neutral-600 mb-3">Your kindness means a lot! 100% of your tip goes to your delivery partner.</p>
+              <h3 className="text-base font-bold text-neutral-900 mb-0.5">Tip your delivery partner</h3>
+              <p className="text-sm text-neutral-600 mb-3">Your kindness means a lot! 100% of your tip goes to your delivery partner.</p>
 
               <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
                 {[20, 30, 50].map((amt, idx) => {
@@ -1273,7 +1273,7 @@ export default function Checkout() {
                         setTipAmount(amt);
                         setShowCustomTipInput(false);
                       }}
-                      className={`flex-shrink-0 px-4 py-2 rounded-xl border-2 font-semibold text-xs transition-all ${tipAmount === amt && !showCustomTipInput
+                      className={`flex-shrink-0 px-4 py-2 rounded-xl border-2 font-semibold text-sm transition-all ${tipAmount === amt && !showCustomTipInput
                         ? 'border-[var(--customer-primary-dark)] bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)]'
                         : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
                         }`}
@@ -1287,7 +1287,7 @@ export default function Checkout() {
                     setShowCustomTipInput(true);
                     setTipAmount(null);
                   }}
-                  className={`flex-shrink-0 px-4 py-2 rounded-xl border-2 font-semibold text-xs transition-all ${showCustomTipInput
+                  className={`flex-shrink-0 px-4 py-2 rounded-xl border-2 font-semibold text-sm transition-all ${showCustomTipInput
                     ? 'border-[var(--customer-primary-dark)] bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)]'
                     : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
                     }`}
@@ -1307,7 +1307,7 @@ export default function Checkout() {
                       if (val >= 0) setCustomTipAmount(val);
                     }}
                     placeholder="Enter custom tip amount"
-                    className="flex-1 px-3 py-2 bg-white border-2 border-[var(--customer-primary-dark)] rounded-lg text-xs text-neutral-900 focus:outline-none"
+                    className="flex-1 px-3 py-2 bg-white border-2 border-[var(--customer-primary-dark)] rounded-lg text-sm text-neutral-900 focus:outline-none"
                     min="0"
                   />
                   <button
@@ -1316,7 +1316,7 @@ export default function Checkout() {
                       setCustomTipAmount(0);
                       setTipAmount(null);
                     }}
-                    className="px-3 py-2 text-xs font-semibold text-neutral-600 hover:text-neutral-900"
+                    className="px-3 py-2 text-sm font-semibold text-neutral-600 hover:text-neutral-900"
                   >
                     Cancel
                   </button>
@@ -1332,11 +1332,11 @@ export default function Checkout() {
               >
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-[var(--customer-primary-alpha-20)] flex items-center justify-center">
-                    <span className="text-[var(--customer-primary-dark)] font-bold text-sm">%</span>
+                    <span className="text-[var(--customer-primary-dark)] font-bold text-base">%</span>
                   </div>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-neutral-900">Add GSTIN</p>
-                    <p className="text-[10px] text-neutral-600">
+                    <p className="text-sm font-bold text-neutral-900">Add GSTIN</p>
+                    <p className="text-xs text-neutral-600">
                       {gstin ? `GSTIN: ${gstin}` : 'Claim GST input credit up to 18% on your order'}
                     </p>
                   </div>
@@ -1373,16 +1373,16 @@ export default function Checkout() {
                     <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" stroke="currentColor" strokeWidth="2" fill="none" />
                   </svg>
                   <div className="text-left">
-                    <p className={`text-xs font-semibold ${giftPackaging ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
+                    <p className={`text-sm font-semibold ${giftPackaging ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
                       Gift Packaging
                     </p>
-                    <p className="text-[10px] text-neutral-600">
+                    <p className="text-xs text-neutral-600">
                       {giftPackaging ? 'Add ₹30 for gift packaging' : 'Add ₹30 for elegant gift packaging'}
                     </p>
                   </div>
                 </div>
                 {giftPackaging && (
-                  <span className="text-xs font-semibold text-[var(--customer-primary-dark)]">₹30</span>
+                  <span className="text-sm font-semibold text-[var(--customer-primary-dark)]">₹30</span>
                 )}
               </button>
             </div>
@@ -1403,22 +1403,22 @@ export default function Checkout() {
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-emerald-900 truncate">
+                      <p className="text-sm font-bold text-emerald-900 truncate">
                         {config.firstOrderOffer?.title || 'First order offer'}
                       </p>
-                      <p className="text-[10px] text-emerald-800 truncate">
+                      <p className="text-xs text-emerald-800 truncate">
                         Automatically applied · ₹{firstOrderDiscount} {config.firstOrderOffer?.subtitle || 'OFFER'}
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-emerald-700 flex-shrink-0">Applied</span>
+                  <span className="text-sm font-bold text-emerald-700 flex-shrink-0">Applied</span>
                 </div>
               </div>
             )}
 
             {/* Coupon Section */}
             <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h3 className="text-sm font-bold text-neutral-900 mb-3">Coupons & Offers</h3>
+              <h3 className="text-base font-bold text-neutral-900 mb-3">Coupons & Offers</h3>
               {selectedCoupon ? (
                 <div className="flex items-center justify-between bg-[var(--customer-primary-alpha-10)] rounded-lg p-2.5 border border-green-200">
                   <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -1428,13 +1428,13 @@ export default function Checkout() {
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-[var(--customer-primary-dark)] truncate">{selectedCoupon?.code}</p>
-                      <p className="text-[10px] text-[var(--customer-primary-dark)] truncate">{selectedCoupon?.title}</p>
+                      <p className="text-sm font-semibold text-[var(--customer-primary-dark)] truncate">{selectedCoupon?.code}</p>
+                      <p className="text-xs text-[var(--customer-primary-dark)] truncate">{selectedCoupon?.title}</p>
                     </div>
                   </div>
                   <button
                     onClick={handleRemoveCoupon}
-                    className="text-xs text-[var(--customer-primary-dark)] font-medium ml-2 flex-shrink-0 hover:underline"
+                    className="text-sm text-[var(--customer-primary-dark)] font-medium ml-2 flex-shrink-0 hover:underline"
                   >
                     Remove
                   </button>
@@ -1442,7 +1442,7 @@ export default function Checkout() {
               ) : (
                 <button
                   onClick={() => setShowCouponSheet(true)}
-                  className="w-full flex items-center justify-between bg-neutral-50 rounded-xl p-3 border border-neutral-200 hover:bg-neutral-100 transition-colors text-xs font-semibold text-neutral-700"
+                  className="w-full flex items-center justify-between bg-neutral-50 rounded-xl p-3 border border-neutral-200 hover:bg-neutral-100 transition-colors text-sm font-semibold text-neutral-700"
                 >
                   <span className="flex items-center gap-2">
                     🎟️ Apply Coupon / Code
@@ -1456,24 +1456,24 @@ export default function Checkout() {
 
             {/* Bill details */}
             <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h2 className="text-sm font-bold text-neutral-900 mb-3 pb-2 border-b border-neutral-100">Bill details</h2>
+              <h2 className="text-base font-bold text-neutral-900 mb-3 pb-2 border-b border-neutral-100">Bill details</h2>
 
               <div className="space-y-3">
                 {/* Items total */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-neutral-700">Items total</span>
+                    <span className="text-sm text-neutral-700">Items total</span>
                     {savedAmount > 0 && (
-                      <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-blue-700 px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-blue-700 px-1.5 py-0.5 rounded-full font-medium">
                         Saved ₹{savedAmount}
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-1.5">
                     {itemsTotal > discountedTotal && (
-                      <span className="text-xs text-neutral-500 line-through">₹{itemsTotal}</span>
+                      <span className="text-sm text-neutral-500 line-through">₹{itemsTotal}</span>
                     )}
-                    <span className="text-xs font-medium text-neutral-900">₹{discountedTotal}</span>
+                    <span className="text-sm font-medium text-neutral-900">₹{discountedTotal}</span>
                   </div>
                 </div>
 
@@ -1485,14 +1485,14 @@ export default function Checkout() {
                       <circle cx="5.5" cy="18.5" r="1.5" fill="currentColor" />
                       <circle cx="18.5" cy="18.5" r="1.5" fill="currentColor" />
                     </svg>
-                    <span className="text-xs text-neutral-700">Delivery charge</span>
+                    <span className="text-sm text-neutral-700">Delivery charge</span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className={`text-xs font-medium ${deliveryCharge === 0 ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
+                    <span className={`text-sm font-medium ${deliveryCharge === 0 ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
                       {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
                     </span>
                     {deliveryCharge > 0 && (
-                      <span className="text-[9px] text-[var(--customer-primary-dark)] mt-0.5">
+                      <span className="text-sm text-[var(--customer-primary-dark)] mt-0.5">
                         Free delivery above ₹{config.freeDeliveryThreshold}
                       </span>
                     )}
@@ -1506,9 +1506,9 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" strokeWidth="2" fill="none" />
                       </svg>
-                      <span className="text-xs text-neutral-700">First order offer</span>
+                      <span className="text-sm text-neutral-700">First order offer</span>
                     </div>
-                    <span className="text-xs font-medium text-[var(--customer-primary-dark)]">
+                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">
                       -₹{firstOrderDiscount.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1521,9 +1521,9 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-green-600">
                         <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-xs text-neutral-700">Cart reward discount</span>
+                      <span className="text-sm text-neutral-700">Cart reward discount</span>
                     </div>
-                    <span className="text-xs font-medium text-[var(--customer-primary-dark)]">
+                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">
                       -₹{cartRuleDiscount.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1536,12 +1536,12 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-xs text-neutral-700">Coupon discount</span>
-                      <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-sm text-neutral-700">Coupon discount</span>
+                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
                         {selectedCoupon.code}
                       </span>
                     </div>
-                    <span className="text-xs font-medium text-[var(--customer-primary-dark)]">-₹{currentCouponDiscount.toLocaleString('en-IN')}</span>
+                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">-₹{currentCouponDiscount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
@@ -1552,9 +1552,9 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-yellow-600">
                         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-xs text-neutral-700">Tip to delivery partner</span>
+                      <span className="text-sm text-neutral-700">Tip to delivery partner</span>
                     </div>
-                    <span className="text-xs font-medium text-neutral-900">₹{finalTipAmount}</span>
+                    <span className="text-sm font-medium text-neutral-900">₹{finalTipAmount}</span>
                   </div>
                 )}
 
@@ -1565,12 +1565,12 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-xs text-neutral-700">Online Payment Discount</span>
-                      <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-sm text-neutral-700">Online Payment Discount</span>
+                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
                         {onlineDiscountPercentage}% OFFER
                       </span>
                     </div>
-                    <span className="text-xs font-medium text-[var(--customer-primary-dark)]">-₹{onlineDiscountAmount.toFixed(2)}</span>
+                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">-₹{onlineDiscountAmount.toFixed(2)}</span>
                   </div>
                 )}
 
@@ -1581,16 +1581,16 @@ export default function Checkout() {
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-purple-600">
                         <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" stroke="currentColor" strokeWidth="2" fill="none" />
                       </svg>
-                      <span className="text-xs text-neutral-700">Gift Packaging</span>
+                      <span className="text-sm text-neutral-700">Gift Packaging</span>
                     </div>
-                    <span className="text-xs font-medium text-neutral-900">₹{giftPackagingFee}</span>
+                    <span className="text-sm font-medium text-neutral-900">₹{giftPackagingFee}</span>
                   </div>
                 )}
 
                 {/* Grand total */}
                 <div className="pt-3 border-t border-neutral-200 flex items-center justify-between">
-                  <span className="text-sm font-bold text-neutral-900">Grand total</span>
-                  <span className="text-sm font-bold text-neutral-900">
+                  <span className="text-base font-bold text-neutral-900">Grand total</span>
+                  <span className="text-base font-bold text-neutral-900">
                     ₹{(selectedPaymentMethod !== 'Cash' ? (grandTotal - onlineDiscountAmount) : grandTotal).toFixed(2)}
                   </span>
                 </div>
@@ -1604,7 +1604,7 @@ export default function Checkout() {
                           <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
-                      <p className="text-[11px] font-semibold text-[var(--customer-primary-dark)]">
+                      <p className="text-sm font-semibold text-[var(--customer-primary-dark)]">
                         Save ₹{onlineDiscountAmount.toFixed(2)} extra by paying online!
                       </p>
                     </div>
@@ -1615,7 +1615,7 @@ export default function Checkout() {
 
             {/* Payment Method */}
             <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h3 className="text-sm font-bold text-neutral-900 mb-3">Payment Method</h3>
+              <h3 className="text-base font-bold text-neutral-900 mb-3">Payment Method</h3>
               <div className="flex flex-col gap-2">
                 {[
                   { id: 'Cash', label: 'Cash on Delivery' },
@@ -1631,7 +1631,7 @@ export default function Checkout() {
                         : 'border-neutral-200 bg-white hover:bg-neutral-50'
                     }`}
                   >
-                    <span className={`text-sm font-medium ${selectedPaymentMethod === method.id ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-700'}`}>
+                    <span className={`text-base font-medium ${selectedPaymentMethod === method.id ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-700'}`}>
                       {method.label}
                     </span>
                     {selectedPaymentMethod === method.id && (
@@ -1650,7 +1650,7 @@ export default function Checkout() {
                 <button
                   onClick={handlePlaceOrderClick}
                   disabled={cart.items.length === 0 || outOfStockItems.length > 0 || isProcessingPayment}
-                  className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-colors rounded-xl shadow-md ${cart.items.length > 0 && outOfStockItems.length === 0 && !isProcessingPayment
+                  className={`w-full py-4 px-4 font-bold text-base uppercase tracking-wide transition-colors rounded-xl shadow-md ${cart.items.length > 0 && outOfStockItems.length === 0 && !isProcessingPayment
                     ? 'bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-darker)]'
                     : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
                     }`}
@@ -1664,7 +1664,7 @@ export default function Checkout() {
                       editAddress: savedAddress
                     }
                   })}
-                  className="w-full bg-[var(--customer-primary-dark)] text-white py-4 px-4 font-bold text-sm uppercase tracking-wide hover:bg-[var(--customer-primary-darker)] transition-colors rounded-xl shadow-md"
+                  className="w-full bg-[var(--customer-primary-dark)] text-white py-4 px-4 font-bold text-base uppercase tracking-wide hover:bg-[var(--customer-primary-darker)] transition-colors rounded-xl shadow-md"
                 >
                   Choose address at next step
                 </button>
@@ -1675,7 +1675,7 @@ export default function Checkout() {
             <div className="text-center pt-2">
               <button
                 onClick={() => setShowCancellationPolicy(true)}
-                className="text-xs text-neutral-500 hover:text-neutral-900 transition-colors underline"
+                className="text-sm text-neutral-500 hover:text-neutral-900 transition-colors underline"
               >
                 Cancellation Policy
               </button>
@@ -1684,16 +1684,16 @@ export default function Checkout() {
             {/* Made with love by Ecommerce */}
             <div className="w-full flex flex-col items-center justify-center pt-2">
               <div className="flex items-center gap-1.5 text-neutral-500">
-                <span className="text-[10px] font-medium">Made with</span>
+                <span className="text-xs font-medium">Made with</span>
                 <motion.span
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
-                  className="text-[var(--customer-primary)] text-sm"
+                  className="text-[var(--customer-primary)] text-base"
                 >
                   ❤️
                 </motion.span>
-                <span className="text-[10px] font-medium">by</span>
-                <span className="text-[10px] font-semibold text-[var(--customer-primary-dark)]">Ecommerce</span>
+                <span className="text-xs font-medium">by</span>
+                <span className="text-xs font-semibold text-[var(--customer-primary-dark)]">Ecommerce</span>
               </div>
             </div>
 
@@ -1899,7 +1899,7 @@ export default function Checkout() {
           <button
             onClick={handlePlaceOrderClick}
             disabled={cart.items.length === 0 || outOfStockItems.length > 0 || isProcessingPayment}
-            className={`w-full py-3 px-4 font-bold text-sm uppercase tracking-wide transition-colors ${cart.items.length > 0 && outOfStockItems.length === 0 && !isProcessingPayment
+            className={`w-full py-3 px-4 font-bold text-base uppercase tracking-wide transition-colors ${cart.items.length > 0 && outOfStockItems.length === 0 && !isProcessingPayment
               ? 'bg-[var(--customer-primary-dark)] text-white hover:bg-[var(--customer-primary-darker)]'
               : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
               }`}
@@ -1913,7 +1913,7 @@ export default function Checkout() {
                 editAddress: savedAddress
               }
             })}
-            className="w-full bg-[var(--customer-primary-dark)] text-white py-3 px-4 font-bold text-sm uppercase tracking-wide hover:bg-[var(--customer-primary-darker)] transition-colors"
+            className="w-full bg-[var(--customer-primary-dark)] text-white py-3 px-4 font-bold text-base uppercase tracking-wide hover:bg-[var(--customer-primary-darker)] transition-colors"
           >
             Choose address at next step
           </button>

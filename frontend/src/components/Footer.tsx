@@ -57,6 +57,53 @@ export default function Footer() {
             <p className="text-sm text-neutral-400 leading-relaxed font-normal max-w-sm">
               Your daily dose of fresh, organic, and healthy products delivered straight to your door. Freshness guaranteed.
             </p>
+            {/* Dynamic Social Icons */}
+            {config?.socialMediaLinks && (config.socialMediaLinks.facebook || config.socialMediaLinks.instagram || config.socialMediaLinks.youtube) && (
+              <div className="flex items-center gap-3 mt-2">
+                {config.socialMediaLinks.facebook && (
+                  <a
+                    href={config.socialMediaLinks.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-neutral-800/60 border border-neutral-700/50 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-[var(--customer-primary)] hover:border-[var(--customer-primary)] transition-all duration-200"
+                    title="Facebook"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                    </svg>
+                  </a>
+                )}
+                {config.socialMediaLinks.instagram && (
+                  <a
+                    href={config.socialMediaLinks.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-neutral-800/60 border border-neutral-700/50 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-pink-600 hover:border-pink-600 transition-all duration-200"
+                    title="Instagram"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                  </a>
+                )}
+                {config.socialMediaLinks.youtube && (
+                  <a
+                    href={config.socialMediaLinks.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-neutral-800/60 border border-neutral-700/50 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-red-600 hover:border-red-600 transition-all duration-200"
+                    title="YouTube"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
+                      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Column 2: Quick Links */}
@@ -125,7 +172,14 @@ export default function Footer() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                 </div>
-                <span className="text-sm text-neutral-400 leading-snug mt-1.5">{address}</span>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-neutral-400 hover:text-white transition-colors duration-200 mt-1.5 leading-snug"
+                >
+                  {address}
+                </a>
               </div>
 
               {/* Phone */}

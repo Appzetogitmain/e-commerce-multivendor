@@ -11,10 +11,12 @@ import OTPInput from "../../../components/OTPInput";
 import { removeAuthToken } from "../../../services/api/config";
 import { requestNotificationPermission } from "../../../services/pushNotificationService";
 import { useAuth } from "../../../context/AuthContext";
+import { useAppContext } from "../../../context/AppContext";
 
 export default function DeliverySignUp() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { config } = useAppContext();
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -297,8 +299,8 @@ export default function DeliverySignUp() {
             {/* Header / Logo */}
             <div className="flex flex-col items-center mb-4">
               <img
-                src="/assets/Ecommercestoreslogo.png"
-                alt="Ecommerce"
+                src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
+                alt={config?.appName || "Ecommerce"}
                 className="h-12 w-auto object-contain mb-1"
               />
               <h1 className="text-lg font-bold text-neutral-800">Delivery Sign Up</h1>

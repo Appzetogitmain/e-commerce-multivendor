@@ -546,7 +546,9 @@ export default function ProductCard({
                               e.stopPropagation();
                               handleAdd(e);
                             }}
-                            className={`w-full rounded-lg font-black text-base h-11 px-4 flex items-center justify-center gap-2.5 uppercase tracking-wider transition-all duration-300 border shadow-sm ${
+                            className={`w-full rounded-lg font-black ${
+                              compact ? 'text-xs h-9 px-2 gap-1.5' : 'text-base h-11 px-4 gap-2.5'
+                            } flex items-center justify-center uppercase tracking-wider transition-all duration-300 border shadow-sm ${
                               product.isAvailable === false
                               ? 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                               : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -561,7 +563,7 @@ export default function ProductCard({
                                'Out of Stock'
                             ) : (
                               <>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width={compact ? "12" : "16"} height={compact ? "12" : "16"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
                                   <line x1="12" y1="5" x2="12" y2="19"></line>
                                   <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
@@ -573,7 +575,9 @@ export default function ProductCard({
                       </div>
                     ) : (
                       <div
-                        className="flex items-center justify-between bg-white rounded-lg h-11 w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm"
+                        className={`flex items-center justify-between bg-white rounded-lg ${
+                          compact ? 'h-9' : 'h-11'
+                        } w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm`}
                       >
                         <button
                           type="button"
@@ -581,10 +585,12 @@ export default function ProductCard({
                             e.stopPropagation();
                             handleDecrease(e);
                           }}
-                          className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
+                          className={`${
+                            compact ? 'w-8' : 'w-11'
+                          } h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0`}
                           aria-label="Decrease quantity"
                         >
-                          <span className="text-lg font-black select-none">−</span>
+                          <span className={`${compact ? 'text-sm' : 'text-lg'} font-black select-none`}>−</span>
                         </button>
                         <input
                           type="number"
@@ -598,7 +604,9 @@ export default function ProductCard({
                             }
                           }}
                           onClick={(e) => e.stopPropagation()}
-                          className="w-12 h-full text-center font-bold text-sm bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className={`${
+                            compact ? 'w-8 text-xs' : 'w-12 text-sm'
+                          } h-full text-center font-bold bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                         />
                         <button
                           type="button"
@@ -607,10 +615,12 @@ export default function ProductCard({
                             e.stopPropagation();
                             handleIncrease(e);
                           }}
-                          className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
+                          className={`${
+                            compact ? 'w-8' : 'w-11'
+                          } h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0`}
                           aria-label="Increase quantity"
                         >
-                          <span className="text-lg font-black select-none">+</span>
+                          <span className={`${compact ? 'text-sm' : 'text-lg'} font-black select-none`}>+</span>
                         </button>
                       </div>
                     )}
@@ -718,7 +728,9 @@ export default function ProductCard({
                   e.stopPropagation();
                   handleCardClick();
                 }}
-                className="w-full border h-11 rounded-lg text-sm font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent"
+                className={`w-full border ${
+                  compact ? 'h-9 text-xs' : 'h-11 text-sm'
+                } rounded-lg font-bold uppercase tracking-wider bg-[var(--customer-primary)] hover:bg-[var(--customer-primary-dark)] text-white hover:shadow-md transition-all active:scale-95 cursor-pointer border-transparent`}
               >
                 Enquiry Now
               </Button>
@@ -730,7 +742,9 @@ export default function ProductCard({
                   size="sm"
                   disabled={product.isAvailable === false}
                   onClick={handleAdd}
-                  className={`w-full border h-11 rounded-lg text-base font-black uppercase tracking-wider transition-all duration-300 shadow-sm ${
+                  className={`w-full border ${
+                    compact ? 'text-xs h-9' : 'text-base h-11'
+                  } font-black uppercase tracking-wider transition-all duration-300 shadow-sm ${
                     product.isAvailable === false
                     ? 'border-neutral-200 text-neutral-400 bg-neutral-50 cursor-not-allowed'
                     : 'hover:bg-[var(--customer-primary-dark)] hover:text-white hover:border-[var(--customer-primary-dark)] hover:shadow-md active:scale-95'
@@ -744,8 +758,8 @@ export default function ProductCard({
                   {product.isAvailable === false ? (
                     'Out of Range'
                   ) : (
-                    <div className="flex items-center justify-center gap-2.5">
-                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div className={`flex items-center justify-center ${compact ? 'gap-1.5' : 'gap-2.5'}`}>
+                       <svg width={compact ? "12" : "16"} height={compact ? "12" : "16"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                       </svg>
@@ -758,15 +772,19 @@ export default function ProductCard({
               </div>
             ) : (
               <div
-                className="flex items-center justify-between bg-white rounded-lg h-11 w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm"
+                className={`flex items-center justify-between bg-white rounded-lg ${
+                  compact ? 'h-9' : 'h-11'
+                } w-full border border-[var(--customer-primary)] overflow-hidden shadow-sm`}
               >
                 <button
                   type="button"
                   onClick={handleDecrease}
-                  className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
+                  className={`${
+                    compact ? 'w-8' : 'w-11'
+                  } h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0`}
                   aria-label="Decrease quantity"
                 >
-                  <span className="text-lg font-black select-none">−</span>
+                  <span className={`${compact ? 'text-sm' : 'text-lg'} font-black select-none`}>−</span>
                 </button>
                 <input
                   type="number"
@@ -780,16 +798,20 @@ export default function ProductCard({
                     }
                   }}
                   onClick={(e) => e.stopPropagation()}
-                  className="w-14 h-full text-center font-bold text-sm bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className={`${
+                    compact ? 'w-8 text-xs' : 'w-14 text-sm'
+                  } h-full text-center font-bold bg-transparent text-neutral-800 border-none outline-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                 />
                 <button
                   type="button"
                   disabled={product.isAvailable === false}
                   onClick={handleIncrease}
-                  className="w-11 h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0"
+                  className={`${
+                    compact ? 'w-8' : 'w-11'
+                  } h-full flex items-center justify-center bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] hover:bg-[var(--customer-primary-alpha-20)] transition-colors active:scale-95 flex-shrink-0`}
                   aria-label="Increase quantity"
                 >
-                  <span className="text-lg font-black select-none">+</span>
+                  <span className={`${compact ? 'text-sm' : 'text-lg'} font-black select-none`}>+</span>
                 </button>
               </div>
             )}

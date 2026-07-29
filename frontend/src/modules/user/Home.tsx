@@ -585,12 +585,12 @@ export default function Home() {
                       2: "grid-cols-2",
                       3: "grid-cols-2 md:grid-cols-3",
                       4: "grid-cols-2 md:grid-cols-4",
-                      6: "grid-cols-2 md:grid-cols-6",
-                      8: "grid-cols-2 md:grid-cols-8"
+                      6: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6",
+                      8: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
                     }[columnCount] || "grid-cols-2 md:grid-cols-4";
 
                     const isCompact = columnCount >= 4;
-                    const gapClass = columnCount >= 4 ? "gap-2" : "gap-3 md:gap-4";
+                    const gapClass = columnCount >= 4 ? "gap-2 md:gap-3" : "gap-3 md:gap-4";
 
                     return (
                       <div key={section.id} className="mt-6 mb-6 md:mt-8 md:mb-8">

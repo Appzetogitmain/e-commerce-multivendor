@@ -8,6 +8,11 @@ import AppSettings from "../../../models/AppSettings";
  */
 export const getPublicConfig = asyncHandler(
   async (_req: Request, res: Response) => {
+    // Set headers to prevent caching
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+
     // defaults
     const defaultConfig = {
       deliveryFee: 40,

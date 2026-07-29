@@ -8,10 +8,12 @@ import { getHeaderCategoriesPublic, HeaderCategory } from '../../../services/api
 import { useEffect } from 'react';
 import { removeAuthToken } from '../../../services/api/config';
 import { requestNotificationPermission } from '../../../services/pushNotificationService';
+import { useAppContext } from '../../../context/AppContext';
 
 export default function SellerSignUp() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { config } = useAppContext();
   const [formData, setFormData] = useState({
     sellerName: '',
     mobile: '',
@@ -229,8 +231,8 @@ export default function SellerSignUp() {
             {/* Header / Logo */}
             <div className="flex flex-col items-center mb-4">
               <img
-                src="/assets/Ecommercestoreslogo.png"
-                alt="Ecommerce"
+                src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
+                alt={config?.appName || "Ecommerce"}
                 className="h-12 w-auto object-contain mb-1"
               />
               <h1 className="text-lg font-bold text-neutral-800">Seller Sign Up</h1>

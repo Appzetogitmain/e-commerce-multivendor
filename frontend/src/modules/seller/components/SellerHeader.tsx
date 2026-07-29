@@ -105,7 +105,7 @@ export default function SellerHeader({ onMenuClick, isSidebarOpen }: SellerHeade
             className="hover:opacity-90 transition-opacity flex items-center"
           >
             <img
-              src="/assets/Ecommercestoreslogo.png"
+              src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
               alt={config?.appName || "Ecommerce"}
               className="h-8 w-auto object-contain cursor-pointer"
               style={{ maxWidth: '160px' }}

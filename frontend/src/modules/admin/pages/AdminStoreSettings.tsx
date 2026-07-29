@@ -324,36 +324,26 @@ export default function AdminStoreSettings() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-neutral-600 ml-1">Customer Support Phone</label>
-                                <div className="relative group">
-                                    <div className="store-settings-icon-box absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
-                                        <Phone className="h-4 w-4" />
-                                    </div>
-                                    <input
-                                        type="tel"
-                                        name="contactPhone"
-                                        value={formData.contactPhone}
-                                        onChange={handleInputChange}
-                                        placeholder="Mobile Number"
-                                        className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 pl-16 pr-4 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none"
-                                    />
-                                </div>
+                                <input
+                                    type="tel"
+                                    name="contactPhone"
+                                    value={formData.contactPhone}
+                                    onChange={handleInputChange}
+                                    placeholder="Mobile Number"
+                                    className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 px-5 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none"
+                                />
                             </div>
 
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-neutral-600 ml-1">Official Email Address</label>
-                                <div className="relative group">
-                                    <div className="store-settings-icon-box absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-neutral-400 group-focus-within:text-[var(--primary-color)] transition-colors">
-                                        <Mail className="h-4 w-4" />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        name="contactEmail"
-                                        value={formData.contactEmail}
-                                        onChange={handleInputChange}
-                                        placeholder="Email Address"
-                                        className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 pl-16 pr-4 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none"
-                                    />
-                                </div>
+                                <input
+                                    type="email"
+                                    name="contactEmail"
+                                    value={formData.contactEmail}
+                                    onChange={handleInputChange}
+                                    placeholder="Email Address"
+                                    className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 px-5 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none"
+                                />
                             </div>
                         </div>
 
@@ -362,19 +352,14 @@ export default function AdminStoreSettings() {
                                 Store Address
                                 <span className="text-[10px] text-neutral-400 font-normal uppercase italic tracking-widest">(Used for Deliveries)</span>
                             </label>
-                            <div className="relative group">
-                                <div className="store-settings-icon-box-top absolute left-4 top-4 h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm border border-neutral-100 text-[var(--primary-color)]">
-                                    <MapPin className="h-4 w-4" />
-                                </div>
-                                <textarea
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                    rows={3}
-                                    placeholder="Full store address..."
-                                    className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 pl-16 pr-4 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none resize-none"
-                                />
-                            </div>
+                            <textarea
+                                name="address"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                                rows={3}
+                                placeholder="Full store address..."
+                                className="w-full rounded-2xl border-neutral-200 bg-neutral-50/30 px-5 py-4 text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-[var(--primary-color)] focus:ring-4 focus:ring-[var(--primary-color)]/5 transition-all outline-none resize-none"
+                            />
                         </div>
                     </div>
                 </div>

@@ -456,6 +456,7 @@ input.pos-compact-input {
   align-items: center !important;
   justify-content: center !important;
   border-radius: 12px !important;
+  pointer-events: none !important;
 }
 
 .store-settings-icon-box-top {
@@ -472,6 +473,7 @@ input.pos-compact-input {
   align-items: center !important;
   justify-content: center !important;
   border-radius: 12px !important;
+  pointer-events: none !important;
 }
 
 

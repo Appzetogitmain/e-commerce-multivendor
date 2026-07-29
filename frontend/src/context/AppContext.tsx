@@ -67,7 +67,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const fetchConfig = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await api.get('/customer/config/public');
+            const response = await api.get(`/customer/config/public?t=${Date.now()}`);
             if (response.data.success) {
                 const newConfig = response.data.data;
                 setConfig(newConfig);

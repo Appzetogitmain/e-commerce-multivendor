@@ -4,10 +4,12 @@ import { sendOTP, verifyOTP } from '../../../services/api/auth/sellerAuthService
 import OTPInput from '../../../components/OTPInput';
 import { useAuth } from '../../../context/AuthContext';
 import { requestNotificationPermission } from '../../../services/pushNotificationService';
+import { useAppContext } from '../../../context/AppContext';
 
 export default function SellerLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { config } = useAppContext();
   const [mobileNumber, setMobileNumber] = useState('');
   const [showOTP, setShowOTP] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -119,8 +121,8 @@ export default function SellerLogin() {
             {/* Header / Logo */}
             <div className="flex flex-col items-center mb-6">
               <img
-                src="/assets/Ecommercestoreslogo.png"
-                alt="Ecommerce"
+                src={config?.appLogo || "/assets/Ecommercestoreslogo.png"}
+                alt={config?.appName || "Ecommerce"}
                 className="h-16 w-auto object-contain mb-2"
               />
               <h1 className="text-xl font-bold text-neutral-800">Seller Login</h1>

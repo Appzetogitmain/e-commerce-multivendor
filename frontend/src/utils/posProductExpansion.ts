@@ -43,6 +43,8 @@ export function expandProductsForPOS(products: any[]): any[] {
           wholesalePrice: Number(
             variation.wholesalePrice || product.wholesalePrice || 0
           ),
+          rackNumber: variation.rackNumber || product.rackNumber || product.storageLocation?.rackNumber || "-",
+          storageLocation: product.storageLocation || (variation.rackNumber ? { rackNumber: variation.rackNumber } : undefined),
         });
       });
       return;
@@ -52,6 +54,7 @@ export function expandProductsForPOS(products: any[]): any[] {
       ...product,
       originalProductId: product._id,
       wholesalePrice: product.wholesalePrice || 0,
+      rackNumber: product.rackNumber || product.storageLocation?.rackNumber || "-",
     });
   });
 

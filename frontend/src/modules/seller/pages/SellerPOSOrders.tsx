@@ -3643,7 +3643,7 @@ const SellerPOSOrders = () => {
                                          }}
                                          className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-all border border-transparent hover:border-[var(--primary-color)]/30 group"
                                      >
-                                         <div className="w-14 h-14 bg-white rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 shadow-sm group-hover:shadow transition-shadow relative">
+                                         <div className="w-14 h-14 bg-[#ffffff] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200 shadow-sm group-hover:shadow transition-shadow relative">
                                              {product.mainImage ? (
                                                  <img src={product.mainImage} alt="" className="w-full h-full object-cover" />
                                              ) : (
@@ -4056,7 +4056,7 @@ const SellerPOSOrders = () => {
                                                <div className="col-span-1 text-center">
                                                    <button
                                                       onClick={() => openEditModal(item)}
-                                                      className="p-1 text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] rounded-lg transition-colors inline-flex"
+                                                      className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[var(--primary-dark)] hover:bg-[var(--primary-alpha-10)] border border-gray-200 bg-white rounded-lg transition-colors shadow-sm mx-auto"
                                                    >
                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                                                    </button>
@@ -4075,7 +4075,7 @@ const SellerPOSOrders = () => {
 
                                                {/* Name */}
                                                 <div className="col-span-2 min-w-0">
-                                                    <h4 className="text-[13px] font-bold text-gray-900 whitespace-normal break-words leading-tight" title={item.productName}>{item.productName}</h4>
+                                                    <h4 className="text-sm font-bold text-gray-900 whitespace-normal break-words leading-tight" title={item.productName}>{item.productName}</h4>
                                                     {(item as any).warrantyType && (item as any).warrantyType !== 'None' && (
                                                         <div className="text-[10px] text-[var(--primary-color)] font-bold mt-0.5">
                                                             {(item as any).warrantyType}: {(item as any).warrantyDuration}
@@ -4089,14 +4089,14 @@ const SellerPOSOrders = () => {
                                                 </div>
 
                                                 {/* Rack Number */}
-                                                <div className="col-span-1 text-center relative">
+                                                <div className="col-span-1 flex justify-center relative">
                                                     <button
                                                        type="button"
                                                        onClick={(e) => {
                                                            e.stopPropagation();
                                                            setShowLocationPopup(showLocationPopup === getCartLineId(item) ? null : getCartLineId(item));
                                                        }}
-                                                       className="px-1.5 py-0.5 bg-gray-50 border border-gray-200 hover:border-[var(--primary-color)] rounded text-[10px] font-bold text-gray-700 hover:bg-gray-100 transition-all inline-flex items-center gap-0.5"
+                                                       className="h-8 px-2 bg-gray-50 border border-gray-200 hover:border-[var(--primary-color)] rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-100 transition-all inline-flex items-center justify-center gap-1 shadow-sm"
                                                        title="Click to view full storage location"
                                                     >
                                                         <span className="truncate max-w-[45px]">{(item as any).storageLocation?.rackNumber || item.rackNumber || "-"}</span>
@@ -4123,7 +4123,7 @@ const SellerPOSOrders = () => {
                                                          type="number"
                                                          value={mrp}
                                                          onChange={(e) => updateItemDetails(getCartLineId(item), { compareAtPrice: parseFloat(e.target.value) || 0 })}
-                                                         className="w-full text-center text-[13px] border border-transparent hover:border-gray-200 focus:border-[var(--primary-color)] bg-transparent focus:bg-white rounded px-1 py-1 outline-none transition-all"
+                                                         className="w-full text-center text-sm font-semibold border border-gray-200 focus:border-[var(--primary-color)] bg-white rounded-lg h-8 px-1 outline-none transition-all pos-compact-input"
                                                      />
                                                 </div>
  
@@ -4161,12 +4161,12 @@ const SellerPOSOrders = () => {
                                                          type="number"
                                                          value={sp}
                                                          onChange={(e) => updateItemDetails(getCartLineId(item), { customPrice: parseFloat(e.target.value) || 0 })}
-                                                         className="w-full text-center text-[13px] font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded px-1 py-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                         className="w-full text-center text-sm font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded-lg h-8 px-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pos-compact-input"
                                                      />
                                                 </div>
  
                                                {/* Sub Total */}
-                                               <div className="col-span-1 text-center font-bold text-gray-900 text-[13px]">
+                                               <div className="col-span-1 text-center font-bold text-gray-900 text-sm">
                                                    ₹{sp * item.qty}
                                                </div>
  
@@ -4174,7 +4174,7 @@ const SellerPOSOrders = () => {
                                                <div className="col-span-1 text-center">
                                                    <button
                                                       onClick={() => removeFromCart(getCartLineId(item))}
-                                                      className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors inline-flex"
+                                                      className="w-8 h-8 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors shadow-sm mx-auto"
                                                       title="Remove Item"
                                                    >
                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>

@@ -1454,7 +1454,7 @@ export const getPOSProducts = asyncHandler(
     }
 
     const products = await Product.find(query)
-      .select("productName mainImage price compareAtPrice wholesalePrice purchasePrice discPrice stock sku variations category barcode itemCode hsnCode gst")
+      .select("productName mainImage price compareAtPrice wholesalePrice purchasePrice discPrice stock sku variations category barcode itemCode hsnCode gst storageLocation rackNumber")
       .populate("category", "name")
       .sort({ productName: 1 });
 

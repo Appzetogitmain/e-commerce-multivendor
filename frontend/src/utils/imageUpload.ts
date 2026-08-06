@@ -24,11 +24,16 @@ export function validateImageFile(file: File): {
     "image/webp",
     "image/gif",
   ];
+  const allowedExtensions = [".jpeg", ".jpg", ".png", ".webp", ".gif", ".jfif"];
+  
+  const fileType = file.type || "";
+  const fileNameLower = file.name.toLowerCase();
+  const hasValidExtension = allowedExtensions.some((ext) => fileNameLower.endsWith(ext));
 
-  if (!allowedTypes.includes(file.type)) {
+  if (!allowedTypes.includes(fileType) && !hasValidExtension) {
     return {
       valid: false,
-      error: `Invalid file type. Allowed types: ${allowedTypes.join(", ")}`,
+      error: `Invalid file type. Allowed types: JPEG, JPG, PNG, WEBP, GIF`,
     };
   }
 
@@ -45,6 +50,7 @@ export function validateImageFile(file: File): {
 
   return { valid: true };
 }
+
 
 /**
  * Validate document file (image or PDF)

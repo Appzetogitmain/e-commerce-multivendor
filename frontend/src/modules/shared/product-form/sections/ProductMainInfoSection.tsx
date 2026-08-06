@@ -5,6 +5,9 @@ import FormSectionCard from "../components/FormSectionCard";
 import CategoryCascadeFields from "../components/CategoryCascadeFields";
 import { getBrands, Brand } from "../../../../services/api/brandService";
 import { getShops, Shop } from "../../../../services/api/productService";
+import { compressVideo } from "../../../../utils/videoCompressor";
+import { uploadVideo } from "../../../../services/api/uploadService";
+
 
 const STORAGE_LOCATIONS: Record<string, Record<string, Record<string, string[]>>> = {
   "Mumbai": {
@@ -64,10 +67,62 @@ export default function ProductMainInfoSection({
   const [loadingBrands, setLoadingBrands] = useState(true);
   const [shops, setShops] = useState<Shop[]>([]);
 
+  const [videoStatus, setVideoStatus] = useState<{
+    loading: boolean;
+    progressText: string;
+    error: string;
+  }>({
+    loading: false,
+    progressText: "",
+    error: "",
+  });
+
+  const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setVideoStatus({ loading: true, progressText: "Loading video file...", error: "" });
+    try {
+      // 1. Compress
+      const compressedFile = await compressVideo(file, (p) => {
+        setVideoStatus((prev) => ({
+          ...prev,
+          progressText: p.status,
+        }));
+      });
+
+      // 2. Upload
+      setVideoStatus((prev) => ({
+        ...prev,
+        progressText: "Uploading video to server...",
+      }));
+      const uploadRes = await uploadVideo(compressedFile, "Ecommerce/videos");
+      const videoUrl = uploadRes.secureUrl || uploadRes.url;
+      
+      onChange({ video: videoUrl });
+      setVideoStatus({ loading: false, progressText: "", error: "" });
+    } catch (err: any) {
+      console.error("Video upload error:", err);
+      const errorMessage = err.response?.data?.message || err.message || "Failed to upload video.";
+      setVideoStatus({
+        loading: false,
+        progressText: "",
+        error: errorMessage,
+      });
+    }
+
+  };
+
+  const handleRemoveVideo = () => {
+    onChange({ video: "" });
+    setVideoStatus({ loading: false, progressText: "", error: "" });
+  };
+
   const [manualCity, setManualCity] = useState(false);
   const [manualWarehouse, setManualWarehouse] = useState(false);
   const [manualRoom, setManualRoom] = useState(false);
   const [manualRack, setManualRack] = useState(false);
+
 
   // Auto-detect custom values on load
   useEffect(() => {
@@ -146,7 +201,8 @@ export default function ProductMainInfoSection({
   const showSummary = isFieldEnabled("basic", "summary");
   const showDescription = isFieldEnabled("basic", "description");
   const showPack = isFieldEnabled("basic", "pack");
-  const showVideo = isFieldEnabled("basic", "video");
+  const showVideo = true;
+
 
   const showHeaderCategory = isFieldEnabled("basic", "header_category");
   const showCategory = isFieldEnabled("basic", "category");
@@ -219,15 +275,60 @@ export default function ProductMainInfoSection({
           )}
 
           {showVideo && (
-            <FormField label="Product Video">
-              <input
-                className={inputClass}
-                value={mainInfo.video || ""}
-                onChange={(e) => onChange({ video: e.target.value })}
-                placeholder="Specify product youtube video link"
-              />
+            <FormField label="Product Video" hint="Upload product preview video (under 2MB, will be compressed automatically)">
+              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                {mainInfo.video ? (
+                  <div className="space-y-3">
+                    <div className="relative overflow-hidden rounded-lg bg-black aspect-video max-w-sm border border-slate-200 shadow-sm">
+                      <video
+                        src={mainInfo.video}
+                        controls
+                        className="h-full w-full object-contain"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleRemoveVideo}
+                        className="absolute right-2 top-2 rounded-full bg-rose-500 p-1.5 text-white shadow hover:bg-rose-600 transition"
+                        title="Remove Video"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-500 break-all font-mono">{mainInfo.video}</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-6 border-2 border-dashed border-slate-300 rounded-lg hover:border-violet-400 transition bg-white">
+                    {videoStatus.loading ? (
+                      <div className="flex flex-col items-center space-y-2">
+                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-600 border-t-transparent"></div>
+                        <p className="text-sm font-semibold text-slate-700">{videoStatus.progressText}</p>
+                      </div>
+                    ) : (
+                      <label className="flex flex-col items-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <span className="text-sm font-bold text-violet-600 hover:text-violet-700">Choose Video File</span>
+                        <span className="text-xs text-slate-500 mt-1">MP4, WebM, or MOV up to 25MB (will be optimized)</span>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          className="hidden"
+                          onChange={handleVideoChange}
+                        />
+                      </label>
+                    )}
+                    {videoStatus.error && (
+                      <p className="mt-2 text-xs font-semibold text-rose-600 text-center px-4">{videoStatus.error}</p>
+                    )}
+                  </div>
+                )}
+              </div>
             </FormField>
           )}
+
 
           <FormField label="Publish">
             {yesNoSelect(mainInfo.publish, (v) => onChange({ publish: v }))}

@@ -35,6 +35,7 @@ function parseTags(tags: unknown): string[] {
 
 export interface NormalizedProductPayload {
   productName: string;
+  video?: string;
   smallDescription?: string;
   description?: string;
   headerCategoryId?: string;
@@ -142,6 +143,7 @@ export function normalizeCreatePayload(
 
   return {
     productName: String(parsed.productName || "").trim(),
+    video: parsed.video ? String(parsed.video).trim() : undefined,
     smallDescription: parsed.smallDescription
       ? String(parsed.smallDescription)
       : undefined,

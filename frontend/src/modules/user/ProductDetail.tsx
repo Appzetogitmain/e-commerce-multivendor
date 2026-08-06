@@ -416,6 +416,14 @@ export default function ProductDetail() {
     }
     const num = parseInt(val, 10);
     if (!isNaN(num) && num >= 0) {
+      if (variantStock > 0 && num > variantStock) {
+        setDetailQty(variantStock);
+        const productId = product.id || product._id;
+        const variantId = selectedVariant?._id;
+        await updateQuantity(productId, variantStock, variantId, variantTitle);
+        showToast(`Only ${variantStock} items available in stock.`, "error");
+        return;
+      }
       setDetailQty(num);
       const productId = product.id || product._id;
       const variantId = selectedVariant?._id;
@@ -426,6 +434,11 @@ export default function ProductDetail() {
   const handleDetailQtyBlurOrSubmit = async (newQty: number) => {
     const productId = product.id || product._id;
     const variantId = selectedVariant?._id;
+    if (variantStock > 0 && newQty > variantStock) {
+      await updateQuantity(productId, variantStock, variantId, variantTitle);
+      showToast(`Only ${variantStock} items available in stock.`, "error");
+      return;
+    }
     if (newQty <= 0) {
       await updateQuantity(productId, 0, variantId, variantTitle);
       showToast("Product removed from cart", "info");
@@ -714,45 +727,7 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Action buttons under the gallery */}
-            <div className="flex gap-3 mt-4 w-full">
-              {/* Back button for similar products */}
-              {/* Back button for similar products */}
-              <button
-                onClick={() => {
-                  const pid = product?.id || product?._id;
-                  if (pid) {
-                    try { sessionStorage.setItem('viewSimilarProducts.focusProductId', String(pid)); } catch {}
-                  }
-                  if (window.history.length > 1) navigate(-1); else navigate('/');
-                }}
-                className="flex-1 flex items-center justify-center gap-2 px-4 h-11 bg-white border border-neutral-200 rounded-xl shadow-sm text-sm md:text-base font-bold text-neutral-700 hover:bg-neutral-50 transition-all"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 12h13M8 7l-5 5 5 5" /><circle cx="20" cy="12" r="1.5" fill="currentColor" /></svg>
-                View Similar
-              </button>
 
-              {/* Buy Now / Enquiry Now Button */}
-              {product.isEnquiryOnly ? (
-                <button
-                  onClick={() => setIsEnquiryModalOpen(true)}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 h-11 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-sm text-sm md:text-base font-bold transition-all"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  Enquiry Now
-                </button>
-              ) : (
-                <button
-                  onClick={handleBuyNow}
-                  disabled={!isAvailableAtLocation || (!isVariantAvailable && variantStock !== 0)}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 h-11 text-neutral-900 rounded-xl shadow-sm text-sm md:text-base font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
-                  style={{ backgroundColor: "var(--customer-accent)" }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 10V4L8 9l5 5v-4h5v-2" /></svg>
-                  Buy Now
-                </button>
-              )}
-            </div>
           </div>
 
           {/* COLUMN 2: Details & Specification Sheet (md:col-span-4) */}
@@ -980,7 +955,6 @@ export default function ProductDetail() {
                             const productId = product.id || product._id;
                             const variantId = selectedVariant?._id;
                             updateQuantity(productId, inCartQty - 1, variantId, variantTitle);
-                            showToast(inCartQty - 1 === 0 ? "Product removed from cart" : "Cart updated", "info");
                           }}
                           className="w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
                         >
@@ -1010,10 +984,13 @@ export default function ProductDetail() {
                         )}
                         <button
                           onClick={() => {
+                            if (variantStock > 0 && inCartQty >= variantStock) {
+                              showToast(`Only ${variantStock} items available in stock.`, "error");
+                              return;
+                            }
                             const productId = product.id || product._id;
                             const variantId = selectedVariant?._id;
                             updateQuantity(productId, inCartQty + 1, variantId, variantTitle);
-                            showToast("Cart updated", "success");
                           }}
                           className="w-9 h-9 p-0 bg-white hover:bg-[var(--customer-primary)] hover:text-white rounded-full shadow-md text-[var(--customer-primary-dark)] border border-neutral-200 transition-all duration-200 active:scale-90 flex-shrink-0 flex items-center justify-center"
                         >
@@ -1120,6 +1097,10 @@ export default function ProductDetail() {
                     <span className="font-bold text-[var(--customer-primary-dark)]">{inCartQty}</span>
                     <button
                       onClick={() => {
+                        if (variantStock > 0 && inCartQty >= variantStock) {
+                          showToast(`Only ${variantStock} items available in stock.`, "error");
+                          return;
+                        }
                         const productId = product.id || product._id;
                         const variantId = selectedVariant?._id;
                         updateQuantity(productId, inCartQty + 1, variantId, variantTitle);

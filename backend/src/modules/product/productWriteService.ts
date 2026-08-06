@@ -103,8 +103,10 @@ function buildMongooseDoc(
     isShopByStoreOnly: payload.isShopByStoreOnly,
   };
 
+  if (payload.video) doc.video = payload.video;
   if (payload.smallDescription) doc.smallDescription = payload.smallDescription;
   if (payload.description) doc.description = payload.description;
+
   if (payload.category) doc.category = payload.category;
   if (payload.subcategory) doc.subcategory = payload.subcategory;
   if (payload.subSubCategory) doc.subSubCategory = payload.subSubCategory;

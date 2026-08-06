@@ -70,16 +70,22 @@ const videoFileFilter = (
   file: any,
   cb: multer.FileFilterCallback
 ) => {
-  if (ALLOWED_VIDEO_TYPES.includes(file.mimetype)) {
+  const isVideo = file.mimetype.startsWith("video/") || 
+                  (file.originalname && /\.(mp4|webm|mov|m4v|avi|mkv|3gp|wmv|flv)$/i.test(file.originalname));
+
+  if (isVideo) {
     cb(null, true);
   } else {
     cb(
       new Error(
-        `Invalid file type. Allowed types: ${ALLOWED_VIDEO_TYPES.join(", ")}`
+        `Invalid file type. Allowed types: MP4, WebM, MOV, and other video formats.`
       )
     );
   }
 };
+
+
+
 
 // Multer instance for single image upload
 export const uploadSingleImage = multer({

@@ -9,6 +9,9 @@ import {
   normalizeBarcode,
 } from "../utils/variantBarcodeUtils";
 import api from "../../../../services/api/config";
+import { toast } from "react-hot-toast";
+import { validateImageFile } from "../../../../utils/imageUpload";
+
 
 interface Props {
   index: number;
@@ -399,10 +402,18 @@ export default function VariantCard({
   };
 
   const handleMainImage = async (file: File) => {
+    const validation = validateImageFile(file);
+    if (!validation.valid) {
+      toast.error(validation.error || "Invalid image file");
+      return;
+    }
     setUploadingMain(true);
     try {
       const result = await uploadImage(file, "Ecommerce/products");
       patch({ mainImage: result.secureUrl });
+      toast.success("Main image uploaded successfully!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to upload image");
     } finally {
       setUploadingMain(false);
     }
@@ -414,16 +425,29 @@ export default function VariantCard({
     try {
       const uploaded: string[] = [];
       for (const file of Array.from(files)) {
-        const result = await uploadImage(file, "Ecommerce/products");
-        uploaded.push(result.secureUrl);
+        const validation = validateImageFile(file);
+        if (!validation.valid) {
+          toast.error(validation.error || `Invalid image file: ${file.name}`);
+          continue;
+        }
+        try {
+          const result = await uploadImage(file, "Ecommerce/products");
+          uploaded.push(result.secureUrl);
+        } catch (err: any) {
+          toast.error(`Failed to upload ${file.name}: ${err.message}`);
+        }
       }
-      patch({
-        galleryImages: [...(variant.galleryImages || []), ...uploaded],
-      });
+      if (uploaded.length > 0) {
+        patch({
+          galleryImages: [...(variant.galleryImages || []), ...uploaded],
+        });
+        toast.success("Gallery images uploaded successfully!");
+      }
     } finally {
       setUploadingGallery(false);
     }
   };
+
 
   const removeGalleryImage = (url: string) => {
     patch({

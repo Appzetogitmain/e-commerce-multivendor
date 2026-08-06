@@ -6,6 +6,7 @@
 /* Prevent font flash for Rubik Doodle Shadow */
 @font-face {
   font-family: 'Rubik Doodle Shadow';
+  src: local('Rubik Doodle Shadow');
   font-display: swap;
 }
 
@@ -268,7 +269,6 @@ button[class*="border-[#0d055a]"][class*="group"]:hover {
     border: none;
     outline: none;
     box-shadow: none;
-    vertical-align: top;
     object-fit: cover;
     background: transparent;
     position: relative;
@@ -388,10 +388,10 @@ button[class*="border-[#0d055a]"][class*="group"]:hover {
 .checkout-page-container .text-sm {
   font-size: 1.0rem !important;
 }
-.checkout-page-container .text-[10px] {
+.checkout-page-container .text-\[10px\] {
   font-size: 0.8rem !important;
 }
-.checkout-page-container .text-[8px] {
+.checkout-page-container .text-\[8px\] {
   font-size: 0.72rem !important;
 }
 .checkout-page-container .text-lg {
@@ -476,4 +476,10 @@ input.pos-compact-input {
   pointer-events: none !important;
 }
 
-
+/* POS & UI tab styling overrides */
+.force-text-white,
+.premium-theme .force-text-white,
+.premium-theme span.force-text-white,
+span.force-text-white {
+  color: #ffffff !important;
+}

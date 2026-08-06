@@ -30,8 +30,10 @@ export const variantSchema = z.object({
 
 const productPayloadShape = {
   productName: z.string().min(1, "Product name is required"),
+  video: z.string().optional(),
   smallDescription: z.string().optional(),
   description: z.string().optional(),
+
   headerCategoryId: z.string().regex(objectIdRegex).optional().or(z.literal("")),
   category: z.string().regex(objectIdRegex).optional().or(z.literal("")),
   categoryId: z.string().regex(objectIdRegex).optional().or(z.literal("")),

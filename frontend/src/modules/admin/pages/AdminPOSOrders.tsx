@@ -245,7 +245,6 @@ const AdminPOSOrders = () => {
   const updateActiveBill = (updates: Partial<Bill>) => {
     setBills(prev => {
       const newBills = prev.map(b => b.id === activeBillId ? { ...b, ...updates } : b);
-      localStorage.setItem('admin_pos_bills', JSON.stringify(newBills));
       return newBills;
     });
   };
@@ -292,13 +291,11 @@ const AdminPOSOrders = () => {
           updated = [...prev, newBill];
       }
 
-      localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
       return updated;
     });
 
     // Slight delay to ensure state propagation? No, React batches updates.
     setActiveBillId(newId);
-    localStorage.setItem('admin_pos_active_bill', newId);
   };
 
   const closeBill = (billId: string, e: React.MouseEvent) => {
@@ -321,20 +318,17 @@ const AdminPOSOrders = () => {
       if (updated.length === 1) {
         updated = [{ ...updated[0], name: 'Bill 1' }];
       }
-      localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
 
       // If closing active bill, switch to the last available one
       if (billId === activeBillId) {
         const nextBill = updated[updated.length - 1];
         setActiveBillId(nextBill.id);
-        localStorage.setItem('admin_pos_active_bill', nextBill.id);
       }
       return updated;
     });
     setBillToRemove(null);
   };
 
-  // Derived State (Proxies for existing logic)
   const cart = activeBill.cart;
   const selectedCustomer = activeBill.selectedCustomer;
   const customerSearch = activeBill.customerSearch;
@@ -355,7 +349,6 @@ const AdminPOSOrders = () => {
 
         const updated = [...prev];
         updated[index] = { ...updated[index], cart: newCart };
-        localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
         return updated;
     });
   };
@@ -380,9 +373,14 @@ const AdminPOSOrders = () => {
   // Derived state for new controls
   const orderType = activeBill.orderType || 'Retail';
 
+  // Debounced LocalStorage sync for bills and activeBillId to keep updates smooth and non-blocking
   useEffect(() => {
-    localStorage.setItem('admin_pos_active_bill', activeBillId);
-  }, [activeBillId]);
+    const timer = setTimeout(() => {
+      localStorage.setItem('admin_pos_bills', JSON.stringify(bills));
+      localStorage.setItem('admin_pos_active_bill', activeBillId);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [bills, activeBillId]);
 
   // Sync activeBillId if it refers to a non-existent bill (e.g. stale state)
   useEffect(() => {
@@ -422,7 +420,6 @@ const AdminPOSOrders = () => {
       if (unchanged) return prev;
       const updated = [...prev];
       updated[index] = { ...bill, cart: normalizedCart };
-      localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
       return updated;
     });
   }, [activeBillId]);
@@ -449,7 +446,6 @@ const AdminPOSOrders = () => {
             const updated = prev.map((b) =>
               b.id === billId ? { ...b, cart: normalizedCart } : b
             );
-            localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
             return updated;
           });
         }
@@ -571,7 +567,6 @@ const AdminPOSOrders = () => {
              // Prevent duplicate tabs for same order
              if (prev.some(b => b.id === billId)) return prev;
              const updated = [...prev, newBill];
-             localStorage.setItem('admin_pos_bills', JSON.stringify(updated));
              return updated;
           });
           setActiveBillId(billId);
@@ -1469,7 +1464,7 @@ const AdminPOSOrders = () => {
         return;
     }
     lastScanRef.current = { code: trimmed, time: now };
-    
+
     setLoading(true);
     try {
       const query = trimmed.toLowerCase();
@@ -1734,8 +1729,8 @@ const AdminPOSOrders = () => {
 
     purchaseItems.forEach((item) => {
       const lineGross = item.purchasePrice * item.qty;
-      const lineDiscount = item.billDiscountType === '%' 
-        ? (lineGross * item.billDiscount) / 100 
+      const lineDiscount = item.billDiscountType === '%'
+        ? (lineGross * item.billDiscount) / 100
         : item.billDiscount;
       const netBeforeTax = Math.max(lineGross - lineDiscount, 0);
 
@@ -3698,13 +3693,14 @@ const AdminPOSOrders = () => {
 
 
       <div className="flex-1 flex flex-col min-h-0 w-full lg:max-w-6xl lg:mx-auto lg:pb-8 lg:h-auto lg:block lg:overflow-visible">
-        <div className="bg-white flex flex-col flex-1 h-full min-h-0 w-full relative transition-all duration-300 lg:rounded-2xl lg:shadow-xl lg:border lg:border-gray-200 lg:h-[90vh] lg:overflow-hidden">
-
+        <div className="bg-white flex flex-col lg:flex-row flex-1 h-full min-h-0 w-full relative transition-all duration-300 lg:rounded-2xl lg:shadow-xl lg:border lg:border-gray-200 lg:h-[90vh] lg:overflow-hidden">
+          {/* Left Main Column */}
+          <div className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
           {/* Top Header Section */}
           <div className="flex-none px-3 py-1.5 lg:px-6 lg:py-2 border-b border-gray-100 lg:border-[#0d055a] flex flex-col lg:flex-row justify-between items-center bg-white lg:rounded-t-2xl gap-2 lg:gap-4">
              <div className="flex items-center gap-2.5 lg:gap-4">
                  <h2 className="hidden lg:block text-base lg:text-lg font-bold text-gray-800 tracking-tight">Billing & POS</h2>
-                <div 
+                <div
                   className="hidden lg:flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-lg border border-gray-200 cursor-pointer select-none hover:bg-gray-100 transition-colors"
                   onClick={() => setShowProfit(!showProfit)}
                 >
@@ -3750,7 +3746,7 @@ const AdminPOSOrders = () => {
           {/* Search Bar Section */}
           {/* Search Bar Section - Visible only on Desktop */}
           <div className="hidden lg:block px-6 py-2 bg-gray-50/50 border-b border-gray-100 relative z-30">
-             <div ref={searchRef} className="relative max-w-4xl mx-auto">
+             <div ref={searchRef} className="relative w-full mx-auto">
                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                      <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
@@ -3868,33 +3864,43 @@ const AdminPOSOrders = () => {
                   key={bill.id}
                   onClick={() => setActiveBillId(bill.id)}
                   className={`
-                    flex items-center gap-2 px-3 py-2 rounded-t-lg cursor-pointer border-t border-l border-r transition-all min-w-[100px] justify-between select-none text-xs font-medium
-                    ${activeBillId === bill.id
+                    flex items-center gap-2.5 pl-3 pr-2 py-2 rounded-t-lg cursor-pointer border-t border-l border-r transition-all min-w-[105px] justify-between select-none
+                    ${String(activeBillId) === String(bill.id)
                       ? 'bg-[#0d055a] border-[#0d055a] border-b-transparent text-white relative -mb-[1px] z-10 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]'
                       : 'bg-gray-100 border-gray-200 text-gray-500 hover:bg-gray-200/50'}
                   `}
                 >
-                  <span className={`truncate max-w-[80px] ${activeBillId === bill.id ? 'text-white font-bold' : 'text-gray-600'}`}>{bill.name}</span>
+                  <span
+                    style={{
+                      color: String(activeBillId) === String(bill.id) ? '#ffffff' : '#4b5563',
+                      textShadow: String(activeBillId) === String(bill.id) ? '0 1px 2px rgba(0,0,0,0.4)' : 'none'
+                    }}
+                    className={`truncate text-sm font-bold tracking-wide ${String(activeBillId) === String(bill.id) ? 'force-text-white' : ''}`}
+                  >
+                    {bill.name}
+                  </span>
                   <button
                     onClick={(e) => closeBill(bill.id, e)}
-                    className={`rounded-full p-0.5 transition-colors ${
-                      activeBillId === bill.id
-                        ? 'text-white/80 hover:text-white hover:bg-white/10'
+                    style={{ color: String(activeBillId) === String(bill.id) ? '#ffffff' : undefined }}
+                    className={`rounded-full p-0.5 ml-auto transition-colors ${
+                      String(activeBillId) === String(bill.id)
+                        ? 'text-white hover:bg-white/20'
                         : 'hover:bg-red-100 text-gray-400 hover:text-red-500'
                     }`}
                     title="Close Bill"
                   >
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                   </button>
                 </div>
               ))}
 
               <button
                 onClick={() => createNewBill()}
-                className="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors ml-1 flex-shrink-0 shadow-sm"
+                className="flex items-center justify-center gap-1.5 px-3 py-1 h-8 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors ml-2 flex-shrink-0 shadow-sm text-xs font-bold"
                 title="New Bill"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4"></path></svg>
+                <span>Add Bill</span>
               </button>
             </div>
 
@@ -3947,7 +3953,7 @@ const AdminPOSOrders = () => {
                                >
                                  Grid
                                </button>
-                           </div>
+                               </div>
                        </div>
                    </div>
 
@@ -4117,19 +4123,13 @@ const AdminPOSOrders = () => {
                                                    {hasMrp ? <><span>MRP: </span><span className="line-through decoration-gray-400">Rs {mrp}</span></> : null}
                                                    <span className="font-bold text-[var(--primary-color)] ml-1">SP: Rs {sp}</span>
                                                  </span>
-
-                                                 {showProfit && (
-                                                      <span className={`${parseFloat(profitPercent) >= 0 ? 'text-[var(--primary-dark)]' : 'text-red-500'} font-medium leading-none mt-1`}>
-                                                          Profit: {profitPercent}%
-                                                      </span>
-                                                 )}
                                             </div>
                                        </div>
                                    </div>
 
-                                  {/* Bottom Row: Actions & Quantity */}
-                                  <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-10">
+                                   {/* Footer: Delete & Edit */}
+                                   <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
+                                      <div className="flex items-center gap-2">
                                           <button
                                              onClick={() => removeFromCart(getCartLineId(item))}
                                              className="w-6 h-6 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors border border-red-100"
@@ -4270,7 +4270,7 @@ const AdminPOSOrders = () => {
                                             </span>
                                         )}
                                     </div>
- 
+
                                     {/* Rack Number */}
                                     <div className="col-span-1 flex justify-center relative">
                                         <button
@@ -4300,7 +4300,7 @@ const AdminPOSOrders = () => {
                                             </div>
                                         )}
                                     </div>
- 
+
                                     {/* MRP Input */}
                                      <div className="col-span-1">
                                            <input
@@ -4313,7 +4313,7 @@ const AdminPOSOrders = () => {
                                                className="w-full text-center text-sm font-semibold border border-gray-200 focus:border-[var(--primary-color)] bg-white rounded-lg h-8 px-1 outline-none transition-all pos-compact-input"
                                            />
                                       </div>
- 
+
                                     {/* Quantity */}
                                     <div className="col-span-2 flex justify-center">
                                         <div className="flex items-center bg-white border border-gray-200 rounded-lg h-8 w-24 shadow-sm overflow-hidden">
@@ -4341,7 +4341,7 @@ const AdminPOSOrders = () => {
                                              >+</button>
                                         </div>
                                     </div>
- 
+
                                     {/* Retail Price (SP) Input */}
                                     <div className="col-span-2">
                                          <input
@@ -4354,7 +4354,7 @@ const AdminPOSOrders = () => {
                                               className="w-full text-center text-sm font-bold text-gray-900 border border-green-200 bg-[var(--primary-alpha-10)]/30 focus:bg-white focus:border-[var(--primary-color)] rounded-lg h-8 px-1 outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pos-compact-input"
                                           />
                                      </div>
- 
+
                                     {/* Sub Total */}
                                     <div className="col-span-1 text-center font-bold text-gray-900 text-sm">
                                         ₹{sp * item.qty}
@@ -4375,18 +4375,20 @@ const AdminPOSOrders = () => {
                       );
                   })
               )}
+                          </div>
                       </div>
                   </div>
               </div>
-
-              {/* Footer Summary */}
+          </div>
+      </div>
+               {/* End Left Main Column */}
 
                    {/* Desktop Sidebar (New Two-Column Layout) */}
-                    <div className="hidden lg:flex w-[320px] bg-gray-50 border-l border-gray-200 flex-col p-3 shadow-[inset_4px_0_24px_-12px_rgba(0,0,0,0.1)] z-20 overflow-hidden">
+                    <div className="hidden lg:flex w-[320px] bg-gray-50 border-l border-gray-200 flex-col p-2 pt-1 shadow-[inset_4px_0_24px_-12px_rgba(0,0,0,0.1)] z-20 overflow-hidden">
                         <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 pr-1">
 
                       {/* --- QUICK ACTIONS --- */}
-                        <div className="mb-3">
+                        <div className="mb-2">
                             <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2">Quick Actions</h3>
                             <div className="grid grid-cols-2 gap-1.5">
                                 <button
@@ -4661,8 +4663,6 @@ const AdminPOSOrders = () => {
                   </div>
               </div>
             </div>
-        </div>
-      </div>
 
       {/* --- PURCHASE ACTION SHEET --- */}
       {showPurchaseSheet && (
@@ -6121,15 +6121,15 @@ const AdminPOSOrders = () => {
           <style dangerouslySetInnerHTML={{ __html: `
             @media print {
               @page { margin: 0; size: auto; }
-              html, body { 
-                height: auto !important; 
-                overflow: visible !important; 
-                margin: 0 !important; 
-                padding: 0 !important; 
+              html, body {
+                height: auto !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
                 font-family: 'Times New Roman', Times, serif !important;
                 background: white !important;
               }
-              
+
               /* ULTRA AGGRESSIVE: Hide everything that is NOT the print wrapper */
               body > *:not(.admin-order-print-wrapper) {
                 display: none !important;
@@ -6137,9 +6137,9 @@ const AdminPOSOrders = () => {
                 height: 0 !important;
                 overflow: hidden !important;
               }
-              
+
               /* Force the receipt container to be visible and occupy full space */
-              .admin-order-print-wrapper { 
+              .admin-order-print-wrapper {
                 display: block !important;
                 visibility: visible !important;
                 position: absolute !important;
@@ -6151,28 +6151,28 @@ const AdminPOSOrders = () => {
                 padding: 0 !important;
                 z-index: 999999 !important;
               }
-              
-              .admin-order-print-wrapper * { 
-                visibility: visible !important; 
+
+              .admin-order-print-wrapper * {
+                visibility: visible !important;
                 display: block; /* Ensure grid/flex children are not accidentally hidden */
               }
-              
+
               /* Fix for grid layouts in print */
               .admin-order-print-wrapper .grid { display: grid !important; }
               .admin-order-print-wrapper .flex { display: flex !important; }
 
-              .receipt-container { 
-                width: 100% !important; 
-                margin: 0 !important; 
+              .receipt-container {
+                width: 100% !important;
+                margin: 0 !important;
                 padding: 10px !important;
                 box-sizing: border-box;
                 background: white !important;
               }
-              
-              .receipt-container b, 
-              .receipt-container strong, 
-              .receipt-container .font-bold, 
-              .receipt-container .font-semibold, 
+
+              .receipt-container b,
+              .receipt-container strong,
+              .receipt-container .font-bold,
+              .receipt-container .font-semibold,
               .receipt-container .font-black {
                 font-weight: 900 !important;
                 -webkit-text-stroke: 0.2px black;
@@ -6250,7 +6250,7 @@ const AdminPOSOrders = () => {
                            <div className="col-span-1 text-right">{formatAmount(sp)}</div>
                            <div className="col-span-2 text-right font-black">{formatAmount(total)}</div>
 
-                           
+
                            {/* Warranty / Extra info if exists */}
                            {(item as any).warrantyType && (item as any).warrantyType !== 'None' && (
                                <div className="col-span-12 text-[10px] text-gray-600 pl-4">
@@ -6285,7 +6285,7 @@ const AdminPOSOrders = () => {
                               <span className="font-black">Total MRP: Rs {formatAmount(tMRP)}</span>
                           </div>
 
-                          
+
                           {tSavings > 0 && (
                                <div className="flex justify-between bg-gray-200 px-1 py-2 my-2 border-2 border-black" style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}>
                                    <span className="font-black text-[18px] uppercase tracking-tighter">YOU SAVED {sPercent}%</span>
@@ -6309,7 +6309,7 @@ const AdminPOSOrders = () => {
               {/* Footer / Notes */}
               <div className="text-center mt-6 space-y-2">
                   <p className="text-sm font-bold">।। आपका विश्वास हमारी ताकत ।।</p>
-                  
+
                   {((posBillSettings?.notes?.enabled && posBillSettings?.notes?.text) || (config?.invoiceSettings?.notes?.enabled && config?.invoiceSettings?.notes?.text)) && (
                       <p className="text-[10px] whitespace-pre-wrap">{posBillSettings?.notes?.enabled ? posBillSettings?.notes?.text : config?.invoiceSettings?.notes?.text}</p>
                   )}

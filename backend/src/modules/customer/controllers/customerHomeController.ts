@@ -17,7 +17,9 @@ import { toListItem } from "../../product/productReadMapper";
 // Helper function to fetch data for a home section based on its configuration
 async function fetchSectionData(
   section: any,
-  nearbySellerIds?: mongoose.Types.ObjectId[]
+  nearbySellerIds?: mongoose.Types.ObjectId[],
+  locationProvided: boolean = false,
+  adminSellerIds: string[] = []
 ): Promise<any[]> {
   try {
     const { categories, subCategories, displayType, limit } = section;
@@ -110,9 +112,15 @@ async function fetchSectionData(
 
       return products.map((p: any) => {
         const mapped = toListItem(p);
-        const isAvailable = nearbySellerIds && nearbySellerIds.length > 0 && p.seller
-          ? nearbySellerIds.some(id => id.toString() === p.seller.toString())
-          : false;
+        const sellerIdStr = p.seller ? p.seller.toString() : "";
+        const isAdmin = adminSellerIds.includes(sellerIdStr);
+        const isAvailable = isAdmin
+          ? true
+          : (!locationProvided
+            ? true
+            : (nearbySellerIds && nearbySellerIds.length > 0 && p.seller
+                ? nearbySellerIds.some(id => id.toString() === sellerIdStr)
+                : false));
 
         return {
           id: p._id.toString(),
@@ -255,8 +263,18 @@ export const getHomeContent = async (req: Request, res: Response) => {
     const userLat = latitude ? parseFloat(latitude as string) : null;
     const userLng = longitude ? parseFloat(longitude as string) : null;
 
+    const adminSellers = await Seller.find({
+      $or: [
+        { email: "admin-store@geetastores.com" },
+        { category: "Admin" },
+        { storeName: /Admin/i }
+      ]
+    }).select("_id").lean();
+    const adminSellerIds = adminSellers.map(s => s._id.toString());
+
     let nearbySellerIds: mongoose.Types.ObjectId[] = [];
-    if (userLat !== null && userLng !== null) {
+    const locationProvided = (userLat !== null && userLng !== null);
+    if (locationProvided) {
       nearbySellerIds = await findSellersWithinRange(userLat, userLng);
     } else {
       // If no location provided, return empty sellers list to enforce filtering
@@ -534,7 +552,7 @@ export const getHomeContent = async (req: Request, res: Response) => {
     // Fetch data for each section
     const dynamicSections = await Promise.all(
       homeSections.map(async (section: any) => {
-        const sectionData = await fetchSectionData(section, nearbySellerIds);
+        const sectionData = await fetchSectionData(section, nearbySellerIds, locationProvided, adminSellerIds);
         return {
           id: section._id.toString(),
           title: section.title,
@@ -571,9 +589,15 @@ export const getHomeContent = async (req: Request, res: Response) => {
       // If we have promoStrip, add availability flag to featured products
       if (promoStrip && (promoStrip as any).featuredProducts) {
         (promoStrip as any).featuredProducts = (promoStrip as any).featuredProducts.map((p: any) => {
-          const isAvailable = nearbySellerIds && nearbySellerIds.length > 0 && p.seller
-            ? nearbySellerIds.some(id => id.toString() === p.seller.toString())
-            : false;
+          const sellerIdStr = p.seller ? p.seller.toString() : "";
+          const isAdmin = adminSellerIds.includes(sellerIdStr);
+          const isAvailable = isAdmin
+            ? true
+            : (!locationProvided
+              ? true
+              : (nearbySellerIds && nearbySellerIds.length > 0 && p.seller
+                  ? nearbySellerIds.some(id => id.toString() === sellerIdStr)
+                  : false));
           return { ...p, isAvailable };
         });
       }

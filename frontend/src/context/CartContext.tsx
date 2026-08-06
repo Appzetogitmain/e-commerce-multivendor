@@ -457,21 +457,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const debounceTimeoutsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const activeUpdatesCountRef = useRef<Map<string, number>>(new Map());
+
+  useEffect(() => {
+    return () => {
+      debounceTimeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+    };
+  }, []);
+
   const updateQuantity = async (productId: string, quantity: number, variantId?: string, variantTitle?: string) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-
-    // Create a unique operation key for this product/variant combination
-    const operationKey = variantId ? `${productId}-${variantId}` : (variantTitle ? `${productId}-${variantTitle}` : productId);
-
-    // Prevent concurrent operations on the same product
-    if (pendingOperationsRef.current.has(operationKey)) {
-      return;
-    }
-    pendingOperationsRef.current.add(operationKey);
-
     // Find item matching product ID and variant (if variant info provided)
     const itemToUpdate = items.find(item => {
       const prod = item?.product;
@@ -492,53 +487,93 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return !itemVariantId && !itemVariantTitle;
     });
 
+    if (quantity <= 0) {
+      if (itemToUpdate?.id) {
+        if (debounceTimeoutsRef.current.has(itemToUpdate.id)) {
+          clearTimeout(debounceTimeoutsRef.current.get(itemToUpdate.id));
+          debounceTimeoutsRef.current.delete(itemToUpdate.id);
+        }
+        activeUpdatesCountRef.current.set(itemToUpdate.id, 0);
+      }
+      removeFromCart(productId);
+      return;
+    }
+
     const previousItems = [...items];
     setItems((prevItems) =>
       prevItems
         .filter(item => !!item?.product)
         .map((item) => {
           const prod = item.product!;
-        const itemProductId = prod.id || prod._id;
-        if (itemProductId !== productId) return item;
+          const itemProductId = prod.id || prod._id;
+          if (itemProductId !== productId) return item;
 
-        // If variant info provided, match by variant
-        if (variantId || variantTitle) {
-          const itemVariantId = item.variantId || (prod as any).variantId || (prod as any).selectedVariant?._id;
-          const itemVariantTitle = item.variation || (prod as any).variantTitle || (prod as any).pack;
-          if (itemVariantId === variantId || itemVariantTitle === variantTitle) {
-            return { ...item, quantity };
+          // If variant info provided, match by variant
+          if (variantId || variantTitle) {
+            const itemVariantId = item.variantId || (prod as any).variantId || (prod as any).selectedVariant?._id;
+            const itemVariantTitle = item.variation || (prod as any).variantTitle || (prod as any).pack;
+            if (itemVariantId === variantId || itemVariantTitle === variantTitle) {
+              return { ...item, quantity };
+            }
+          } else {
+            // If no variant info, match items without variants
+            const itemVariantId = item.variantId || (prod as any).variantId || (prod as any).selectedVariant?._id;
+            const itemVariantTitle = item.variation || (prod as any).variantTitle;
+            if (!itemVariantId && !itemVariantTitle) {
+              return { ...item, quantity };
+            }
           }
-        } else {
-          // If no variant info, match items without variants
-          const itemVariantId = item.variantId || (prod as any).variantId || (prod as any).selectedVariant?._id;
-          const itemVariantTitle = item.variation || (prod as any).variantTitle;
-          if (!itemVariantId && !itemVariantTitle) {
-            return { ...item, quantity };
-          }
-        }
-        return item;
-      })
+          return item;
+        })
     );
 
     if (isAuthenticated && (user as any)?.userType === 'Customer' && itemToUpdate?.id) {
-      try {
-        const response = await apiUpdateCartItem(
-          itemToUpdate.id,
-          quantity,
-          location?.latitude,
-          location?.longitude
-        );
-        if (response && response.data && response.data.items) {
-          setItems(mapApiItemsToState(response.data.items));
-        }
-      } catch (error) {
-        console.error("Update quantity failed", error);
-        setItems(previousItems);
-      } finally {
-        pendingOperationsRef.current.delete(operationKey);
+      const cartItemId = itemToUpdate.id;
+      
+      // Clear any existing timeout for this cart item
+      if (debounceTimeoutsRef.current.has(cartItemId)) {
+        clearTimeout(debounceTimeoutsRef.current.get(cartItemId));
+      } else {
+        // If this is the start of a new batch of updates, increment active count
+        const currentCount = activeUpdatesCountRef.current.get(cartItemId) || 0;
+        activeUpdatesCountRef.current.set(cartItemId, currentCount + 1);
       }
-    } else {
-      pendingOperationsRef.current.delete(operationKey);
+
+      // Set new timeout for 300ms
+      const timeoutId = setTimeout(async () => {
+        debounceTimeoutsRef.current.delete(cartItemId);
+        
+        try {
+          const response = await apiUpdateCartItem(
+            cartItemId,
+            quantity,
+            location?.latitude,
+            location?.longitude
+          );
+          
+          // Decrement active count
+          const currentCount = activeUpdatesCountRef.current.get(cartItemId) || 0;
+          const newCount = Math.max(0, currentCount - 1);
+          activeUpdatesCountRef.current.set(cartItemId, newCount);
+
+          // Only update state if no more updates are pending/active for this item
+          if (newCount === 0 && response && response.data && response.data.items) {
+            setItems(mapApiItemsToState(response.data.items));
+          }
+        } catch (error) {
+          console.error("Update quantity failed", error);
+          // Decrement active count
+          const currentCount = activeUpdatesCountRef.current.get(cartItemId) || 0;
+          const newCount = Math.max(0, currentCount - 1);
+          activeUpdatesCountRef.current.set(cartItemId, newCount);
+          
+          if (newCount === 0) {
+            setItems(previousItems);
+          }
+        }
+      }, 300);
+
+      debounceTimeoutsRef.current.set(cartItemId, timeoutId);
     }
   };
 

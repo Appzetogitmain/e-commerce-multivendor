@@ -395,7 +395,7 @@ export default function AddToCartAnimation({
               damping: 30,
               mass: 0.8,
             }}
-            className="fixed left-0 right-0 z-40 flex justify-center px-4 md:px-8"
+            className="fixed left-0 right-0 z-40 flex justify-center px-4 md:px-8 pointer-events-none"
             style={{ bottom: `${effectiveBottomOffset}px` }}
           >
             <Link

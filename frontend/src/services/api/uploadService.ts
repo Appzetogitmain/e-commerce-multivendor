@@ -141,6 +141,34 @@ export async function uploadDocuments(
 }
 
 /**
+ * Upload a single video to Cloudinary via backend
+ */
+export async function uploadVideo(
+  file: File,
+  folder?: string
+): Promise<UploadResult> {
+  const formData = new FormData();
+  formData.append("video", file);
+  if (folder) {
+    formData.append("folder", folder);
+  }
+
+  const response = await api.post<UploadResponse>("/upload/video", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  if (response.data.success && response.data.data) {
+    return Array.isArray(response.data.data)
+      ? response.data.data[0]
+      : response.data.data;
+  }
+
+  throw new Error(response.data.message || "Failed to upload video");
+}
+
+/**
  * Delete an image from Cloudinary by public_id
  */
 export async function deleteImage(publicId: string): Promise<void> {
@@ -152,3 +180,4 @@ export async function deleteImage(publicId: string): Promise<void> {
     throw new Error(response.data.message || "Failed to delete image");
   }
 }
+

@@ -864,22 +864,24 @@ export default function Checkout() {
       {/* Header */}
       <div className="sticky top-0 z-50 bg-white border-b border-neutral-200">
         <div className="px-4 md:px-6 lg:px-8 py-2 md:py-3 flex items-center justify-between">
-          {/* Back Arrow */}
+          {/* Back Arrow & Text */}
           <button
             onClick={() => navigate(-1)}
-            className="w-7 h-7 flex items-center justify-center text-neutral-700 hover:bg-neutral-100 rounded-full transition-colors"
+            className="flex items-center gap-1 md:gap-2 text-neutral-800 bg-white border border-neutral-200 hover:bg-neutral-50 shadow-sm transition-all px-2.5 py-1 md:px-3.5 md:py-1.5 rounded-lg md:rounded-xl"
             aria-label="Go back"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] text-neutral-600">
+              <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
+            <span className="text-xs md:text-base font-semibold">Back</span>
           </button>
 
           {/* Title */}
           <h1 className="text-base font-bold text-neutral-900"></h1>
 
           {/* Spacer to maintain layout */}
-          <div className="w-7 h-7"></div>
+          <div className="w-12 h-7"></div>
         </div>
       </div>
 
@@ -993,10 +995,10 @@ export default function Checkout() {
                     </div>
 
                     {/* Milestone Bar */}
-                    <div className="relative h-12 mb-1">
-                      <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 rounded-full -translate-y-1/2 z-0"></div>
+                    <div className="relative h-14 mb-3 pt-1">
+                      <div className="absolute top-3 left-0 right-0 h-1 bg-gray-200 rounded-full z-0"></div>
                       <div
-                        className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-[var(--customer-primary-light)] to-[var(--customer-primary)] rounded-full -translate-y-1/2 z-0 transition-all duration-300"
+                        className="absolute top-3 left-0 h-1 bg-gradient-to-r from-[var(--customer-primary-light)] to-[var(--customer-primary)] rounded-full z-0 transition-all duration-300"
                         style={{ width: `${Math.min(100, (currentTotal / maxTarget) * 100)}%` }}
                       ></div>
 
@@ -1008,18 +1010,18 @@ export default function Checkout() {
                         return (
                           <div
                             key={rule._id || rule.id}
-                            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center z-10"
-                            style={{ left: `${position}%`, transform: `translate(-${position === 100 ? '100' : '50'}%, -50%)` }}
+                            className="absolute top-0 flex flex-col items-center z-10"
+                            style={{ left: `${position}%`, transform: `translateX(-${position === 100 ? '100' : '50'}%)` }}
                           >
-                            <div className={`w-6 h-6 rounded-full border flex items-center justify-center bg-white transition-all duration-300 ${isUnlocked ? 'border-[var(--customer-primary)] text-[var(--customer-primary)] shadow-sm' : 'border-gray-300 text-gray-300'}`}>
+                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center bg-white transition-all duration-300 ${isUnlocked ? 'border-[var(--customer-primary)] text-[var(--customer-primary)] shadow-sm' : 'border-gray-300 text-gray-400'}`}>
                               {isUnlocked ? (
                                 <span className="text-xs font-bold">✓</span>
                               ) : (
                                 <span className="text-[10px]">{isDiscount ? '%' : '🎁'}</span>
                               )}
                             </div>
-                            <div className="absolute top-7 w-16 text-center">
-                              <span className={`text-xs md:text-sm font-extrabold block ${isUnlocked ? 'text-[var(--customer-primary-dark)]' : 'text-gray-500'}`}>
+                            <div className="mt-1 text-center">
+                              <span className={`text-xs md:text-sm font-black px-1.5 py-0.5 rounded bg-white border inline-block shadow-2xs ${isUnlocked ? 'text-[var(--customer-primary-dark)] border-[var(--customer-primary-alpha-20)]' : 'text-neutral-700 border-neutral-200'}`}>
                                 ₹{rule.minCartValue}
                               </span>
                             </div>
@@ -1029,26 +1031,26 @@ export default function Checkout() {
                     </div>
 
                     {unlockedRules.length > 0 && (
-                      <div className="mt-2 pt-2 border-t border-gray-100 space-y-1">
+                      <div className="mt-2 pt-2 border-t border-gray-200 space-y-1.5">
                         {unlockedRules.map((rule) => (
                           <div key={`unlocked-${rule._id || rule.id}`} className="flex items-center gap-2">
                             {rule.ruleType === 'discount' ? (
-                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center flex-shrink-0">
                                 {rule.discountType === 'percentage' ? '%' : '₹'}
                               </div>
                             ) : rule.giftProduct?.mainImage ? (
-                              <img src={rule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm" />
+                              <img src={rule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm flex-shrink-0" />
                             ) : (
-                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-xs flex items-center justify-center">🎁</div>
+                              <div className="w-6 h-6 rounded-full bg-[var(--customer-primary-alpha-10)] text-xs flex items-center justify-center flex-shrink-0">🎁</div>
                             )}
-                            <span className="text-xs md:text-sm text-gray-700">
+                            <span className="text-xs md:text-sm text-neutral-800 font-medium">
                               {rule.ruleType === 'discount' ? (
                                 <>
-                                  <b>{getRuleRewardLabel(rule)}</b> applied at ₹{rule.minCartValue}+
+                                  <b className="font-bold text-neutral-900">{getRuleRewardLabel(rule)}</b> applied at ₹{rule.minCartValue}+
                                 </>
                               ) : (
                                 <>
-                                  Free <b>{rule.giftProduct?.productName || 'gift'}</b> unlocked
+                                  Free <b className="font-bold text-neutral-900">{rule.giftProduct?.productName || 'gift'}</b> unlocked
                                 </>
                               )}
                             </span>
@@ -1058,19 +1060,19 @@ export default function Checkout() {
                     )}
 
                     {nextRule && (
-                      <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-100">
+                      <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-200">
                         {nextRule.ruleType === 'discount' ? (
-                          <div className="w-6 h-6 rounded-full bg-white border border-gray-200 text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center">
+                          <div className="w-6 h-6 rounded-full bg-white border border-gray-300 text-[var(--customer-primary-dark)] text-xs font-bold flex items-center justify-center flex-shrink-0">
                             {nextRule.discountType === 'percentage' ? '%' : '₹'}
                           </div>
                         ) : nextRule.giftProduct?.mainImage ? (
-                          <img src={nextRule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm" />
+                          <img src={nextRule.giftProduct.mainImage} alt="" className="w-6 h-6 object-cover rounded border border-white shadow-sm flex-shrink-0" />
                         ) : null}
-                        <span className="text-xs md:text-sm text-gray-700">
+                        <span className="text-xs md:text-sm text-neutral-800 font-medium">
                           {nextRule.ruleType === 'discount' ? (
-                            <>Get <b>{getRuleRewardLabel(nextRule)}</b> at ₹{nextRule.minCartValue}</>
+                            <>Get <b className="font-bold text-neutral-900">{getRuleRewardLabel(nextRule)}</b> at ₹{nextRule.minCartValue}</>
                           ) : (
-                            <>Get free <b>{nextRule.giftProduct?.productName}</b> at ₹{nextRule.minCartValue}</>
+                            <>Get free <b className="font-bold text-neutral-900">{nextRule.giftProduct?.productName}</b> at ₹{nextRule.minCartValue}</>
                           )}
                         </span>
                       </div>
@@ -1455,44 +1457,44 @@ export default function Checkout() {
             </div>
 
             {/* Bill details */}
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h2 className="text-base font-bold text-neutral-900 mb-3 pb-2 border-b border-neutral-100">Bill details</h2>
+            <div className="bg-white rounded-xl border border-neutral-200 p-3 md:p-4 shadow-sm">
+              <h2 className="text-sm md:text-base font-bold text-neutral-900 mb-2 md:mb-3 pb-1.5 md:pb-2 border-b border-neutral-100">Bill details</h2>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 md:space-y-3">
                 {/* Items total */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm text-neutral-700">Items total</span>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="text-xs md:text-sm text-neutral-700 font-normal">Items total</span>
                     {savedAmount > 0 && (
-                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-blue-700 px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-[10px] md:text-xs bg-[var(--customer-primary-alpha-20)] text-blue-700 px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
                         Saved ₹{savedAmount}
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
                     {itemsTotal > discountedTotal && (
-                      <span className="text-sm text-neutral-500 line-through">₹{itemsTotal}</span>
+                      <span className="text-xs md:text-sm text-neutral-500 line-through">₹{itemsTotal}</span>
                     )}
-                    <span className="text-sm font-medium text-neutral-900">₹{discountedTotal}</span>
+                    <span className="text-xs md:text-sm font-medium text-neutral-900">₹{discountedTotal}</span>
                   </div>
                 </div>
 
                 {/* Delivery charge */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-neutral-500">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0 mt-0.5">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-neutral-500 flex-shrink-0">
                       <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z" stroke="currentColor" strokeWidth="2" fill="none" />
                       <circle cx="5.5" cy="18.5" r="1.5" fill="currentColor" />
                       <circle cx="18.5" cy="18.5" r="1.5" fill="currentColor" />
                     </svg>
-                    <span className="text-sm text-neutral-700">Delivery charge</span>
+                    <span className="text-xs md:text-sm text-neutral-700 font-normal whitespace-nowrap">Delivery charge</span>
                   </div>
-                  <div className="flex flex-col items-end">
-                    <span className={`text-sm font-medium ${deliveryCharge === 0 ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
+                  <div className="flex flex-col items-end flex-shrink-0 text-right">
+                    <span className={`text-xs md:text-sm font-medium ${deliveryCharge === 0 ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-900'}`}>
                       {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
                     </span>
                     {deliveryCharge > 0 && (
-                      <span className="text-sm text-[var(--customer-primary-dark)] mt-0.5">
+                      <span className="text-[10px] md:text-xs text-[var(--customer-primary-dark)] mt-0.5">
                         Free delivery above ₹{config.freeDeliveryThreshold}
                       </span>
                     )}
@@ -1501,14 +1503,14 @@ export default function Checkout() {
 
                 {/* First order offer */}
                 {firstOrderDiscount > 0 && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600 flex-shrink-0">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" strokeWidth="2" fill="none" />
                       </svg>
-                      <span className="text-sm text-neutral-700">First order offer</span>
+                      <span className="text-xs md:text-sm text-neutral-700 truncate">First order offer</span>
                     </div>
-                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">
+                    <span className="text-xs md:text-sm font-medium text-[var(--customer-primary-dark)] flex-shrink-0">
                       -₹{firstOrderDiscount.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1516,14 +1518,14 @@ export default function Checkout() {
 
                 {/* Cart reward discount */}
                 {cartRuleDiscount > 0 && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-green-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-green-600 flex-shrink-0">
                         <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-sm text-neutral-700">Cart reward discount</span>
+                      <span className="text-xs md:text-sm text-neutral-700 truncate">Cart reward discount</span>
                     </div>
-                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">
+                    <span className="text-xs md:text-sm font-medium text-[var(--customer-primary-dark)] flex-shrink-0">
                       -₹{cartRuleDiscount.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1531,80 +1533,80 @@ export default function Checkout() {
 
                 {/* Coupon discount */}
                 {selectedCoupon && currentCouponDiscount > 0 && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-wrap sm:flex-nowrap">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600 flex-shrink-0">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-sm text-neutral-700">Coupon discount</span>
-                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-xs md:text-sm text-neutral-700">Coupon discount</span>
+                      <span className="text-[10px] md:text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
                         {selectedCoupon.code}
                       </span>
                     </div>
-                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">-₹{currentCouponDiscount.toLocaleString('en-IN')}</span>
+                    <span className="text-xs md:text-sm font-medium text-[var(--customer-primary-dark)] flex-shrink-0">-₹{currentCouponDiscount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 {/* Tip amount */}
                 {finalTipAmount > 0 && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-yellow-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-yellow-600 flex-shrink-0">
                         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-sm text-neutral-700">Tip to delivery partner</span>
+                      <span className="text-xs md:text-sm text-neutral-700 truncate">Tip to delivery partner</span>
                     </div>
-                    <span className="text-sm font-medium text-neutral-900">₹{finalTipAmount}</span>
+                    <span className="text-xs md:text-sm font-medium text-neutral-900 flex-shrink-0">₹{finalTipAmount}</span>
                   </div>
                 )}
 
                 {/* Online Payment Discount Row */}
                 {onlineDiscountAmount > 0 && selectedPaymentMethod !== 'Cash' && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 md:gap-1.5 min-w-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-600 flex-shrink-0">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <span className="text-sm text-neutral-700">Online Payment Discount</span>
-                      <span className="text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium">
+                      <span className="text-xs md:text-sm text-neutral-700 whitespace-nowrap">Online Payment Discount</span>
+                      <span className="text-[10px] md:text-xs bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
                         {onlineDiscountPercentage}% OFFER
                       </span>
                     </div>
-                    <span className="text-sm font-medium text-[var(--customer-primary-dark)]">-₹{onlineDiscountAmount.toFixed(2)}</span>
+                    <span className="text-xs md:text-sm font-medium text-[var(--customer-primary-dark)] flex-shrink-0">-₹{onlineDiscountAmount.toFixed(2)}</span>
                   </div>
                 )}
 
                 {/* Gift Packaging */}
                 {giftPackaging && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-purple-600">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-purple-600 flex-shrink-0">
                         <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z" stroke="currentColor" strokeWidth="2" fill="none" />
                       </svg>
-                      <span className="text-sm text-neutral-700">Gift Packaging</span>
+                      <span className="text-xs md:text-sm text-neutral-700 truncate">Gift Packaging</span>
                     </div>
-                    <span className="text-sm font-medium text-neutral-900">₹{giftPackagingFee}</span>
+                    <span className="text-xs md:text-sm font-medium text-neutral-900 flex-shrink-0">₹{giftPackagingFee}</span>
                   </div>
                 )}
 
                 {/* Grand total */}
-                <div className="pt-3 border-t border-neutral-200 flex items-center justify-between">
-                  <span className="text-base font-bold text-neutral-900">Grand total</span>
-                  <span className="text-base font-bold text-neutral-900">
+                <div className="pt-2 md:pt-3 border-t border-neutral-200 flex items-center justify-between">
+                  <span className="text-xs md:text-base font-bold text-neutral-900">Grand total</span>
+                  <span className="text-xs md:text-base font-bold text-neutral-900">
                     ₹{(selectedPaymentMethod !== 'Cash' ? (grandTotal - onlineDiscountAmount) : grandTotal).toFixed(2)}
                   </span>
                 </div>
 
                 {/* Online Payment Discount Incentive */}
                 {onlineDiscountAmount > 0 && (
-                  <div className="mt-2 bg-[var(--customer-primary-alpha-10)] rounded-lg p-2.5 border border-dashed border-green-300">
+                  <div className="mt-2 bg-[var(--customer-primary-alpha-10)] rounded-lg p-2 md:p-2.5 border border-dashed border-green-300">
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 bg-[var(--customer-primary-alpha-20)] rounded-full flex items-center justify-center">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <div className="w-4 h-4 md:w-5 md:h-5 bg-[var(--customer-primary-alpha-20)] rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-3 md:h-3">
                           <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
-                      <p className="text-sm font-semibold text-[var(--customer-primary-dark)]">
+                      <p className="text-xs md:text-sm font-semibold text-[var(--customer-primary-dark)]">
                         Save ₹{onlineDiscountAmount.toFixed(2)} extra by paying online!
                       </p>
                     </div>
@@ -1614,8 +1616,8 @@ export default function Checkout() {
             </div>
 
             {/* Payment Method */}
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm">
-              <h3 className="text-base font-bold text-neutral-900 mb-3">Payment Method</h3>
+            <div className="bg-white rounded-xl border border-neutral-200 p-3.5 shadow-sm">
+              <h3 className="text-sm font-bold text-neutral-900 mb-2.5">Payment Method</h3>
               <div className="flex flex-col gap-2">
                 {[
                   { id: 'Cash', label: 'Cash on Delivery' },
@@ -1625,17 +1627,17 @@ export default function Checkout() {
                   <button
                     key={method.id}
                     onClick={() => setSelectedPaymentMethod(method.id)}
-                    className={`w-full flex items-center justify-between px-4 py-3 border rounded-xl transition-all ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 border rounded-xl transition-all ${
                       selectedPaymentMethod === method.id
                         ? 'border-[var(--customer-primary-dark)] ring-1 ring-[var(--customer-primary-dark)] bg-white'
                         : 'border-neutral-200 bg-white hover:bg-neutral-50'
                     }`}
                   >
-                    <span className={`text-base font-medium ${selectedPaymentMethod === method.id ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-700'}`}>
+                    <span className={`text-sm font-medium ${selectedPaymentMethod === method.id ? 'text-[var(--customer-primary-dark)]' : 'text-neutral-700'}`}>
                       {method.label}
                     </span>
                     {selectedPaymentMethod === method.id && (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 6L9 17l-5-5" stroke="var(--customer-primary-dark)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     )}
@@ -1924,14 +1926,14 @@ export default function Checkout() {
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center p-4 backdrop-blur-sm">
             <div className="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden animate-scaleIn">
-                <div className="bg-gray-800 px-6 py-4 text-white flex justify-between items-center">
-                    <h3 className="font-semibold text-lg">Select Payment Method</h3>
+                <div className="bg-gray-800 px-5 py-3.5 text-white flex justify-between items-center">
+                    <h3 className="font-semibold text-base">Select Payment Method</h3>
                     <button onClick={() => { setShowPaymentModal(false); setIsProcessingPayment(false); }} className="text-white/80 hover:text-white">✕</button>
                 </div>
-                <div className="p-6 space-y-4">
-                     <div className="text-center mb-6">
-                         <p className="text-gray-500 text-sm mb-1">Total Amount</p>
-                         <p className="text-3xl font-bold text-gray-900">₹{Math.max(0, grandTotal)}</p>
+                <div className="p-5 space-y-3">
+                     <div className="text-center mb-4">
+                         <p className="text-gray-500 text-xs mb-1">Total Amount</p>
+                         <p className="text-2xl font-bold text-gray-900">₹{Math.max(0, grandTotal)}</p>
                      </div>
 
                      {isProcessingPayment ? (
@@ -1940,15 +1942,15 @@ export default function Checkout() {
                             <p className="text-sm font-medium text-gray-600">Processing Payment...</p>
                         </div>
                      ) : (
-                        <div className="space-y-3">
+                        <div className="space-y-2.5">
                             <button
                               onClick={() => handlePaymentSelection('Razorpay')}
-                              className="w-full group flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-[var(--customer-primary)] hover:bg-[var(--customer-primary-alpha-10)] transition-all text-left"
+                              className="w-full group flex items-center justify-between p-3 border border-gray-200 rounded-xl hover:border-[var(--customer-primary)] hover:bg-[var(--customer-primary-alpha-10)] transition-all text-left"
                             >
                                 <div className="flex items-center gap-3">
-                                   <div className="w-8 h-8 rounded-full bg-[var(--customer-primary-alpha-20)] flex items-center justify-center text-[var(--customer-primary-dark)] font-bold">R</div>
+                                   <div className="w-7 h-7 rounded-full bg-[var(--customer-primary-alpha-20)] flex items-center justify-center text-[var(--customer-primary-dark)] font-bold text-xs">R</div>
                                    <div>
-                                       <span className="block font-semibold text-gray-700 group-hover:text-blue-700">Online Payment</span>
+                                       <span className="block font-semibold text-sm text-gray-700 group-hover:text-blue-700">Online Payment</span>
                                        {onlineDiscountAmount > 0 && (
                                            <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded font-bold">₹{(grandTotal - onlineDiscountAmount).toFixed(2)} (-₹{onlineDiscountAmount.toFixed(2)})</span>
                                        )}
@@ -1959,12 +1961,12 @@ export default function Checkout() {
 
                             <button
                               onClick={() => handlePaymentSelection('Cashfree')}
-                              className="w-full group flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
+                              className="w-full group flex items-center justify-between p-3 border border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
                             >
                                 <div className="flex items-center gap-3">
-                                   <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">C</div>
+                                   <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-xs">C</div>
                                    <div>
-                                       <span className="block font-semibold text-gray-700 group-hover:text-purple-700">Cashfree</span>
+                                       <span className="block font-semibold text-sm text-gray-700 group-hover:text-purple-700">Cashfree</span>
                                        {onlineDiscountAmount > 0 && (
                                            <span className="text-[10px] bg-[var(--customer-primary-alpha-20)] text-[var(--customer-primary-dark)] px-1.5 py-0.5 rounded font-bold">₹{(grandTotal - onlineDiscountAmount).toFixed(2)} (-₹{onlineDiscountAmount.toFixed(2)})</span>
                                        )}
@@ -1975,11 +1977,11 @@ export default function Checkout() {
 
                              <button
                               onClick={() => handlePaymentSelection('Cash')}
-                              className="w-full group flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-[var(--customer-primary)] hover:bg-[var(--customer-primary-alpha-10)] transition-all"
+                              className="w-full group flex items-center justify-between p-3 border border-gray-200 rounded-xl hover:border-[var(--customer-primary)] hover:bg-[var(--customer-primary-alpha-10)] transition-all"
                             >
                                 <div className="flex items-center gap-3">
-                                   <div className="w-8 h-8 rounded-full bg-[var(--customer-primary-alpha-20)] flex items-center justify-center text-[var(--customer-primary-dark)] font-bold text-xs">COD</div>
-                                   <span className="font-semibold text-gray-700 group-hover:text-[var(--customer-primary-dark)]">Cash on Delivery</span>
+                                   <div className="w-7 h-7 rounded-full bg-[var(--customer-primary-alpha-20)] flex items-center justify-center text-[var(--customer-primary-dark)] font-bold text-[10px]">COD</div>
+                                   <span className="font-semibold text-sm text-gray-700 group-hover:text-[var(--customer-primary-dark)]">Cash on Delivery</span>
                                 </div>
                                 <span className="text-gray-300 group-hover:text-[var(--customer-primary)]">→</span>
                             </button>

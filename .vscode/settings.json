@@ -17,6 +17,7 @@
   "eslint.enable": true,
   "eslint.format.enable": false,
   "eslint.lintTask.enable": false,
-  "kiroAgent.configureMCP": "Disabled"
+  "kiroAgent.configureMCP": "Disabled",
+  "css.lint.unknownAtRules": "ignore"
 }
 

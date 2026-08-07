@@ -159,12 +159,13 @@ export async function compressVideo(
     return await runCompression();
   } catch (error: any) {
     console.warn("Client-side compression failed, falling back to original file upload:", error);
-    if (file.size <= MAX_LIMIT) {
-      if (onProgress) onProgress({ percent: 100, status: "Uploading original file (under 2MB limit)..." });
+    const BACKEND_MAX_LIMIT = 50 * 1024 * 1024; // 50MB
+    if (file.size <= BACKEND_MAX_LIMIT) {
+      if (onProgress) onProgress({ percent: 100, status: "Uploading original file..." });
       return file;
     }
     throw new Error(
-      error.message || `Failed to compress video, and the original file size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds the 2MB limit.`
+      error.message || `Failed to compress video, and the original file size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds the 50MB limit.`
     );
   }
 }

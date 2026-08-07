@@ -247,14 +247,31 @@ export default function ProductDetail() {
   );
   const effectiveVariantIndex = hasVariations ? (selectedVariantIndex ?? 0) : null;
 
-  const allImages = useMemo(() => {
-    if (!product) return [];
+  const allMedia = useMemo(() => {
+    const media: { type: "image" | "video"; url: string }[] = [];
+    if (!product) return media;
+
+    let images: string[] = [];
     if (customerVariations.length > 0 && effectiveVariantIndex !== null) {
       const variant = customerVariations[effectiveVariantIndex];
       const gallery = getVariantGallery(variant);
-      if (gallery.length > 0) return gallery;
+      if (gallery.length > 0) {
+        images = gallery;
+      }
     }
-    return resolveProductGallery(product);
+    if (images.length === 0) {
+      images = resolveProductGallery(product);
+    }
+
+    images.forEach((img) => {
+      if (img) media.push({ type: "image", url: img });
+    });
+
+    if (product.video) {
+      media.push({ type: "video", url: product.video });
+    }
+
+    return media;
   }, [product, customerVariations, effectiveVariantIndex]);
 
   // Reset gallery position when variant changes
@@ -341,7 +358,8 @@ export default function ProductDetail() {
     };
   };
 
-  const currentImage = allImages[selectedImageIndex] || product?.imageUrl || "";
+  const currentMedia = allMedia[selectedImageIndex] || null;
+  const currentImage = currentMedia?.type === "image" ? currentMedia.url : (allMedia.find(m => m.type === "image")?.url || product?.imageUrl || "");
 
   const variationImageMatches = useMemo(() => {
     const map = new Map<string, number[]>();
@@ -389,7 +407,7 @@ export default function ProductDetail() {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    if (isLeftSwipe && selectedImageIndex < allImages.length - 1) {
+    if (isLeftSwipe && selectedImageIndex < allMedia.length - 1) {
       setIsTransitioning(true);
       setSelectedImageIndex(selectedImageIndex + 1);
       setTimeout(() => setIsTransitioning(false), 300);
@@ -650,13 +668,15 @@ export default function ProductDetail() {
                   onTouchEnd={onTouchEnd}
                   style={{
                     transform: `translateX(-${selectedImageIndex * 100}%)`,
-                    touchAction: allImages.length > 1 ? 'pan-x' : 'pan-y pinch-zoom',
+                    touchAction: allMedia.length > 1 ? 'pan-x' : 'pan-y pinch-zoom',
                   }}
                 >
-                  {allImages.map((image: string, index: number) => (
+                  {allMedia.map((item, index: number) => (
                     <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center" style={{ minWidth: '100%' }}>
-                      {image ? (
-                        <img src={image} alt={`${product.name} - Image ${index + 1}`} className="max-w-full max-h-full object-contain" referrerPolicy="no-referrer" />
+                      {item.type === "video" ? (
+                        <video src={item.url} controls className="max-w-full max-h-full object-contain rounded-xl" playsInline />
+                      ) : item.url ? (
+                        <img src={item.url} alt={`${product.name} - Media ${index + 1}`} className="max-w-full max-h-full object-contain" referrerPolicy="no-referrer" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-neutral-400 text-6xl font-bold">
                           {(product.name || "?").charAt(0).toUpperCase()}
@@ -666,10 +686,14 @@ export default function ProductDetail() {
                   ))}
                 </div>
 
-                {/* Desktop static main image */}
+                {/* Desktop static main image/video */}
                 <div className="hidden md:flex w-full h-full items-center justify-center">
-                  {currentImage ? (
-                    <img src={currentImage} alt={product.name} className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" referrerPolicy="no-referrer" />
+                  {currentMedia ? (
+                    currentMedia.type === "video" ? (
+                      <video src={currentMedia.url} controls className="max-w-full max-h-full object-contain rounded-xl" playsInline />
+                    ) : (
+                      <img src={currentMedia.url} alt={product.name} className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" referrerPolicy="no-referrer" />
+                    )
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-neutral-400 text-6xl font-bold">
                       {(product.name || "?").charAt(0).toUpperCase()}
@@ -678,7 +702,7 @@ export default function ProductDetail() {
                 </div>
 
                 {/* Left/Right carousel navigation arrows (Desktop only) */}
-                {allImages.length > 1 && (
+                {allMedia.length > 1 && (
                   <>
                     {selectedImageIndex > 0 && (
                       <button
@@ -688,7 +712,7 @@ export default function ProductDetail() {
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
                       </button>
                     )}
-                    {selectedImageIndex < allImages.length - 1 && (
+                    {selectedImageIndex < allMedia.length - 1 && (
                       <button
                         onClick={() => setSelectedImageIndex(selectedImageIndex + 1)}
                         className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full items-center justify-center shadow hover:bg-white transition-colors z-10"
@@ -700,9 +724,9 @@ export default function ProductDetail() {
                 )}
 
                 {/* Mobile indicators */}
-                {allImages.length > 1 && (
+                {allMedia.length > 1 && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 md:hidden">
-                    {allImages.map((_, index) => (
+                    {allMedia.map((_, index) => (
                       <div key={index} className={`w-1.5 h-1.5 rounded-full transition-all ${index === selectedImageIndex ? "bg-neutral-800 w-3.5" : "bg-neutral-300"}`} />
                     ))}
                   </div>
@@ -710,9 +734,9 @@ export default function ProductDetail() {
               </div>
 
               {/* Thumbnail Strip (vertical on desktop, horizontal on mobile) */}
-              {allImages.length > 1 && (
+              {allMedia.length > 1 && (
                 <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto scrollbar-hide pb-2 md:pb-0 md:max-h-[500px] w-full md:w-20 flex-shrink-0">
-                  {allImages.map((image, index) => (
+                  {allMedia.map((item, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
@@ -720,7 +744,18 @@ export default function ProductDetail() {
                         index === selectedImageIndex ? 'border-[var(--customer-primary-dark)] ring-2 ring-green-100' : 'border-neutral-200 hover:border-neutral-300'
                       }`}
                     >
-                      <img src={image} className="max-w-full max-h-full object-contain" referrerPolicy="no-referrer" />
+                      {item.type === "video" ? (
+                        <div className="relative w-full h-full flex items-center justify-center bg-black rounded-lg">
+                          <video src={item.url} className="w-full h-full object-cover opacity-60" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <svg className="w-6.5 h-6.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      ) : (
+                        <img src={item.url} className="max-w-full max-h-full object-contain" referrerPolicy="no-referrer" />
+                      )}
                     </button>
                   ))}
                 </div>
